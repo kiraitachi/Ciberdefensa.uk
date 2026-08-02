@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What the Adeptus Mechanicus gets right about legacy systems — Adel</title>
+<meta name="description" content="A Warhammer 40,000 detour: on cults of arcane procedure, systems nobody fully understands anymore, and every legacy stack I've inherited.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="../index.html" class="brand"><span class="dot"></span>adel<span style="color:var(--text-faint)">.log</span></a>
+    <nav class="links">
+      <a href="../index.html#focus">work</a>
+      <a href="../index.html#blog">blog</a>
+      <a href="../index.html#reading">reading</a>
+      <a href="../index.html#contact">contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="article-hero">
+  <div class="wrap">
+    <a href="../index.html#blog" class="back-link mono">← back to blog</a>
+    <div class="post-meta">
+      <span class="post-tag mono">reading</span>
+      <span class="mono">2026-02-11</span>
+      <span class="mono">6 min</span>
+    </div>
+    <h1>What the Adeptus Mechanicus gets right about legacy systems</h1>
+  </div>
+</section>
+
+<section class="article-body">
+  <div class="wrap">
+    <p>The Adeptus Mechanicus, in the Warhammer 40,000 universe, doesn't really engineer anything anymore. It venerates. Its tech-priests perform rites over machinery whose original design principles have been lost for ten thousand years, following procedures copied so many times that nobody's sure which steps are load-bearing and which are just ritual. You don't fix a machine spirit. You appease it, in the exact order the Standard Template Construct archives say to, and you don't ask why.</p>
+
+    <p>I read that as satire the first time. I read it as documentation the second time, because it's an almost exact description of every legacy system I've ever inherited.</p>
+
+    <h2>The runbook nobody wrote, only copied</h2>
+    <p>Every infrastructure team has at least one script that everyone is afraid to touch. It restarts a service in a specific order, waits an oddly specific number of seconds between steps, and includes a comment like <code># do not remove, breaks prod</code> with no further explanation. Nobody currently on the team wrote it. It was copied forward from whoever was there before, who copied it from whoever was there before them.</p>
+
+    <p>That's not so different from a tech-priest chanting a binary hymn over a plasma reactor because the hymn is what the archives say to do, and the one time someone skipped it, something went wrong, and the causal link was never actually established — just assumed, and then preserved.</p>
+
+    <h2>Cargo culting is a rational response to inherited risk</h2>
+    <p>It's easy to read this as pure superstition, in the setting and in the office. But there's a rational core to it: when you don't fully understand a system, and the cost of getting it wrong is high, exact repetition of "the steps that worked last time" is a reasonable strategy. It's not engineering. It's risk management under uncertainty, dressed up as ritual because ritual is easier to hand down accurately than genuine understanding is.</p>
+
+    <blockquote>The Mechanicus didn't lose its engineering knowledge by accident. It lost it the same way every team loses tribal knowledge — one departure at a time, with no documentation built to survive the gap.</blockquote>
+
+    <h2>The actual lesson</h2>
+    <p>The books don't offer the Mechanicus much of a way out, and that's the part worth paying attention to. Once understanding is fully replaced by procedure, there's no path back — only more elaborate ritual around the same undocumented core. The lesson I actually took from it isn't about the setting at all: document the "why," not just the "what," while the person who knows it is still around to write it down. The steps survive. The reasoning is what quietly gets lost first.</p>
+  </div>
+</section>
+
+<section class="article-footer">
+  <div class="wrap">
+    <div class="article-nav">
+      <a href="alpine-openrc-notes.html">← Alpine, OpenRC, and the services nobody warns you about</a>
+      <a href="oci-boot-volume-recovery.html">Recovering an OCI boot volume after an accidental termination →</a>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="contact-inner">
+      <h2>Want to talk security, infra, or 40k lore?</h2>
+      <div class="contact-links">
+        <a href="mailto:hello@example.com">hello@example.com</a>
+        <a href="https://ciberdefensa.uk" target="_blank" rel="noopener">ciberdefensa.uk</a>
+        <a href="#">github</a>
+        <a href="#">linkedin</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Adel. Built by hand, not a template.</span>
+      <span>Madrid, ES</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parsing my own bank statements instead of trusting another app — Adel</title>
+<meta name="description" content="A small Python pipeline that turns a PDF bank statement into categorized, readable spending summaries, without a third-party finance app.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="../index.html" class="brand"><span class="dot"></span>adel<span style="color:var(--text-faint)">.log</span></a>
+    <nav class="links">
+      <a href="../index.html#focus">work</a>
+      <a href="../index.html#blog">blog</a>
+      <a href="../index.html#reading">reading</a>
+      <a href="../index.html#contact">contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="article-hero">
+  <div class="wrap">
+    <a href="../index.html#blog" class="back-link mono">← back to blog</a>
+    <div class="post-meta">
+      <span class="post-tag mono">projects</span>
+      <span class="mono">2026-04-09</span>
+      <span class="mono">4 min</span>
+    </div>
+    <h1>Parsing my own bank statements instead of trusting another app</h1>
+  </div>
+</section>
+
+<section class="article-body">
+  <div class="wrap">
+    <p>I wanted a monthly view of where my money was going. Every finance app that offers this wants bank credentials, a linked account, or an uploaded statement sitting on somebody else's server. For something as sensitive as a full transaction history, that trade felt backwards — so I wrote the smallest pipeline that could do the job locally instead.</p>
+
+    <h2>The shape of it</h2>
+    <p>The bank statement comes as a PDF. The pipeline is a short chain of steps:</p>
+
+    <ul>
+      <li>Extract raw transaction lines from the PDF — date, description, amount.</li>
+      <li>Run each description through a categorization pass: rent, groceries, transport, and so on, matched against a growing set of rules built from my own spending patterns.</li>
+      <li>Aggregate by category and month, and output a plain-text summary.</li>
+    </ul>
+
+    <p>Everything happens on my own machine. Nothing gets uploaded anywhere, which was the entire point of building it instead of using something off the shelf.</p>
+
+    <h2>The categories that needed correcting</h2>
+    <p>The first pass at categorization was too coarse. "Food" as a single bucket hid a distinction that actually mattered to me — restaurant spending and grocery spending have completely different levers to pull if I want to change either one. Splitting food into two named sub-categories made the monthly summary immediately more useful, instead of just producing a bigger number with less meaning behind it.</p>
+
+    <p>The other correction was a one-off: a large legal and notary transfer had landed in a generic "other" bucket and skewed an entire month's summary. Reclassifying it into its own category kept it from distorting the trend lines for everything else.</p>
+
+    <h2>Why plain text</h2>
+    <p>The output is deliberately plain-text and easy to skim on a phone — I wanted to be able to glance at a monthly summary the same way I'd read a message, not open a spreadsheet or a dashboard. A short summary with a few emoji as visual anchors for each category turned out to be more useful day to day than any chart would have been.</p>
+
+    <blockquote>The best interface for a personal tool is the one you'll actually open every month.</blockquote>
+
+    <p>It's not a product, and it was never meant to be — just a pipeline that answers one question honestly, without asking me to hand my transaction history to anyone else to do it.</p>
+  </div>
+</section>
+
+<section class="article-footer">
+  <div class="wrap">
+    <div class="article-nav">
+      <a href="zero-trust-habit.html">← Zero trust isn't a product, it's a habit</a>
+      <a href="alpine-openrc-notes.html">Alpine, OpenRC, and the services nobody warns you about →</a>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="contact-inner">
+      <h2>Want to talk security, infra, or 40k lore?</h2>
+      <div class="contact-links">
+        <a href="mailto:hello@example.com">hello@example.com</a>
+        <a href="https://ciberdefensa.uk" target="_blank" rel="noopener">ciberdefensa.uk</a>
+        <a href="#">github</a>
+        <a href="#">linkedin</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Adel. Built by hand, not a template.</span>
+      <span>Madrid, ES</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

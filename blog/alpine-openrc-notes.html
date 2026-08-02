@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alpine, OpenRC, and the services nobody warns you about — Adel</title>
+<meta name="description" content="Short field notes on managing services with OpenRC on Alpine Linux, coming from a systemd-shaped mental model.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="../index.html" class="brand"><span class="dot"></span>adel<span style="color:var(--text-faint)">.log</span></a>
+    <nav class="links">
+      <a href="../index.html#focus">work</a>
+      <a href="../index.html#blog">blog</a>
+      <a href="../index.html#reading">reading</a>
+      <a href="../index.html#contact">contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="article-hero">
+  <div class="wrap">
+    <a href="../index.html#blog" class="back-link mono">← back to blog</a>
+    <div class="post-meta">
+      <span class="post-tag mono">infra</span>
+      <span class="mono">2026-03-21</span>
+      <span class="mono">3 min</span>
+    </div>
+    <h1>Alpine, OpenRC, and the services nobody warns you about</h1>
+  </div>
+</section>
+
+<section class="article-body">
+  <div class="wrap">
+    <p>Most of my Linux muscle memory is systemd-shaped — <code>systemctl status</code>, unit files, journalctl. Alpine runs OpenRC instead, and the mental model is different enough that a few early mistakes are worth writing down.</p>
+
+    <h2>Runlevels are the whole model</h2>
+    <p>OpenRC organizes services into runlevels — <code>boot</code>, <code>default</code>, <code>shutdown</code>, and any custom ones you define — and a service is "enabled" by being added to a runlevel, not by a standalone enable flag the way systemd units work. Adding a service to the wrong runlevel is the single easiest way to end up confused about why something didn't start on boot.</p>
+
+    <ul>
+      <li><code>rc-update add &lt;service&gt; default</code> adds a service to the default runlevel.</li>
+      <li><code>rc-update show</code> lists what's enabled where — this became my first troubleshooting step for anything that "should have started."</li>
+      <li><code>rc-service &lt;service&gt; start</code> / <code>stop</code> / <code>restart</code> covers the day-to-day equivalent of <code>systemctl</code>.</li>
+    </ul>
+
+    <h2>Dependencies are declared, not inferred</h2>
+    <p>Where systemd infers a lot of ordering from unit relationships, OpenRC service scripts declare their dependencies explicitly with <code>need</code> and <code>use</code> directives. A service that quietly assumes networking is already up will just fail intermittently on Alpine if that dependency isn't declared — it won't be inferred for you.</p>
+
+    <h2>Logging is not journald</h2>
+    <p>There's no <code>journalctl</code> equivalent baked in by default. Logging is whatever the service itself does — syslog, a log file, or nothing — so troubleshooting a service that fails silently on Alpine means finding out where that particular service actually writes its output, rather than reaching for one universal command.</p>
+
+    <blockquote>OpenRC rewards knowing exactly what each service does. Systemd lets you get away with not knowing.</blockquote>
+
+    <p>None of this is a complaint — Alpine's minimalism is exactly why it's a good fit for a small Ampere A1 box. It just means the first week runs on notes like these instead of habit.</p>
+  </div>
+</section>
+
+<section class="article-footer">
+  <div class="wrap">
+    <div class="article-nav">
+      <a href="bank-statement-pipeline.html">← Parsing my own bank statements instead of trusting another app</a>
+      <a href="adeptus-mechanicus-legacy-systems.html">What the Adeptus Mechanicus gets right about legacy systems →</a>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="contact-inner">
+      <h2>Want to talk security, infra, or 40k lore?</h2>
+      <div class="contact-links">
+        <a href="mailto:hello@example.com">hello@example.com</a>
+        <a href="https://ciberdefensa.uk" target="_blank" rel="noopener">ciberdefensa.uk</a>
+        <a href="#">github</a>
+        <a href="#">linkedin</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Adel. Built by hand, not a template.</span>
+      <span>Madrid, ES</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
