@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>What the Adeptus Mechanicus gets right about legacy systems — Adel</title>
-<meta name="description" content="A Warhammer 40,000 detour: on cults of arcane procedure, systems nobody fully understands anymore, and every legacy stack I've inherited.">
+<title>¿ZFS on consumer SSDs? Why you should avoid it and how to save your hardware</title>
+<meta name="description" content="Proxmox ZFS on consumer SSDs: why it can be a disaster and how to protect your drives.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -32,29 +32,80 @@
       <span class="mono">2026-02-11</span>
       <span class="mono">6 min</span>
     </div>
-    <h1>What the Adeptus Mechanicus gets right about legacy systems</h1>
+    <h1>¿ZFS on consumer SSDs? Why you should avoid it and how to save your hardware</h1>
   </div>
 </section>
 
 <section class="article-body">
   <div class="wrap">
-    <p>The Adeptus Mechanicus, in the Warhammer 40,000 universe, doesn't really engineer anything anymore. It venerates. Its tech-priests perform rites over machinery whose original design principles have been lost for ten thousand years, following procedures copied so many times that nobody's sure which steps are load-bearing and which are just ritual. You don't fix a machine spirit. You appease it, in the exact order the Standard Template Construct archives say to, and you don't ask why.</p>
+    <p>If you're passionate about Proxmox and virtualization, you've probably been tempted to build a ZFS <em>pool</em> using consumer-grade ("non-enterprise") SSDs. The logic seems airtight: ZFS offers data integrity, snapshots, and compression. The reality, however, tends to be a hard hit: <strong>in under a year, your SSDs can be gone for good.</strong></p>
 
-    <p>I read that as satire the first time. I read it as documentation the second time, because it's an almost exact description of every legacy system I've ever inherited.</p>
+    <p>I lived through this myself: I set up a ZFS <em>pool</em> with two 1TB Patriot SSDs for my virtual machines in Proxmox, and almost exactly one year later, one of them died irreversibly. Why does this happen?</p>
 
-    <h2>The runbook nobody wrote, only copied</h2>
-    <p>Every infrastructure team has at least one script that everyone is afraid to touch. It restarts a service in a specific order, waits an oddly specific number of seconds between steps, and includes a comment like <code># do not remove, breaks prod</code> with no further explanation. Nobody currently on the team wrote it. It was copied forward from whoever was there before, who copied it from whoever was there before them.</p>
+    <h3>The technical problem: constant writes and "Write Amplification"</h3>
 
-    <p>That's not so different from a tech-priest chanting a binary hymn over a plasma reactor because the hymn is what the archives say to do, and the one time someone skipped it, something went wrong, and the causal link was never actually established — just assumed, and then preserved.</p>
+    <p>The problem isn't that ZFS is "bad" &mdash; it's that it was designed for servers. ZFS is a copy-on-write filesystem (<strong>Copy-on-Write or CoW</strong>). This means that, instead of overwriting data blocks, it writes new blocks and then updates the pointers.</p>
 
-    <h2>Cargo culting is a rational response to inherited risk</h2>
-    <p>It's easy to read this as pure superstition, in the setting and in the office. But there's a rational core to it: when you don't fully understand a system, and the cost of getting it wrong is high, exact repetition of "the steps that worked last time" is a reasonable strategy. It's not engineering. It's risk management under uncertainty, dressed up as ritual because ritual is easier to hand down accurately than genuine understanding is.</p>
+    <p>On top of that, three critical factors come into play when using consumer-grade SSDs:</p>
 
-    <blockquote>The Mechanicus didn't lose its engineering knowledge by accident. It lost it the same way every team loses tribal knowledge — one departure at a time, with no documentation built to survive the gap.</blockquote>
+    <ol>
+    <li><p><strong>Write Amplification:</strong> Because of how SSDs work internally, writing is a complex process. ZFS performs many small, frequent write operations (logs, metadata, VM state updates). This forces the SSD controller into constant erase-and-write cycles, wearing down the flash memory cells at a punishing rate.</p></li>
 
-    <h2>The actual lesson</h2>
-    <p>The books don't offer the Mechanicus much of a way out, and that's the part worth paying attention to. Once understanding is fully replaced by procedure, there's no path back — only more elaborate ritual around the same undocumented core. The lesson I actually took from it isn't about the setting at all: document the "why," not just the "what," while the person who knows it is still around to write it down. The steps survive. The reasoning is what quietly gets lost first.</p>
-  </div>
+    <li><p><strong>Synchronization (ZFS Intent Log &ndash; ZIL):</strong> ZFS is extremely strict about data integrity, which forces constant synchronous writes. Enterprise SSDs have capacitors (PLP &ndash; <em>Power Loss Protection</em>) that handle this comfortably. Consumer SSDs don't, which pushes the wear level far beyond what the manufacturer ever predicted for home use.</p></li>
+
+    <li><p><strong>Proxmox logs and telemetry:</strong> By default, Proxmox constantly writes logs to disk. On a ZFS system, these small state changes multiply, turning your SSD into a relentless writing machine.</p></li>
+    </ol>
+
+    <h3>How to protect your SSDs in Proxmox?</h3>
+
+    <p>If you're already using consumer SSDs, or don't have the budget for enterprise drives (like Intel DC or Samsung's PM/SM series), the goal is to <strong>drastically reduce unnecessary writes</strong>.</p>
+
+    <p>1. Reduce system logs</p>
+
+    <p>Proxmox writes a lot of information to the system journal. You can configure journald so logs live only in RAM instead of constantly hitting the SSD:</p>
+
+    <p>Edit the configuration file:</p>
+
+    <p><strong><em>nano /etc/systemd/journald.conf</em></strong></p>
+
+    <p>Adjust the following parameters:</p>
+
+    <p><strong><em>MaxLevelStore=warning<br />MaxLevelSyslog=warning<br />Storage=volatile<br />ForwardToSyslog=no</em></strong></p>
+
+    <p>Save and restart the service:</p>
+
+    <p><strong><em>systemctl restart systemd-journald.service.</em></strong></p>
+
+    <p>2. Set up log2ram</p>
+
+    <p>The best way to avoid disk writes is to use <strong>Log2Ram</strong>. This creates a mount point in RAM memory where logs are written, syncing them to disk only periodically.</p>
+
+    <p>Install it like this:</p>
+
+    <p><strong><em>echo "deb [signed-by=/usr/share/keyrings/azlux-archive-keyring.gpg] </em></strong><a href="http://packages.azlux.fr/debian/" target="_blank"><strong><em>http://packages.azlux.fr/debian/</em></strong></a><strong><em> bookworm main" | tee /etc/apt/sources.list.d/azlux.list<br />wget -O /usr/share/keyrings/azlux-archive-keyring.gpg </em></strong><a href="https://azlux.fr/repo.gpg" target="_blank"><strong><em>https://azlux.fr/repo.gpg</em></strong></a><strong><em><br />apt update &amp;&amp; apt install log2ram -y<br />reboot</em></strong></p>
+
+    <p>Check its status with:</p>
+
+    <p><strong><em>systemctl status log2ram.</em></strong></p>
+
+    <p>3. Disable unnecessary services (HA)</p>
+
+    <p>If you're not running a high-availability cluster, the HA (High Availability) monitoring services write to disk constantly. Disable them:</p>
+
+    <p><strong><em>systemctl stop pve-ha-lrm.service<br />systemctl disable pve-ha-lrm.service<br />systemctl stop pve-ha-crm.service<br />systemctl disable pve-ha-crm.service</em></strong></p>
+
+    <h3>Monitor your drives' wear level</h3>
+
+    <p>Don't wait for the disk to fail. Use smartmontools to check how much life your SSD has left before it's too late:</p>
+
+    <p><strong><em>apt-get install smartmontools<br />lsblk<br /># Replace /dev/nvme0n1 with your drive<br />smartctl -a /dev/nvme0n1</em></strong></p>
+
+    <p><em>Look for the "Percentage Used" or "Media and Data Integrity Errors" value in the command output.</em></p>
+
+    <h3>Conclusion</h3>
+
+    <p>ZFS is a wonderful technology, but if you're using consumer hardware, <strong>prevention is mandatory</strong>. Reducing log activity through RAM and disabling unnecessary services won't make your &euro;50 SSD behave like a &euro;500 one, but it can be the difference between a disk lasting 1 year or 3.</p>
+    </div>
 </section>
 
 <section class="article-footer">
