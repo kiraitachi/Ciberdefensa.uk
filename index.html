@@ -9,23 +9,26 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css" />
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-QYJPB53VMV"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-QYJPB53VMV');
-</script>
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "w9et8531ye");
-</script>
+<!--
+  Analytics (Google Analytics via gtag.js, Microsoft Clarity) are NOT
+  loaded here anymore. They only load after the visitor accepts cookies
+  via the banner — see cookie-consent.js and #cookie-banner below.
+-->
+<script src="/cookie-consent.js" defer></script>
 </head>
 <body>
+
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+  <div class="cookie-banner-inner">
+    <p class="cookie-text">
+      This site uses cookies for <strong>analytics</strong> (Google Analytics, Microsoft Clarity) to understand how visitors use it. Nothing is set until you choose, and you can change your mind any time via "Cookie settings" in the footer.
+    </p>
+    <div class="cookie-actions">
+      <button id="cookie-decline" class="cookie-btn">Decline</button>
+      <button id="cookie-accept" class="cookie-btn">Accept</button>
+    </div>
+  </div>
+</div>
 
 <header class="nav">
   <div class="wrap nav-inner">
@@ -239,7 +242,10 @@
     </div>
     <div class="footer-bottom">
       <span>© 2026 Adel. Built by hand, not a template.</span>
-      <span>Madrid, ES</span>
+      <span>
+        Madrid, ES &nbsp;·&nbsp;
+        <button type="button" class="footer-cookie-link" onclick="window.reopenCookieBanner && window.reopenCookieBanner()">Cookie settings</button>
+      </span>
     </div>
   </div>
 </footer>

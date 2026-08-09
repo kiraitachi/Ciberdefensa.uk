@@ -498,3 +498,88 @@ footer{ padding: 70px 0 50px; }
   color: var(--text-dim);
 }
 .article-nav a:hover{ color: var(--accent); }
+
+/* ---------- COOKIE CONSENT BANNER ---------- */
+.cookie-banner{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200;
+  padding: 0 20px;
+  transform: translateY(120%);
+  opacity: 0;
+  transition: transform .3s ease, opacity .3s ease;
+  pointer-events: none;
+}
+.cookie-banner.visible{
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.cookie-banner-inner{
+  max-width: var(--maxw);
+  margin: 0 auto 20px;
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  box-shadow: 0 12px 34px rgba(0,0,0,0.45);
+}
+.cookie-text{
+  color: var(--text-dim);
+  font-size: 14px;
+  margin: 0;
+  max-width: 62ch;
+}
+.cookie-text strong{ color: var(--text); font-weight: 600; }
+.cookie-actions{
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.cookie-btn{
+  cursor: pointer;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  padding: 11px 20px;
+  border-radius: var(--radius);
+  transition: border-color .15s ease, background .15s ease, color .15s ease, transform .15s ease;
+}
+#cookie-accept{
+  background: var(--accent);
+  color: #14100a;
+  border: 1px solid var(--accent);
+  font-weight: 600;
+}
+#cookie-accept:hover{ transform: translateY(-1px); }
+#cookie-decline{
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--line);
+}
+#cookie-decline:hover{ color: var(--text); border-color: var(--accent-line); }
+
+.footer-cookie-link{
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text-faint);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.footer-cookie-link:hover{ color: var(--accent); }
+
+@media (max-width: 640px){
+  .cookie-banner{ padding: 0 12px; }
+  .cookie-banner-inner{ flex-direction: column; align-items: stretch; padding: 20px; }
+  .cookie-actions{ justify-content: flex-end; }
+}
