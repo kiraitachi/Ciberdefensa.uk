@@ -29,7 +29,12 @@ body{
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
-
+.article-body .article-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 24px;
+}
 ::selection{ background: var(--accent); color: #14100a; }
 
 a{ color: inherit; text-decoration: none; }
