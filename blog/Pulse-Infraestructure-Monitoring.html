@@ -66,8 +66,8 @@
   <div class="wrap">
 
     <p>
-      I've been running my homelab on vibes and a dashboard I refresh manually like some kind of caveman.
-      That stops now. I deployed <a href="https://github.com/rcourtman/pulse" target="_blank" rel="noopener">Pulse</a>,
+      I've been running my homelab on uptime kuma, a dashboard I refresh manually like some kind of caveman.
+      That stops now. I deployed <strong><a href="https://github.com/rcourtman/pulse" target="_blank" rel="noopener">Pulse</a></strong>,
       an open-source, self-hosted monitoring workspace for Proxmox (plus Docker, Kubernetes, TrueNAS and vSphere if
       you're into that), on the little Alpine box I run in Oracle Cloud's free-tier Ampere A1 instance. It sits
       there, watches my Proxmox cluster, and now — because I'm apparently incapable of leaving well enough alone —
@@ -137,7 +137,7 @@
     <blockquote>
       If your OCI security list / iptables situation is anything like mine was, remember to actually open
       <code>7655/tcp</code> on the instance's ingress rules <em>and</em> whatever local firewall Alpine is running,
-      or you'll be staring at a spinner wondering why the "quick" setup isn't quick at all.
+      or you'll be staring at a spinner wondering why the "quick" setup isn't quick at all. Another approach is to setup a cloudflare tunnel or similar to avoid exposing the port to the public internet, which is what I ended up doing.
     </blockquote>
 
     <h2>2. Connecting Pulse to Proxmox via API Token</h2>
@@ -207,7 +207,9 @@ pveum user token add pulse-monitor@pve pulse-token --privsep 0</code></pre>
       I went with <strong>OpenRouter</strong> instead of committing to a single vendor, since it lets me swap
       models without touching the Pulse config every time someone ships something new and shiny.
     </p>
-
+    <blockquote>
+      Openrouter allows you to use <code>free</code> and <code>paid</code> models from multiple providers (Anthropic, OpenAI, Gemini, etc.) through a single API key. Im using free models and they rotate them every few hours, so I don't have to worry about running out of credits.
+    </blockquote>
     <ol>
       <li>Grab an API key from <a href="https://openrouter.ai" target="_blank" rel="noopener">openrouter.ai</a> (Keys section, top up some credits).</li>
       <li>In Pulse, go to Settings → Pulse Assistant (this is where all the AI/provider config lives, Patrol included).</li>
