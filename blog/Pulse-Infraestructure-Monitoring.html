@@ -81,6 +81,8 @@
       and switching on Patrol using OpenRouter so I'm not locked into a single model provider.
     </p>
 
+    <img src="/images/Pulse-Dashboard.png" alt="Pulse dashboard showing Proxmox nodes, VMs, and containers" class="article-image">
+
     <h2>1. Deploying Pulse on Docker (Alpine + dockhand)</h2>
 
     <p>
@@ -221,23 +223,15 @@ pveum user token add pulse-monitor@pve pulse-token --privsep 0</code></pre>
 
     <p>
       Once a provider's configured and tested, head to the Patrol page to actually switch it on: set the interval
-      (anywhere from every 10 minutes to once a week — I run mine every few hours, no need to burn tokens checking
+      (anywhere from every 10 minutes to once a week — I run mine every 6 hours, no need to burn tokens checking
       a homelab that isn't exactly Black Friday traffic), and pick an autonomy level. Community/BYOK Patrol is
       watch-only: it investigates and reports, it doesn't touch anything. Higher autonomy levels with governed,
       approved fixes are a Pulse Pro thing — worth knowing so you're not confused when a setting is greyed out.
     </p>
 
-    <blockquote>
-      Gotcha I hit: if you set the model to a provider-specific ID (say, a Gemini model) while your provider block
-      is configured as generic OpenAI-compatible, Pulse can get confused about which provider actually owns that
-      model and Patrol silently refuses to start. Keep the model string consistent with how OpenRouter names it,
-      and don't mix and match provider blocks for the same model.
-    </blockquote>
-
     <p>
       That's the whole setup: Docker container on Alpine via dockhand, Proxmox wired in through a least-privilege
-      API token, Patrol running on a schedule with OpenRouter as the brain behind it. Total cost so far: whatever
-      pennies OpenRouter credits I burn every few hours, running on hardware I was already paying nothing for.
+      API token, Patrol running on a schedule with OpenRouter as the brain behind it.
       Not bad for something that now tells me when my backups quietly stop working instead of me finding out three
       weeks later.
     </p>
