@@ -272,53 +272,6 @@ EOF</code></pre>
     <pre><code>crontab -l
 systemctl status cron</code></pre>
 
-    <h2>Step 5 — Telegram Alerts</h2>
-
-    <p>A monitoring dashboard nobody checks isn't much use, so it's worth wiring up alerts. Scrutiny ships notification support for Email, Discord, Gotify, Slack, Telegram, and generic webhooks via the <code>shoutrrr</code> library. I already had a Telegram bot from a previous project, so reusing it here was trivial.</p>
-
-    <p>Append a <code>notify</code> block to the same <code>scrutiny.yaml</code> from Step 2, inside the LXC:</p>
-
-    <pre><code>cat >> /opt/scrutiny/config/scrutiny.yaml << 'EOF'
-
-notify:
-  urls:
-    - "telegram://BOT_TOKEN@telegram?chats=CHAT_ID"
-EOF</code></pre>
-
-    <p>Swap in your bot token and chat/channel ID. The <code>@telegram</code> literal in that URL is required — it's part of the shoutrrr service format, not a placeholder.</p>
-
-    <p>Restart the web container to pick it up:</p>
-
-    <pre><code>cd /opt/scrutiny && docker compose restart scrutiny-web</code></pre>
-
-    <h3>Notification level lives in the Settings UI, not the YAML</h3>
-
-    <blockquote>
-      <p><strong>Don't add <code>notify.level</code> to scrutiny.yaml.</strong> In v0.8.6 that key is deprecated and the container will crash on every startup with a <code>ConfigValidationError</code>.</p>
-    </blockquote>
-
-    <p>Instead, open the dashboard → Settings, and set:</p>
-
-    <ul>
-      <li><strong>Notify – Filter Attributes</strong> — <code>All</code> or <code>Critical</code> only.</li>
-      <li><strong>Repeat Notifications</strong> — defaults to <code>Always</code>, which means an alert on every single collector run while a drive has an issue. With a short cron interval that gets noisy fast; switch it to <code>Only when the value has changed</code> so it only fires when something actually gets worse.</li>
-    </ul>
-
-    <p>Run the collector manually once more to confirm a Telegram message actually lands if a drive is flagged.</p>
-
-    <h2>Step 6 — Sanity Check</h2>
-
-    <ul>
-      <li>Dashboard loads at <code>http://&lt;LXC_IP&gt;:8080</code></li>
-      <li>Every drive from the Proxmox host shows up</li>
-      <li>Health status is green (or correctly flagging a real problem)</li>
-      <li>Cron entries are showing up in the syslog</li>
-      <li>"Last Updated" timestamp is fresh, within the cron interval</li>
-      <li>Test alert arrived on Telegram</li>
-    </ul>
-
-    <p>If all six hold, it's done.</p>
-
     <h2>Troubleshooting Notes</h2>
 
     <h3>A drive is missing or shows "Unknown"</h3>
@@ -369,7 +322,7 @@ docker compose up -d</code></pre>
 
     <h2>Wrapping Up</h2>
 
-    <p>End state: an unprivileged LXC running the dashboard and InfluxDB, a native collector on the Proxmox host with proper access to the drives, historical trend data, and a Telegram ping the moment something starts to degrade. The CPU overhead is negligible, so there's not much reason not to run this once it's set up.</p>
+    <p>End state: an unprivileged LXC running the dashboard and InfluxDB, a native collector on the Proxmox host with proper access to the drives, historical trend data. The CPU overhead is negligible, so there's not much reason not to run this once it's set up.</p>
 
   </div>
 </section>
