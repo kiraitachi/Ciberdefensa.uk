@@ -11,306 +11,522 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css" />
 <!--
-  Analytics (Google Analytics via gtag.js, Microsoft Clarity) are NOT
-  loaded here anymore. They only load after the visitor accepts cookies
-  via the banner — see cookie-consent.js and #cookie-banner below.
+Analytics (Google Analytics via gtag.js, Microsoft Clarity) are NOT
+loaded here anymore. They only load after the visitor accepts cookies
+via the banner — see cookie-consent.js and #cookie-banner below.
 -->
 <script src="/cookie-consent.js" defer></script>
 </head>
 <body>
 <!--
-  Cookie consent banner. This is hidden by default and only shown if the visitor
-  hasn't accepted or declined cookies yet. The banner is also accessible via the
-  "Cookie settings" button in the footer.
+Cookie consent banner. This is hidden by default and only shown if the visitor
+hasn't accepted or declined cookies yet. The banner is also accessible via the
+"Cookie settings" button in the footer.
 -->
 <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
-  <div class="cookie-banner-inner">
-    <p class="cookie-text">
-      This site uses cookies for <strong>analytics</strong> (Google Analytics, Microsoft Clarity) to understand how visitors use it. Nothing is set until you choose, and you can change your mind any time via "Cookie settings" in the footer.
-    </p>
-    <div class="cookie-actions">
-      <button id="cookie-decline" class="cookie-btn">Decline</button>
-      <button id="cookie-accept" class="cookie-btn">Accept</button>
-    </div>
-  </div>
+<div class="cookie-banner-inner">
+<p class="cookie-text">
+This site uses cookies for <strong>analytics</strong> (Google Analytics, Microsoft Clarity) to understand how visitors use it. Nothing is set until you choose, and you can change your mind any time via "Cookie settings" in the footer.
+</p>
+<div class="cookie-actions">
+<button id="cookie-decline" class="cookie-btn">Decline</button>
+<button id="cookie-accept" class="cookie-btn">Accept</button>
+</div>
+</div>search
 </div>
 
 <header class="nav">
-  <div class="wrap nav-inner">
-    <div class="brand"><span class="dot"></span>Adel de la Llave Ramadan<span style="color:var(--text-faint)">.log</span></div>
-    <nav class="links">
-      <a href="#focus">About me</a>
-      <a href="#blog">Blog</a>
-      <a href="#CurrentWork">Currently Working on</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </div>
+<div class="wrap nav-inner">
+<div class="brand"><span class="dot"></span>Adel de la Llave Ramadan<span style="color:var(--text-faint)">.log</span></div>
+<nav class="links">
+<a href="#focus">About me</a>
+<a href="#blog">Blog</a>
+<a href="#CurrentWork">Currently Working on</a>
+<a href="#contact">Contact</a>
+<div class="nav-search" id="nav-search">
+<button type="button" class="nav-search-toggle" id="nav-search-toggle" aria-label="Search blog posts" aria-expanded="false" aria-controls="nav-search-input">
+<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+<circle cx="11" cy="11" r="7"></circle>
+<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+</svg>
+</button>
+<div class="nav-search-field">
+<input type="text" id="nav-search-input" class="nav-search-input" placeholder="Search posts…" autocomplete="off" spellcheck="false" aria-label="Search blog posts">
+<kbd class="nav-search-kbd mono">/</kbd>
+<div class="nav-search-results" id="nav-search-results" role="listbox" aria-label="Search results"></div>
+</div>
+</div>
+</nav>
+</div>
 </header>
 
 <section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <div class="eyebrow">$ whoami</div>
-      <h1>Breaking things carefully,<br>so they don't break <span>in production</span>.</h1>
-      <div class="typeline mono"><span id="typeline-text"></span><span class="cursor"></span></div>
-      <p class="lead">I run a small security practice, spend too much time inside terminals, and write here about the infrastructure I build, the systems I take apart, and the projects in between.</p>
-      <div class="hero-cta">
-        <a class="btn btn-primary" href="#blog">Read the blog</a>
-        <a class="btn btn-ghost" href="#contact">Get in touch</a>
-      </div>
-    </div>
-
-    <div class="radar-wrap" aria-hidden="true">
-      <div class="radar">
-        <svg viewBox="0 0 300 300">
-          <circle class="radar-ring" cx="150" cy="150" r="130"/>
-          <circle class="radar-ring" cx="150" cy="150" r="90"/>
-          <circle class="radar-ring" cx="150" cy="150" r="50"/>
-          <line class="radar-crosshair" x1="150" y1="20" x2="150" y2="280"/>
-          <line class="radar-crosshair" x1="20" y1="150" x2="280" y2="150"/>
-          <g class="radar-sweep">
-            <path d="M150 150 L150 20 A130 130 0 0 1 227 57 Z" fill="url(#sweepGradient)"/>
-          </g>
-          <defs>
-            <linearGradient id="sweepGradient" x1="150" y1="20" x2="227" y2="57" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stop-color="#ff9d3d" stop-opacity="0.55"/>
-              <stop offset="1" stop-color="#ff9d3d" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-          <circle class="radar-blip" cx="205" cy="100" r="4" style="animation-delay:0s"/>
-          <circle class="radar-blip" cx="110" cy="195" r="3" style="animation-delay:1.1s"/>
-          <circle class="radar-blip" cx="90" cy="105" r="3.5" style="animation-delay:0.6s"/>
-        </svg>
-      </div>
-    </div>
-  </div>
+<div class="wrap hero-grid">
+<div>
+<div class="eyebrow">$ whoami</div>
+<h1>Breaking things carefully,<br>so they don't break <span>in production</span>.</h1>
+<div class="typeline mono"><span id="typeline-text"></span><span class="cursor"></span></div>
+<p class="lead">I run a small security practice, spend too much time inside terminals, and write here about the infrastructure I build, the systems I take apart, and the projects in between.</p>
+<div class="hero-cta">
+<a class="btn btn-primary" href="#blog">Read the blog</a>
+<a class="btn btn-ghost" href="#contact">Get in touch</a>
+</div>
+</div>
+<div class="radar-wrap" aria-hidden="true">
+<div class="radar">
+<svg viewBox="0 0 300 300">
+<circle class="radar-ring" cx="150" cy="150" r="130"/>
+<circle class="radar-ring" cx="150" cy="150" r="90"/>
+<circle class="radar-ring" cx="150" cy="150" r="50"/>
+<line class="radar-crosshair" x1="150" y1="20" x2="150" y2="280"/>
+<line class="radar-crosshair" x1="20" y1="150" x2="280" y2="150"/>
+<g class="radar-sweep">
+<path d="M150 150 L150 20 A130 130 0 0 1 227 57 Z" fill="url(#sweepGradient)"/>
+</g>
+<defs>
+<linearGradient id="sweepGradient" x1="150" y1="20" x2="227" y2="57" gradientUnits="userSpaceOnUse">
+<stop offset="0" stop-color="#ff9d3d" stop-opacity="0.55"/>
+<stop offset="1" stop-color="#ff9d3d" stop-opacity="0"/>
+</linearGradient>
+</defs>
+<circle class="radar-blip" cx="205" cy="100" r="4" style="animation-delay:0s"/>
+<circle class="radar-blip" cx="110" cy="195" r="3" style="animation-delay:1.1s"/>
+<circle class="radar-blip" cx="90" cy="105" r="3.5" style="animation-delay:0.6s"/>
+</svg>
+</div>
+</div>
+</div>
 </section>
 
 <section id="focus">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>What I actually do</h2>
-      <span class="section-tag">focus areas</span>
-    </div>
-    <div class="about-text">
-      <p>I'm Adel — I run a cybersecurity practice out of <strong>ciberdefensa.uk</strong>, working across red teaming, penetration testing, and incident response for clients who'd rather find their weak points before someone else does.</p>
-      <p>Outside client work, I'm usually neck-deep in a Linux box somewhere, provisioning cloud infrastructure, or fixing something I broke the night before. This site is where the smaller, more personal version of that work lives.</p>
-    </div>
-    <div class="focus-grid">
-      <div class="focus-card">
-        <span class="focus-index mono">01</span>
-        <h3>Offensive security</h3>
-        <p>Red team engagements, penetration testing, and adversary simulation — finding the path an attacker would actually take, not just the checklist.</p>
-      </div>
-      <div class="focus-card">
-        <span class="focus-index mono">02</span>
-        <h3>Cloud &amp; infrastructure</h3>
-        <p>Hands-on Linux and cloud work — provisioning, hardening, and occasionally rebuilding infrastructure on OCI after I've broken it myself.</p>
-      </div>
-      <div class="focus-card">
-        <span class="focus-index mono">03</span>
-        <h3>Threat intel &amp; response</h3>
-        <p>Digital forensics, incident response, and zero trust architecture — the unglamorous side of keeping systems standing after something goes wrong.</p>
-      </div>
-    </div>
-  </div>
+<div class="wrap">
+<div class="section-head">
+<h2>What I actually do</h2>
+<span class="section-tag">focus areas</span>
+</div>
+<div class="about-text">
+<p>I'm Adel — I run a cybersecurity practice out of <strong>ciberdefensa.uk</strong>, working across red teaming, penetration testing, and incident response for clients who'd rather find their weak points before someone else does.</p>
+<p>Outside client work, I'm usually neck-deep in a Linux box somewhere, provisioning cloud infrastructure, or fixing something I broke the night before. This site is where the smaller, more personal version of that work lives.</p>
+</div>
+<div class="focus-grid">
+<div class="focus-card">
+<span class="focus-index mono">01</span>
+<h3>Offensive security</h3>
+<p>Red team engagements, penetration testing, and adversary simulation — finding the path an attacker would actually take, not just the checklist.</p>
+</div>
+<div class="focus-card">
+<span class="focus-index mono">02</span>
+<h3>Cloud &amp; infrastructure</h3>
+<p>Hands-on Linux and cloud work — provisioning, hardening, and occasionally rebuilding infrastructure on OCI after I've broken it myself.</p>
+</div>
+<div class="focus-card">
+<span class="focus-index mono">03</span>
+<h3>Threat intel &amp; response</h3>
+<p>Digital forensics, incident response, and zero trust architecture — the unglamorous side of keeping systems standing after something goes wrong.</p>
+</div>
+</div>
+</div>
 </section>
 
 <section id="blog">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Blog</h2>
-      <span class="section-tag">entries &amp; projects</span>
-    </div>
+<div class="wrap">
+<div class="section-head">
+<h2>Blog</h2>
+<span class="section-tag">entries &amp; projects</span>
+</div>
+<div class="filters" role="tablist" aria-label="Filter posts by category">
+<button class="filter-pill active" data-filter="all">All</button>
+<button class="filter-pill" data-filter="security">Security</button>
+<button class="filter-pill" data-filter="infra">Infrastructure</button>
+<button class="filter-pill" data-filter="applications">Applications</button>
+<button class="filter-pill" data-filter="others">Others</button>
+</div>
+<p class="post-empty mono" id="post-empty" hidden>No posts match your search.</p>
+<div class="post-grid" id="post-grid">
+<a class="post-card" href="blog/oci-boot-volume-recovery.html" data-category="infra">
+<div class="post-meta">
+<span class="post-tag mono">infra</span>
+<span class="mono">2026-07-14</span>
+<span class="mono">6 min</span>
+</div>
+<h3>Recovering an OCI boot volume after an accidental termination</h3>
+<p>What happens when you terminate the wrong instance on Oracle Cloud, and the boot volume swap trick that got an Alpine Linux Ampere A1 box back on its feet without starting from zero.</p>
+<span class="readmore mono">read entry →</span>
+</a>
 
-    <div class="filters" role="tablist" aria-label="Filter posts by category">
-      <button class="filter-pill active" data-filter="all">All</button>
-      <button class="filter-pill" data-filter="security">Security</button>
-      <button class="filter-pill" data-filter="infra">Infrastructure</button>
-      <button class="filter-pill" data-filter="applications">Applications</button>
-      <button class="filter-pill" data-filter="others">Others</button>
-    </div>
+<a class="post-card" href="blog/Scrutiny SMART Monitoring.html" data-category="infra">
+<div class="post-meta">
+<span class="post-tag mono">infra</span>
+<span class="mono">2026-08-29</span>
+<span class="mono">7 min</span>
+</div>
+<h3>Scrutiny SMART Monitoring on Proxmox LXC</h3>
+<p>How to configure Scrutiny to monitor your Proxmox SSD/HDD within LXC</p>
+<span class="readmore mono">read entry →</span>
+</a>
 
-    <div class="post-grid" id="post-grid">
+<a class="post-card" href="blog/videoout-extension.html" data-category="others">
+<div class="post-meta">
+<span class="post-tag mono">others</span>
+<span class="mono">2026-06-02</span>
+<span class="mono">8 min</span>
+</div>
+<h3>VideoOut: from an Android intent hack to a cross-platform extension</h3>
+<p>How a small Android app for shoving videos into an external player turned into a Firefox extension with a native messaging host, and everything that broke along the way with XPI packaging.</p>
+<span class="readmore mono">read entry →</span>
+</a>
 
-      <a class="post-card" href="blog/oci-boot-volume-recovery.html" data-category="infra">
-        <div class="post-meta">
-          <span class="post-tag mono">infra</span>
-          <span class="mono">2026-07-14</span>
-          <span class="mono">6 min</span>
-        </div>
-        <h3>Recovering an OCI boot volume after an accidental termination</h3>
-        <p>What happens when you terminate the wrong instance on Oracle Cloud, and the boot volume swap trick that got an Alpine Linux Ampere A1 box back on its feet without starting from zero.</p>
-        <span class="readmore mono">read entry →</span>
-      </a>
+<a class="post-card" href="blog/zero-trust-habit.html" data-category="security">
+<div class="post-meta">
+<span class="post-tag mono">security</span>
+<span class="mono">2026-05-18</span>
+<span class="mono">5 min</span>
+</div>
+<h3>Zero trust isn't a product, it's a habit</h3>
+<p>Notes from client engagements on the difference between buying a "zero trust" solution and actually changing how a team verifies every request, every time.</p>
+<span class="readmore mono">read entry →</span>
+</a>
 
-      <a class="post-card" href="blog/Scrutiny SMART Monitoring.html" data-category="infra">
-        <div class="post-meta">
-          <span class="post-tag mono">infra</span>
-          <span class="mono">2026-08-29</span>
-          <span class="mono">7 min</span>
-        </div>
-        <h3>Scrutiny SMART Monitoring on Proxmox LXC</h3>
-        <p>How to configure Scrutiny to monitor your Proxmox SSD/HDD within LXC</p>
-        <span class="readmore mono">read entry →</span>
-      </a>
+<a class="post-card" href="blog/Pulse-Infraestructure-Monitoring.html" data-category="security">
+<div class="post-meta">
+<span class="post-tag mono">security</span>
+<span class="mono">2026-07-09</span>
+<span class="mono">4 min</span>
+</div>
+<h3>PULSE - Monitor your Docker, Proxmox, ESXI environments &amp; take actions with AI</h3>
+<p>Pulse is a self-hosted, real-time monitoring dashboard for Proxmox, Docker, and Kubernetes. It combines unified metrics, smart alerts, and AI-powered insights in one privacy-focused interface. No telemetry — all data stays on your own server.</p>
+<span class="readmore mono">read entry →</span>
+</a>
 
-      <a class="post-card" href="blog/videoout-extension.html" data-category="others">
-        <div class="post-meta">
-          <span class="post-tag mono">others</span>
-          <span class="mono">2026-06-02</span>
-          <span class="mono">8 min</span>
-        </div>
-        <h3>VideoOut: from an Android intent hack to a cross-platform extension</h3>
-        <p>How a small Android app for shoving videos into an external player turned into a Firefox extension with a native messaging host, and everything that broke along the way with XPI packaging.</p>
-        <span class="readmore mono">read entry →</span>
-      </a>
+<a class="post-card" href="blog/alpine-openrc-notes.html" data-category="infra">
+<div class="post-meta">
+<span class="post-tag mono">infra</span>
+<span class="mono">2026-03-21</span>
+<span class="mono">3 min</span>
+</div>
+<h3>Alpine, OpenRC, and the services nobody warns you about</h3>
+<p>Short field notes on managing services with OpenRC on Alpine Linux, coming from a systemd-shaped mental model.</p>
+<span class="readmore mono">read entry →</span>
+</a>
 
-      <a class="post-card" href="blog/zero-trust-habit.html" data-category="security">
-        <div class="post-meta">
-          <span class="post-tag mono">security</span>
-          <span class="mono">2026-05-18</span>
-          <span class="mono">5 min</span>
-        </div>
-        <h3>Zero trust isn't a product, it's a habit</h3>
-        <p>Notes from client engagements on the difference between buying a "zero trust" solution and actually changing how a team verifies every request, every time.</p>
-        <span class="readmore mono">read entry →</span>
-      </a>
+<a class="post-card" href="blog/ZFS on consumer SSDs.html" data-category="infra">
+<div class="post-meta">
+<span class="post-tag mono">infra</span>
+<span class="mono">2026-02-11</span>
+<span class="mono">6 min</span>
+</div>
+<h3>Proxmox ZFS on consumer SSDs: why it can be a disaster and how to protect your drives.</h3>
+<p>My experiences on running consumer SSD on my Proxmox server with ZFS, what went wrong, how to save money and your SSD's</p>
+<span class="readmore mono">read entry →</span>
+</a>
 
-      <a class="post-card" href="blog/Pulse-Infraestructure-Monitoring.html" data-category="security">
-        <div class="post-meta">
-          <span class="post-tag mono">security</span>
-          <span class="mono">2026-07-09</span>
-          <span class="mono">4 min</span>
-        </div>
-        <h3>PULSE - Monitor your Docker, Proxmox, ESXI environments & take actions with AI</h3>
-        <p>Pulse is a self-hosted, real-time monitoring dashboard for Proxmox, Docker, and Kubernetes. It combines unified metrics, smart alerts, and AI-powered insights in one privacy-focused interface. No telemetry — all data stays on your own server.</p>
-        <span class="readmore mono">read entry →</span>
-      </a>
-
-      <a class="post-card" href="blog/alpine-openrc-notes.html" data-category="infra">
-        <div class="post-meta">
-          <span class="post-tag mono">infra</span>
-          <span class="mono">2026-03-21</span>
-          <span class="mono">3 min</span>
-        </div>
-        <h3>Alpine, OpenRC, and the services nobody warns you about</h3>
-        <p>Short field notes on managing services with OpenRC on Alpine Linux, coming from a systemd-shaped mental model.</p>
-        <span class="readmore mono">read entry →</span>
-      </a>
-
-      <a class="post-card" href="blog/ZFS on consumer SSDs.html" data-category="infra">
-        <div class="post-meta">
-          <span class="post-tag mono">infra</span>
-          <span class="mono">2026-02-11</span>
-          <span class="mono">6 min</span>
-        </div>
-        <h3>Proxmox ZFS on consumer SSDs: why it can be a disaster and how to protect your drives.</h3>
-        <p>My experiences on running consumer SSD on my Proxmox server with ZFS, what went wrong, how to save money and your SSD's</p>
-        <span class="readmore mono">read entry →</span>
-      </a>
-
-    </div>
-  </div>
+</div>
+</div>
 </section>
 
 <section id="CurrentWork">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Current Projects</h2>
-      <span class="section-tag">status</span>
-    </div>
-    <div class="log">
-      <div class="log-row">
-        <span class="log-date mono">now</span>
-        <span class="log-title">Reading through the <strong>Horus Heresy</strong> catalogue, in publication order this time</span>
-        <span class="log-status mono">in progress</span>
-      </div>
-      <div class="log-row">
-        <span class="log-date mono">now</span>
-        <span class="log-title">Tinkering with a home Alpine Linux setup on spare hardware</span>
-        <span class="log-status mono">ongoing</span>
-      </div>
-      <div class="log-row">
-        <span class="log-date mono">2026</span>
-        <span class="log-title">Built a Warhammer 40k reading tracker web app, sorted by era and reading status</span>
-        <span class="log-status mono">shipped</span>
-      </div>
-      <div class="log-row">
-        <span class="log-date mono">2025</span>
-        <span class="log-title">Packaged Amazon Music as a Flatpak for Linux, Widevine DRM included</span>
-        <span class="log-status mono">shipped</span>
-      </div>
-    </div>
-  </div>
+<div class="wrap">
+<div class="section-head">
+<h2>Current Projects</h2>
+<span class="section-tag">status</span>
+</div>
+<div class="log">
+<div class="log-row">
+<span class="log-date mono">now</span>
+<span class="log-title">Reading through the <strong>Horus Heresy</strong> catalogue, in publication order this time</span>
+<span class="log-status mono">in progress</span>
+</div>
+<div class="log-row">
+<span class="log-date mono">now</span>
+<span class="log-title">Tinkering with a home Alpine Linux setup on spare hardware</span>
+<span class="log-status mono">ongoing</span>
+</div>
+<div class="log-row">
+<span class="log-date mono">2026</span>
+<span class="log-title">Built a Warhammer 40k reading tracker web app, sorted by era and reading status</span>
+<span class="log-status mono">shipped</span>
+</div>
+<div class="log-row">
+<span class="log-date mono">2025</span>
+<span class="log-title">Packaged Amazon Music as a Flatpak for Linux, Widevine DRM included</span>
+<span class="log-status mono">shipped</span>
+</div>
+</div>
+</div>
 </section>
 
 <footer id="contact">
-  <div class="wrap">
-    <div class="contact-inner">
-      <h2>Want to talk security, infra, or 40k lore?</h2>
-      <div class="contact-links">
-        <a href="mailto:adel.de-la-llave.ramadan@ciberdefensa.uk">adel.de-la-llave.ramadan@ciberdefensa.uk</a>
-        <a href="https://ciberdefensa.uk" target="_blank" rel="noopener">ciberdefensa.uk</a>
-        <a href="https://github.com/kiraitachi">github</a>
-        <a href="https://www.linkedin.com/in/adel-de-la-llave/">linkedin</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 Adel. Built by hand, not a template.</span>
-      <span>
-        Madrid, ES &nbsp;·&nbsp;
-        <button type="button" class="footer-cookie-link" onclick="window.reopenCookieBanner && window.reopenCookieBanner()">Cookie settings</button>
-      </span>
-    </div>
-  </div>
+<div class="wrap">
+<div class="contact-inner">
+<h2>Want to talk security, infra, or 40k lore?</h2>
+<div class="contact-links">
+<a href="mailto:adel.de-la-llave.ramadan@ciberdefensa.uk">adel.de-la-llave.ramadan@ciberdefensa.uk</a>
+<a href="https://ciberdefensa.uk" target="_blank" rel="noopener">ciberdefensa.uk</a>
+<a href="https://github.com/kiraitachi">github</a>
+<a href="https://www.linkedin.com/in/adel-de-la-llave/">linkedin</a>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2026 Adel. Built by hand, not a template.</span>
+<span>
+Madrid, ES &nbsp;·&nbsp;
+<button type="button" class="footer-cookie-link" onclick="window.reopenCookieBanner && window.reopenCookieBanner()">Cookie settings</button>
+</span>
+</div>
+</div>
 </footer>
 
 <script>
-  // typewriter line
-  const lines = [
-    "penetration tester", "red teamer", "linux tinkerer",
-    "oci infrastructure", "incident responder", "40k lore nerd"
-  ];
-  const el = document.getElementById('typeline-text');
-  let li = 0, ci = 0, deleting = false;
+// typewriter line
+const lines = [
+"penetration tester", "red teamer", "linux tinkerer",
+"oci infrastructure", "incident responder", "40k lore nerd"
+];
+const el = document.getElementById('typeline-text');
+let li = 0, ci = 0, deleting = false;
+function tick(){
+const current = lines[li];
+if(!deleting){
+ci++;
+el.textContent = current.slice(0, ci);
+if(ci === current.length){
+deleting = true;
+setTimeout(tick, 1400);
+return;
+}
+} else {
+ci--;
+el.textContent = current.slice(0, ci);
+if(ci === 0){
+deleting = false;
+li = (li + 1) % lines.length;
+}
+}
+setTimeout(tick, deleting ? 35 : 65);
+}
+tick();
 
-  function tick(){
-    const current = lines[li];
-    if(!deleting){
-      ci++;
-      el.textContent = current.slice(0, ci);
-      if(ci === current.length){
-        deleting = true;
-        setTimeout(tick, 1400);
-        return;
-      }
-    } else {
-      ci--;
-      el.textContent = current.slice(0, ci);
-      if(ci === 0){
-        deleting = false;
-        li = (li + 1) % lines.length;
-      }
-    }
-    setTimeout(tick, deleting ? 35 : 65);
-  }
-  tick();
+// ---------------------------------------------------------------
+// Blog search — indexes both the homepage cards AND the full text
+// of every post under /blog, fetched client-side. No build step,
+// no JSON file to keep in sync: it reads whatever <a class="post-card">
+// entries exist in this page, fetches each target .html, and pulls
+// the text out of its .article-body. New posts just need a card
+// added to #post-grid like the existing ones — search picks them up.
+// ---------------------------------------------------------------
 
-  // filter pills
-  const pills = document.querySelectorAll('.filter-pill');
-  const cards = document.querySelectorAll('.post-card');
-  pills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      pills.forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      const f = pill.dataset.filter;
-      cards.forEach(card => {
-        card.classList.toggle('hidden', f !== 'all' && card.dataset.category !== f);
-      });
-    });
-  });
+const pills = document.querySelectorAll('.filter-pill');
+const cards = Array.from(document.querySelectorAll('.post-card'));
+const postEmpty = document.getElementById('post-empty');
+let activeCategory = 'all';
+let searchQuery = '';
+
+// postIndex[i].content starts null and fills in once its post is fetched.
+const postIndex = cards.map(card => {
+const title = card.querySelector('h3')?.textContent.trim() || '';
+const excerpt = card.querySelector('p')?.textContent.trim() || '';
+const tag = card.querySelector('.post-tag')?.textContent.trim() || '';
+const date = card.querySelectorAll('.post-meta .mono')[1]?.textContent.trim() || '';
+return {
+card,
+url: card.href, // resolved absolute URL, handles spaces/encoding for us
+title,
+excerpt,
+tag,
+date,
+content: null, // filled in asynchronously below
+haystack: (title + ' ' + excerpt + ' ' + tag).toLowerCase()
+};
+});
+
+// Fetch each post's full text in the background so search can reach
+// content that never made it into the homepage excerpt. Cached in
+// sessionStorage so repeat visits in the same tab don't re-fetch.
+async function loadPostContent(entry){
+const cacheKey = 'search-content:' + entry.url;
+try {
+const cached = sessionStorage.getItem(cacheKey);
+if (cached !== null) {
+entry.content = cached;
+entry.haystack = (entry.title + ' ' + entry.excerpt + ' ' + entry.tag + ' ' + cached).toLowerCase();
+return;
+}
+} catch (e) { /* sessionStorage unavailable — fall through to fetch */ }
+
+try {
+const res = await fetch(entry.url);
+if (!res.ok) return;
+const html = await res.text();
+const doc = new DOMParser().parseFromString(html, 'text/html');
+const body = doc.querySelector('.article-body') || doc.querySelector('article') || doc.body;
+const text = (body?.textContent || '').replace(/\s+/g, ' ').trim();
+entry.content = text;
+entry.haystack = (entry.title + ' ' + entry.excerpt + ' ' + entry.tag + ' ' + text).toLowerCase();
+try { sessionStorage.setItem(cacheKey, text); } catch (e) { /* quota exceeded, ignore */ }
+} catch (e) {
+// Network hiccup or the post 404s — search just falls back to the
+// title/excerpt/tag it already indexed synchronously.
+}
+}
+
+// Kick off all fetches without blocking initial render.
+postIndex.forEach(entry => { loadPostContent(entry); });
+
+function applyFilters(){
+let visibleCount = 0;
+postIndex.forEach(({ card, haystack }) => {
+const matchesCategory = activeCategory === 'all' || card.dataset.category === activeCategory;
+const matchesSearch = matchesQuery(haystack, searchQuery);
+const visible = matchesCategory && matchesSearch;
+card.classList.toggle('hidden', !visible);
+if (visible) visibleCount++;
+});
+postEmpty.hidden = visibleCount !== 0;
+}
+
+// All whitespace-separated terms must appear somewhere in the haystack,
+// in any order — closer to how people actually search than a single
+// exact substring match.
+function matchesQuery(haystack, query){
+if (query === '') return true;
+const terms = query.split(/\s+/).filter(Boolean);
+return terms.every(term => haystack.includes(term));
+}
+
+pills.forEach(pill => {
+pill.addEventListener('click', () => {
+pills.forEach(p => p.classList.remove('active'));
+pill.classList.add('active');
+activeCategory = pill.dataset.filter;
+applyFilters();
+});
+});
+
+// --- Nav search UI: expand/collapse, dropdown results, keyboard shortcuts ---
+const navSearch = document.getElementById('nav-search');
+const searchToggle = document.getElementById('nav-search-toggle');
+const searchInput = document.getElementById('nav-search-input');
+const searchResults = document.getElementById('nav-search-results');
+const blogSection = document.getElementById('blog');
+
+function openSearch(focus = true){
+navSearch.classList.add('open');
+searchToggle.setAttribute('aria-expanded', 'true');
+if (focus) searchInput.focus();
+}
+
+function closeSearch(){
+navSearch.classList.remove('open');
+searchToggle.setAttribute('aria-expanded', 'false');
+searchResults.classList.remove('open');
+}
+
+function escapeHtml(str){
+return str.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// Builds a short "...text before [match] text after..." snippet for the
+// dropdown, using the first search term found in the post's content.
+function buildSnippet(entry, terms){
+const source = entry.content || entry.excerpt;
+const lower = source.toLowerCase();
+let idx = -1, matchedTerm = terms[0];
+for (const term of terms) {
+const i = lower.indexOf(term);
+if (i !== -1) { idx = i; matchedTerm = term; break; }
+}
+if (idx === -1) return escapeHtml(entry.excerpt.slice(0, 140));
+
+const radius = 60;
+const start = Math.max(0, idx - radius);
+const end = Math.min(source.length, idx + matchedTerm.length + radius);
+let snippet = source.slice(start, end);
+if (start > 0) snippet = '…' + snippet;
+if (end < source.length) snippet += '…';
+
+const escaped = escapeHtml(snippet);
+const re = new RegExp('(' + terms.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')', 'ig');
+return escaped.replace(re, '<mark>$1</mark>');
+}
+
+function renderResults(){
+if (searchQuery === '') {
+searchResults.classList.remove('open');
+searchResults.innerHTML = '';
+return;
+}
+
+const terms = searchQuery.split(/\s+/).filter(Boolean);
+const matches = postIndex.filter(entry => matchesQuery(entry.haystack, searchQuery)).slice(0, 8);
+
+if (matches.length === 0) {
+searchResults.innerHTML = '<div class="nav-search-empty">No posts match "' + escapeHtml(searchQuery) + '".</div>';
+} else {
+searchResults.innerHTML = matches.map(entry => `
+<a class="nav-search-result" href="${entry.url}">
+<div class="nav-search-result-head">
+<span class="nav-search-result-title">${escapeHtml(entry.title)}</span>
+<span class="nav-search-result-tag mono">${escapeHtml(entry.tag)}</span>
+</div>
+<p class="nav-search-result-snippet">${buildSnippet(entry, terms)}</p>
+</a>
+`).join('');
+}
+searchResults.classList.add('open');
+}
+
+searchToggle.addEventListener('click', () => {
+if (navSearch.classList.contains('open')) {
+closeSearch();
+} else {
+openSearch();
+}
+});
+
+searchInput.addEventListener('input', () => {
+searchQuery = searchInput.value.trim().toLowerCase();
+applyFilters();
+renderResults();
+});
+
+searchInput.addEventListener('focus', () => {
+if (searchQuery !== '') renderResults();
+});
+
+searchInput.addEventListener('keydown', (e) => {
+if (e.key === 'Escape') {
+if (searchInput.value !== '') {
+searchInput.value = '';
+searchQuery = '';
+applyFilters();
+renderResults();
+} else {
+closeSearch();
+searchInput.blur();
+}
+} else if (e.key === 'Enter') {
+// Jump straight to the top result on Enter.
+const first = searchResults.querySelector('.nav-search-result');
+if (first) window.location.href = first.getAttribute('href');
+}
+});
+
+// "/" focuses search from anywhere on the page, like GitHub's own shortcut.
+document.addEventListener('keydown', (e) => {
+if (e.key === '/' && document.activeElement !== searchInput) {
+const tag = document.activeElement.tagName;
+if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+e.preventDefault();
+openSearch();
+}
+});
+
+// Click outside closes the expanded search if it's empty.
+document.addEventListener('click', (e) => {
+if (!navSearch.contains(e.target) && searchInput.value === '') {
+closeSearch();
+}
+});
 </script>
-
 </body>
 </html>
