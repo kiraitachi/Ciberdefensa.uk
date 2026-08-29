@@ -682,12 +682,15 @@ footer{ padding: 70px 0 50px; }
   text-align: center;
 }
 
-/* Search results dropdown — full-text matches across /blog posts */
+/* Search results dropdown — full-text matches across /blog posts.
+   Anchored to .nav-search (not .nav-search-field), because the field
+   has overflow:hidden for its expand/collapse animation and would
+   otherwise clip the dropdown. */
 .nav-search-results {
   display: none;
   position: absolute;
   top: calc(100% + 8px);
-  left: 0;
+  right: 0;
   width: min(80vw, 380px);
   max-height: 60vh;
   overflow-y: auto;
@@ -708,7 +711,8 @@ footer{ padding: 70px 0 50px; }
   text-decoration: none;
   color: var(--text, #f2f2f2);
   border-bottom: 1px solid var(--border, rgba(255,255,255,0.08));
-  transition: background 0.12s ease;
+  border-left: 2px solid transparent;
+  transition: background 0.12s ease, border-color 0.12s ease;
 }
 
 .nav-search-result:last-child {
@@ -716,8 +720,10 @@ footer{ padding: 70px 0 50px; }
 }
 
 .nav-search-result:hover,
-.nav-search-result:focus {
+.nav-search-result:focus,
+.nav-search-result.active {
   background: rgba(255, 157, 61, 0.08);
+  border-left-color: #ff9d3d;
 }
 
 .nav-search-result-head {
@@ -761,6 +767,13 @@ footer{ padding: 70px 0 50px; }
   color: var(--text-faint, #8a8f98);
 }
 
+.nav-search-hint {
+  padding: 0.5rem 0.85rem;
+  font-size: 0.7rem;
+  color: var(--text-faint, #8a8f98);
+  border-top: 1px solid var(--border, rgba(255,255,255,0.08));
+}
+
 /* Mobile: drop the icon toggle, let the input take the nav width */
 @media (max-width: 720px) {
   .nav-search {
@@ -780,6 +793,6 @@ footer{ padding: 70px 0 50px; }
   }
   .nav-search-results {
     width: 100%;
-    left: 0;
+    right: 0;
   }
 }
