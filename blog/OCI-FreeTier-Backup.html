@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Back-up Oracle Free Tier Script</title>
+<link rel="icon" type="image/x-icon" href="/images/Ciberdefensa.ico">
+<script src="/favicon-pulse.js" defer></script>
+<meta name="description" content="How to backup your Oracle Cloud Always Free boot volumes with a simple zsh script that rotates a single full backup.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="../index.html" class="brand"><span class="dot"></span>Adel de la Llave Ramadan<span style="color:var(--text-faint)">.log</span></a>
+    <nav class="links">
+      <a href="../index.html#focus">work</a>
+      <a href="../index.html#blog">blog</a>
+      <a href="../index.html#reading">reading</a>
+      <a href="../index.html#contact">contact</a>
+    </nav>
+  </div>
+</header>
+
+<!--
+  Analytics (Google Analytics via gtag.js, Microsoft Clarity) are NOT
+  loaded here anymore. They only load after the visitor accepts cookies
+  via the banner — see cookie-consent.js and #cookie-banner below.
+-->
+<script src="/cookie-consent.js" defer></script>
+</head>
+<body>
+<!--
+  Cookie consent banner. This is hidden by default and only shown if the visitor
+  hasn't accepted or declined cookies yet. The banner is also accessible via the
+  "Cookie settings" button in the footer.
+-->
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+  <div class="cookie-banner-inner">
+    <p class="cookie-text">
+      This site uses cookies for <strong>analytics</strong> (Google Analytics, Microsoft Clarity) to understand how visitors use it. Nothing is set until you choose, and you can change your mind any time via "Cookie settings" in the footer.
+    </p>
+    <div class="cookie-actions">
+      <button id="cookie-decline" class="cookie-btn">Decline</button>
+      <button id="cookie-accept" class="cookie-btn">Accept</button>
+    </div>
+  </div>
+</div>
+
+<section class="article-hero">
+  <div class="wrap">
+    <a href="../index.html#blog" class="back-link mono">← back to blog</a>
+    <div class="post-meta">
+      <span class="post-tag mono">others</span>
+      <span class="mono">2026-04-09</span>
+      <span class="mono">4 min</span>
+    </div>
+    <h1>Automated backups in Oracle Free Tier</h1>
+  </div>
+</section>
+
+<section class="article-body">
+  <div class="wrap">
+
+    <p>
+      One of the small worries of running anything on Oracle Cloud's Always Free tier is that
+      there's no backup policy available for the tier's boot volumes. Full and incremental
+      backups exist as a feature, but scheduled policies are locked behind paid tiers, and the
+      Always Free allowance only lets you keep a handful of backups per volume before you start
+      hitting storage limits. If a boot volume ever gets corrupted and there's no recent backup
+      around, that's the whole instance gone.
+    </p>
+
+    <p>
+      The fix is simple: since we can't rely on a managed backup policy, we script the same
+      rotate-and-replace behaviour ourselves and drop it on a cron job. This post covers a small
+      zsh script I use to keep exactly one full backup of a boot volume around at all times,
+      overwriting the previous one on every run so it never grows past the free tier's limits.
+    </p>
+
+    <h2>How the backup rotation works</h2>
+    <p>
+      The script talks to Oracle Cloud through the <code>oci</code> CLI and does four things,
+      in order, every time it runs:
+    </p>
+    <ol>
+      <li>Look up whether a backup with a fixed display name already exists for the boot volume.</li>
+      <li>Create a brand new <strong>FULL</strong> backup under a temporary, timestamped name.</li>
+      <li>Only if that new backup succeeds, delete the previous one.</li>
+      <li>Rename the new backup to the fixed display name, ready for the next run.</li>
+    </ol>
+    <p>
+      The order matters more than it looks. The new backup is created <em>before</em> the old
+      one is deleted, and the script bails out immediately if creation fails. That way a failed
+      run just leaves the existing backup in place instead of leaving the volume with no backup
+      at all.
+    </p>
+
+    <h2>Requirements</h2>
+    <ul>
+      <li>The <a href="https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm" target="_blank" rel="noopener">OCI CLI</a> installed and authenticated (a working <code>~/.oci/config</code> profile).</li>
+      <li>Your boot volume's OCID — visible under <em>Compute → Boot Volumes</em> in the console, or via <code>oci bv boot-volume list</code>.</li>
+      <li>Your compartment's OCID.</li>
+      <li>One manual backup created once by hand, just to get familiar with the flow (optional, but reassuring the first time).</li>
+    </ul>
+
+    <h2>The script</h2>
+    <p>
+      Fill in <code>PROFILE_NAME</code>, <code>COMPARTMENT_ID</code> and
+      <code>BOOT_VOLUME_ID</code> for your own tenancy, and pick a fixed
+      <code>BACKUP_NAME</code> that the script will keep reusing:
+    </p>
+
+<pre><code>#!/usr/bin/env zsh
+source ~/.zshrc
+
+PROFILE_NAME="DEFAULT"
+COMPARTMENT_ID="ocid1.tenancy.oc1.xxxxxxxEXAMPLExxxxxxx"
+BOOT_VOLUME_ID="ocid1.bootvolume.xxxxxxxEXAMPLExxxxxxx"
+
+BACKUP_NAME="alpine-arm-manual-backup"
+TMP_BACKUP_NAME="backup-$(date +%Y-%m-%d_%H-%M-%S)"
+
+echo "Starting backup process at ${TMP_BACKUP_NAME}..."
+
+# 1. Search for existing available backup using compartment-id and boot-volume-id
+echo "Checking for previous backup named '${BACKUP_NAME}'..."
+LAST_BACKUP_ID=$(oci bv boot-volume-backup list \
+  --compartment-id "${COMPARTMENT_ID}" \
+  --boot-volume-id "${BOOT_VOLUME_ID}" \
+  --lifecycle-state AVAILABLE \
+  --all \
+  --query "data[?\"display-name\"=='${BACKUP_NAME}'].id | [0]" \
+  --raw-output \
+  --profile "${PROFILE_NAME}" 2>/dev/null)
+
+if [ -n "${LAST_BACKUP_ID}" ] && [ "${LAST_BACKUP_ID}" != "null" ]; then
+  echo "Found previous backup ID: ${LAST_BACKUP_ID}"
+else
+  echo "No existing backup found with name '${BACKUP_NAME}'."
+  LAST_BACKUP_ID=""
+fi
+
+# 2. Create the new FULL boot volume backup
+echo "Creating new FULL backup '${TMP_BACKUP_NAME}'..."
+NEW_BACKUP_ID=$(oci bv boot-volume-backup create \
+  --boot-volume-id "${BOOT_VOLUME_ID}" \
+  --type FULL \
+  --display-name "${TMP_BACKUP_NAME}" \
+  --wait-for-state AVAILABLE \
+  --query "data.id" \
+  --raw-output \
+  --profile "${PROFILE_NAME}")
+
+if [ -z "${NEW_BACKUP_ID}" ] || [ "${NEW_BACKUP_ID}" = "null" ]; then
+  echo "Error: New backup creation failed! Exiting without deleting previous backups."
+  exit 1
+fi
+
+echo "New backup created successfully. ID: ${NEW_BACKUP_ID}"
+
+# 3. Delete old backup to maintain Free Tier storage limit
+if [ -n "${LAST_BACKUP_ID}" ]; then
+  echo "Deleting old backup (ID: ${LAST_BACKUP_ID})..."
+  oci bv boot-volume-backup delete \
+    --boot-volume-backup-id "${LAST_BACKUP_ID}" \
+    --force \
+    --wait-for-state TERMINATED \
+    --profile "${PROFILE_NAME}"
+  echo "Old backup deleted."
+fi
+
+# 4. Rename new backup to target static name
+echo "Renaming '${TMP_BACKUP_NAME}' to '${BACKUP_NAME}'..."
+oci bv boot-volume-backup update \
+  --boot-volume-backup-id "${NEW_BACKUP_ID}" \
+  --display-name "${BACKUP_NAME}" \
+  --profile "${PROFILE_NAME}" > /dev/null
+
+echo "Backup process completed successfully!"</code></pre>
+
+    <p>
+      Save it as something like <code>backup-boot-volume.zsh</code>, make it executable with
+      <code>chmod +x backup-boot-volume.zsh</code>, and run it once by hand to confirm the CLI
+      profile and OCIDs are correct before trusting it to cron.
+    </p>
+
+    <h2>Scheduling it</h2>
+    <p>
+      A weekly run at 3am on Sundays is enough for a small always-on box. Since <code>cron</code>
+      jobs run without your interactive shell environment, source your profile explicitly inside
+      the script (already handled by the <code>source ~/.zshrc</code> line) and use absolute
+      paths in the crontab entry:
+    </p>
+<pre><code>0 3 * * 0 /usr/bin/zsh /path/to/backup-boot-volume.zsh >> /var/log/oci-backup.log 2>&1</code></pre>
+    <p>
+      Because the script always creates a full backup and only deletes the previous one after
+      the new one succeeds, a failed run — expired API key, network blip, rate limit — just
+      leaves last week's backup untouched instead of leaving you with none at all.
+    </p>
+
+    <h2>Why not incremental backups?</h2>
+    <p>
+      Incremental backups would save space, but they build on a chain of previous backups, and
+      chasing that chain adds complexity that isn't worth it for a single Always Free instance
+      capped at a handful of backups anyway. Keeping exactly one full backup and rotating it is
+      simpler to reason about and easier to restore from: one backup, one boot volume, no chain
+      to worry about breaking.
+    </p>
+
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="contact-inner">
+      <h2>Want to talk about security, infra, or 40k lore?</h2>
+      <div class="contact-links">
+        <a href="mailto:hello@example.com">hello@example.com</a>
+        <a href="https://ciberdefensa.uk" target="_blank" rel="noopener">ciberdefensa.uk</a>
+        <a href="#">github</a>
+        <a href="#">linkedin</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Adel. Built by hand, not a template.</span>
+      <span>Madrid, ES</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
