@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video2Player for Android — Open Web Videos in VLC from Firefox</title>
+<link rel="icon" type="image/x-icon" href="/images/Ciberdefensa.ico">
+<script src="/favicon-pulse.js" defer></script>
+<meta name="description" content="A Firefox extension for Android that opens web videos in VLC. Detects videos, recovers real URLs from blob/MSE sources, and sends them to your default video player.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="../index.html" class="brand"><span class="dot"></span>Adel de la Llave Ramadan<span style="color:var(--text-faint)">.log</span></a>
+    <nav class="links">
+      <a href="../index.html#focus">work</a>
+      <a href="../index.html#blog">blog</a>
+      <a href="../index.html#reading">reading</a>
+      <a href="../index.html#contact">contact</a>
+    </nav>
+  </div>
+</header>
+
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+  <div class="cookie-banner-inner">
+    <p class="cookie-text">
+      This site uses cookies for <strong>analytics</strong> (Google Analytics, Microsoft Clarity) to understand how visitors use it. Nothing is set until you choose, and you can change your mind any time via "Cookie settings" in the footer.
+    </p>
+    <div class="cookie-actions">
+      <button id="cookie-decline" class="cookie-btn">Decline</button>
+      <button id="cookie-accept" class="cookie-btn">Accept</button>
+    </div>
+  </div>
+</div>
+
+<section class="article-hero">
+  <div class="wrap">
+    <a href="../index.html#blog" class="back-link mono">← back to blog</a>
+    <div class="post-meta">
+      <span class="post-tag mono">tech</span>
+      <span class="mono">2026-10-15</span>
+      <span class="mono">6 min</span>
+    </div>
+    <h1>Video2Player for Android — Open Web Videos in VLC from Firefox</h1>
+  </div>
+</section>
+
+<section class="article-body">
+  <div class="wrap">
+
+    <h2>Why I built it</h2>
+    <p>Samsung Internet has a small button that hands a web video to an external player. Firefox for Android doesn’t. I wanted that one-tap experience, as close as possible to the Samsung Browser one, so I built a Firefox extension for it: <strong>Video2Player</strong>.</p>
+
+    <h2>What it does</h2>
+    <ul>
+      <li>Finds <code>&lt;video&gt;</code> elements on any page, including ones added later by infinite scroll, single-page navigation, or players that attach late.</li>
+      <li>Shows a pill button styled to match Firefox’s colours, so it looks like part of the browser. It stays visible after its entrance animation.</li>
+      <li>On tap, works out the real playable URL and sends it to Android as an intent. The OS opens your default video player, with no extra picker if you’ve set a default.</li>
+      <li>If nothing seems to have happened, it shows a small fallback dialog with explicit VLC and MX Player buttons and a Copy Video URL option.</li>
+    </ul>
+
+    <h2>Platform</h2>
+    <p>It’s Android-only, because it relies on Android’s intent system. It has no purpose on desktop Firefox.</p>
+
+    <h2>A tip</h2>
+    <p>It works best with an adblocker. Without one, ad videos on a page get detected too, and the extension can offer to open an ad in your player instead of the video you wanted. The same goes for apps like JustPlayer, which will happily open whatever URL they’re given.</p>
+
+    <h2>The hard part — blob URLs</h2>
+    <p>The obvious plan is to read <code>video.src</code> and pass it to VLC. That fails on a large share of the web.</p>
+    <p>Most modern streaming sites play video through MediaSource Extensions (MSE) and HLS. The <code>&lt;video&gt;</code> tag then has a src like <code>blob:https://example.com/1f3c…</code>, a temporary reference that only exists inside that browser tab. VLC can’t open it. My first version detected the video, fired the intent, and nothing happened.</p>
+    <p>So the real job is recovering the actual stream URL (usually an <code>.m3u8</code> or <code>.mp4</code>) from behind the blob.</p>
+
+    <h2>How it’s built</h2>
+    <p>The repo is a small Manifest V2 extension:</p>
+    <pre><code>manifest.json   – Manifest V2, Android-only
+content.js      – detection, URL recovery, intent builder, fallback UI
+content.css     – pill button + fallback dialog styles
+background.js   – re-injects the content script on a toolbar tap
+icons/</code></pre>
+
+    <h3>The manifest</h3>
+    <p>Firefox for Android is strict about manifests. I hit three validator warnings before it was clean, and the working version looks like this:</p>
+    <pre><code>{
+  "manifest_version": 2,
+  "name": "Video2Player",
+  "version": "1.1.0",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "video2player@firefox-android",
+      "strict_min_version": "142.0",
+      "data_collection_permissions": { "required": ["none"] }
+    },
+    "gecko_android": { "strict_min_version": "142.0" }
+  },
+  "permissions": ["activeTab", "storage", "clipboardWrite"],
+  "content_scripts": [{
+    "matches": ["&lt;all_urls&gt;"],
+    "js": ["content.js"],
+    "css": ["content.css"],
+    "run_at": "document_idle",
+    "all_frames": false
+  }]
+}</code></pre>
+    <ul>
+      <li><code>data_collection_permissions</code> is now required for new Firefox extensions. <code>"none"</code> declares that the extension collects nothing, which is true here.</li>
+      <li><code>gecko_android</code> with a matching <code>strict_min_version</code> clears the “min version predates this key” warnings.</li>
+    </ul>
+
+    <h2>Detecting videos</h2>
+    <p>A <code>MutationObserver</code> watches for new <code>&lt;video&gt;</code> elements, with a throttle so busy pages don’t get hammered. A couple of delayed re-scans catch players that attach their source late, for example after an ad or after the user presses play. Anything under 100px is ignored, which filters out tracking pixels and hover previews.</p>
+
+    <h2>Recovering the real URL</h2>
+    <p>When <code>video.src</code> is a blob, the script tries several strategies, from most specific to least:</p>
+    <pre><code>function getVideoSrc(video) {
+  // 1. A real URL already on &lt;video&gt;, &lt;source&gt;, or data-* attributes
+  const direct = candidates.find(u => u && !u.startsWith("blob:"));
+  if (direct) return direct;
+
+  // 2. Site-specific extraction, for sites that expose URLs in inline JS
+  const site = extractKnownSiteUrl();
+  if (site) return site;
+
+  // 3. Best-effort regex scan of inline &lt;script&gt; text
+  const generic = extractGenericStreamUrl();
+  if (generic) return generic;
+
+  // 4. Last resort: the blob (triggers the fallback dialog)
+  return candidates.find(u => u.startsWith("blob:")) ?? null;
+}</code></pre>
+    <p><strong>Site-specific extraction.</strong> Some sites put their real stream URLs in an inline script, in calls like <code>player.setVideoUrlHigh('https://…mp4')</code>. A regex over the <code>&lt;script&gt;</code> text recovers them. It’s precise, but it only works for sites I’ve looked at, and right now that means xvideos.com.</p>
+    <p><strong>Generic script scan.</strong> A regex finds <code>https://….mp4</code> or <code>….m3u8</code> in inline scripts, skipping anything that looks like a thumbnail, preview, or <code>.vtt</code> subtitle file. It’s a heuristic and will sometimes miss.</p>
+    <p>The URL is re-resolved at tap time, not when the button is created. Many players only settle on the real source once playback has started.</p>
+
+    <h2>Building the intent</h2>
+    <p>Android launches apps from a browser through <code>intent://</code> URIs. My first attempt used <code>intent:&lt;full-url&gt;#Intent;…</code>, which can break when a signed CDN URL contains <code>;</code> or other awkward characters. The canonical form strips the scheme and passes it as a field:</p>
+    <pre><code>function buildIntentUri(rawUrl, opts = {}) {
+  const u = new URL(rawUrl);
+  const scheme = u.protocol.replace(":", "");
+  const rest = rawUrl.slice(u.protocol.length + 2); // strip "https://"
+
+  const parts = [
+    "action=android.intent.action.VIEW",
+    `scheme=${scheme}`,
+    "type=video/*",
+  ];
+  if (opts.package) parts.push(`package=${opts.package}`);
+  parts.push("end");
+
+  return `intent://${rest}#Intent;${parts.join(";")};`;
+}</code></pre>
+    <p>The main button doesn’t set a package, so Android decides. It opens whatever you’ve set as the default handler for <code>video/*</code>. If VLC is your default, you get VLC straight away with no picker. Only the explicit buttons in the fallback dialog pin a package.</p>
+
+    <h2>Knowing when the handoff failed</h2>
+    <p>A page can’t directly tell whether an intent launched anything. But when another app opens, the tab goes into the background and <code>visibilitychange</code> fires:</p>
+    <pre><code>let handedOff = false;
+const onHide = () => { if (document.hidden) handedOff = true; };
+document.addEventListener("visibilitychange", onHide);
+
+location.href = intentUri;
+
+setTimeout(() => {
+  document.removeEventListener("visibilitychange", onHide);
+  if (!handedOff) showFallbackDialog(src);   // nothing opened
+}, 1500);</code></pre>
+    <p>If the tab is still visible after 1.5 seconds, the extension assumes the handoff failed and offers the manual options instead of leaving you with a dead button.</p>
+
+    <h2>Limitations</h2>
+    <ul>
+      <li><strong>Streaming and blob URLs.</strong> Many sites (most tube sites, Twitch, YouTube, Vimeo, and others) play through MSE or HLS, so the <code>&lt;video&gt;</code> src is a temporary blob reference. External apps can’t open it. The extension has extraction logic for a few known sites plus a generic best-effort scan, but that isn’t guaranteed to work everywhere, and sites can change their player code at any time.</li>
+      <li><strong>No forced player.</strong> The extension doesn’t pin playback to one app. It relies on your Android default for video files, and if you haven’t set one, Android may show its own chooser.</li>
+      <li><strong>Needs a real device to verify.</strong> Intent handling, defaults, and player compatibility only show up on an actual Android device with Firefox and a player installed.</li>
+      <li><strong>DRM and obfuscation.</strong> Encrypted media (EME) or heavily obfuscated players will likely not yield a usable URL.</li>
+      <li><strong>Not a downloader.</strong> It hands a URL to another app for playback. It doesn’t fetch, store, or convert video.</li>
+      <li><strong>Top frame only (for now).</strong> Version 1.1.0 only scans the main page, so videos inside cross-origin iframes aren’t seen yet. See the next section.</li>
+    </ul>
+
+    <h2>What’s next: iframe players and network sniffing (experimental)</h2>
+    <p>Many streaming and aggregator sites don’t host the player on their own page. They embed it from another domain in an iframe, often with a choice of mirror hosts. A content script that only runs in the top frame never sees that <code>&lt;video&gt;</code>. I’m working on two changes for this, and neither is in the repo yet:</p>
+    <ul>
+      <li><strong>"all_frames": true</strong> injects the script into every frame, including cross-origin ones. Content scripts aren’t subject to the same-origin rules that stop page JavaScript from reading <code>iframe.contentDocument</code>. Each frame then runs its own copy of the script, and the pill appears inside the embedded player’s frame.</li>
+      <li><strong>Network sniffing</strong> records any <code>.m3u8</code> or <code>.mp4</code> request the page makes, which is host-agnostic because an HLS player has to download its playlist at some point. It must run at <code>document_start</code>, before the player’s own scripts, or the requests are already gone.</li>
+    </ul>
+    <p>There’s a Firefox catch here. Content scripts run in an isolated world, so patching <code>window.fetch</code> directly changes the content script’s own copy and not the page’s. The patch has to go through <code>wrappedJSObject</code>:</p>
+    <pre><code>const pageWindow = window.wrappedJSObject;
+const sniffed = [];
+
+function record(url) {
+  if (typeof url === "string" && /\.(m3u8|mp4)(\?|#|$)/i.test(url)
+      && !sniffed.includes(url)) {
+    sniffed.unshift(url);
+    if (sniffed.length > 8) sniffed.length = 8;
+  }
+}
+
+const origFetch = pageWindow.fetch;
+pageWindow.fetch = exportFunction(function (...args) {
+  try {
+    const req = args[0];
+    record(typeof req === "string" ? req : req && req.url);
+  } catch (_) {}
+  return origFetch.apply(this, args);
+}, pageWindow);</code></pre>
+    <p>An alternative that avoids the isolation problem is <code>browser.webRequest</code> in the background script, which sees every request in every frame and can pass the URLs to the content script. I haven’t tested either approach on a live device yet, so I’m treating this as experimental.</p>
+
+    <p>One limit stays either way. Hosts that decrypt and assemble video entirely in the browser, with Mega as the clearest example, never make a plain <code>.m3u8</code> or <code>.mp4</code> request, so there’s nothing to sniff.</p>
+
+    <h2>Publishing notes</h2>
+    <ul>
+      <li>Firefox for Android only offers add-ons that declare Android compatibility, which the <code>gecko_android</code> block does.</li>
+      <li>Declare data collection explicitly with <code>data_collection_permissions</code>.</li>
+      <li>Test sideloading first: Settings → About Firefox → tap the logo five times → Install add-on from file.</li>
+    </ul>
+
+    <h2>What I’d add next</h2>
+    <ul>
+      <li>Network sniffing and iframe support, done properly.</li>
+      <li>Remember a preferred player between sessions.</li>
+      <li>A quality picker when a page exposes several HLS renditions.</li>
+    </ul>
+
+    <p>If it breaks on a site you care about, open an issue on the repo: <a href="https://github.com/kiraitachi/Firefox-Video2player/issues" target="_blank" rel="noopener">https://github.com/kiraitachi/Firefox-Video2player/issues</a>.</p>
+
+    <h2>References</h2>
+    <ul>
+      <li><a href="https://github.com/kiraitachi/Firefox-Video2player" target="_blank" rel="noopener">Source code — MPL-2.0</a></li>
+      <li><a href="https://addons.mozilla.org/en-US/firefox/addon/video2player/" target="_blank" rel="noopener">Firefox Add-ons — Video2Player</a></li>
+    </ul>
+
+    <p style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--text-faint); font-size: 0.85rem;"><strong>Note:</strong> This is a <strong>work in progress</strong>. Changes and updates are tracked on GitHub (<a href="https://github.com/kiraitachi/Firefox-Video2player">repo</a>), not in this blog post.</p>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="contact-inner">
+      <h2>Want to talk about security, infra, or 40k lore?</h2>
+      <div class="contact-links">
+        <a href="mailto:adel.de-la-llave.ramadan@ciberdefensa.uk">adel.de-la-llave.ramadan@ciberdefensa.uk</a>
+        <a href="https://ciberdefensa.uk" target="_blank" rel="noopener">ciberdefensa.uk</a>
+        <a href="https://github.com/kiraitachi">github</a>
+        <a href="https://www.linkedin.com/in/adel-de-la-llave/">linkedin</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Adel. Built by hand, not a template.</span>
+      <span>Madrid, ES</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
