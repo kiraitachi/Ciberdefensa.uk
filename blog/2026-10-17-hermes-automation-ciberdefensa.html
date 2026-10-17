@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hermes Updates My Blog Daily — From GitHub to Vercel</title>
+<link rel="icon" type="image/x-icon" href="/images/Ciberdefensa.ico">
+<script src="/favicon-pulse.js" defer></script>
+<meta name="description" content="How Hermes automates daily vulnerability posts onto ciberdefensa.uk: cron d128e21464cd searches CVEs, writes structured HTML, pushes to GitHub, and Vercel deploys automatically.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="../index.html" class="brand"><span class="dot"></span>Adel de la Llave Ramadan<span style="color:var(--text-faint)">.log</span></a>
+    <nav class="links">
+      <a href="../index.html#focus">work</a>
+      <a href="../index.html#blog">blog</a>
+      <a href="../index.html#reading">reading</a>
+      <a href="../index.html#contact">contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="article-hero">
+  <div class="wrap">
+    <a href="../index.html#blog" class="back-link mono">← back to blog</a>
+    <div class="post-meta">
+      <span class="post-tag mono">applications</span>
+      <span class="mono">2026-10-17</span>
+      <span class="mono">4 min</span>
+    </div>
+    <h1>Hermes Updates My Blog Daily — From GitHub to Vercel</h1>
+  </div>
+</section>
+
+<section class="article-body">
+  <div class="wrap">
+
+    <h2>What it does</h2>
+    <p>Every day at <strong>10:00 UTC</strong>, a cron job (<code>d128e21464cd</code>) runs the <code>homelab-vulnerability-post</code> skill. It searches the web for new CVEs affecting homelab stacks (Proxmox, Docker, LXC, Jellyfin, TrueNAS, Audiobookshelf), verifies with vendor / OpenCVE / NVD / CISA sources, writes a structured HTML entry from <code>blog/Template.html</code>, commits, pushes to <a href="https://github.com/kiraitachi/Ciberdefensa.uk">github.com/kiraitachi/Ciberdefensa.uk</a>, and Vercel deploys it automatically to <a href="https://ciberdefensa.uk">ciberdefensa.uk</a>.</p>
+
+    <h2>How Hermes connects</h2>
+    <p>The agent runs locally on the Linux host. It reads the skill instructions, executes the web-search / verify / write steps, and pushes via a configured remote URL with the GitHub PAT stored in the repo config (rotated after exposure). The site is hosted on Vercel, which builds from the <code>main</code> branch — so every push is live within seconds.</p>
+
+    <h2>Structure enforced</h2>
+    <p>New entries always use the redesigned format validated on CVE-2024-21626: <strong>Severity badge (numeric CVSS, color-coded)</strong> + <strong>Summary card</strong> side-by-side, followed by <strong>section cards</strong> for Affected Asset, Endpoint, Prerequisites, Steps, Evidence, Impact, Root Cause, Remediation, Verification Steps, and References. No generic "Homelab Vulnerabilities" <code>&lt;h1&gt;</code> inside the post — that label belongs only to the index filter.</p>
+
+    <h2>Current pipeline</h2>
+    <ul>
+      <li><strong>Cron:</strong> <code>0 10 * * *</code> (scheduled daily at 10am UTC)</li>
+      <li><strong>Skill:</strong> <code>homelab-vulnerability-post</code> (structured rules + visual design)</li>
+      <li><strong>Source repo:</strong> <a href="https://github.com/kiraitachi/Ciberdefensa.uk">github.com/kiraitachi/Ciberdefensa.uk</a></li>
+      <li><strong>Deploy target:</strong> Vercel (auto-build from <code>main</code>)</li>
+      <li><strong>Live site:</strong> <a href="https://ciberdefensa.uk">ciberdefensa.uk</a></li>
+    </ul>
+
+    <h2>What is still work-in-progress</h2>
+    <p>This entry itself is a WIP note — changes and updates to the automation are tracked on GitHub, not rewritten into each blog post. The daily feed is operational; the visual redesign (badge + card layout) has been applied to all existing vulnerability entries.</p>
+
+    <h2>References</h2>
+    <ul>
+      <li><a href="https://github.com/kiraitachi/Ciberdefensa.uk" target="_blank" rel="noopener">Ciberdefensa.uk repo</a></li>
+      <li><a href="https://ciberdefensa.uk" target="_blank" rel="noopener">Live site (Vercel)</a></li>
+      <li><a href="../blog/2026-10-16-cve-2024-21626-runc-container-breakout.html">Prototype redesign — runc CVE-2024-21626</a></li>
+    </ul>
+
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="contact-inner">
+      <h2>Want to talk security, infra, or 40k lore?</h2>
+      <div class="contact-links">
+        <a href="mailto:adel.de-la-llave.ramadan@ciberdefensa.uk">adel.de-la-llave.ramadan@ciberdefensa.uk</a>
+        <a href="https://ciberdefensa.uk" target="_blank" rel="noopener">ciberdefensa.uk</a>
+        <a href="https://github.com/kiraitachi">github</a>
+        <a href="https://www.linkedin.com/in/adel-de-la-llave/">linkedin</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Adel. Built by hand, not a template.</span>
+      <span>Madrid, ES</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
