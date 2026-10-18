@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>(function(d){try{var s=sessionStorage.getItem("cd-intro")||matchMedia("(prefers-reduced-motion: reduce)").matches||/[?&]nointro/.test(location.search);if(s&&!/[?&]intro/.test(location.search))return;d.classList.add("cd-intro")}catch(e){}})(document.documentElement)</script>
 <title>Ciberdefensa - Blog</title>
 <link rel="icon" type="image/x-icon" href="/images/Ciberdefensa.ico">
 <script src="/favicon-pulse.js" defer></script>
@@ -11,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css" />
+<link rel="stylesheet" href="/ascii.css" />
 <!--
 Analytics (Google Analytics via gtag.js, Microsoft Clarity) are NOT
 loaded here anymore. They only load after the visitor accepts cookies
@@ -185,17 +187,6 @@ This site uses cookies for <strong>analytics</strong> (Google Analytics, Microso
 </div>
 <h3>Proxmox V-GHOST (CVE-2026-74580) — Critical KVM Escape</h3>
 <p>CVE-2026-74580 (V-GHOST) allows VM escape in Proxmox VE via stale vhost IOTLB metadata. Patch to kernel 7.0.14-14+.</p>
-<span class="readmore mono">read entry →</span>
-</a>
-
-<a class="post-card" href="blog/oci-boot-volume-recovery.html" data-category="infra">
-<div class="post-meta">
-<span class="post-tag mono">infra</span>
-<span class="mono">2026-07-14</span>
-<span class="mono">6 min</span>
-</div>
-<h3>Recovering an OCI boot volume after an accidental termination</h3>
-<p>What happens when you terminate the wrong instance on Oracle Cloud, and the boot volume swap trick that got an Alpine Linux Ampere A1 box back on its feet without starting from zero.</p>
 <span class="readmore mono">read entry →</span>
 </a>
 
@@ -579,5 +570,6 @@ closeSearch();
 }
 });
 </script>
+<script src="/ascii.js" defer></script>
 </body>
 </html>

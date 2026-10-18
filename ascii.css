@@ -1,0 +1,29 @@
+/* ascii.css — ASCII intro, hero field, ASCII radar, footer wordmark.
+   Additive only: uses the variables from style.css (--bg, --text, --accent, --line) and
+   restyles nothing that already exists. Loaded on index.html only, AFTER style.css. */
+
+/* pre-JS cover so the page never flashes before the intro; self-clears after 6s if ascii.js fails */
+html.cd-intro body::before{content:"";position:fixed;inset:0;z-index:150;background:var(--bg);animation:cd-failsafe 0s 6s forwards}
+@keyframes cd-failsafe{to{opacity:0;visibility:hidden}}
+html.cd-lock,html.cd-lock body{overflow:hidden}
+
+/* intro overlay (below the cookie banner, which is z-index 200) */
+#cd-intro{position:fixed;inset:0;z-index:150;background:var(--bg);cursor:none;transition:background .9s ease}
+#cd-intro.clear{background:transparent;pointer-events:none}
+#cd-intro canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#cd-cur{position:fixed;z-index:151;pointer-events:none;font:11px 'IBM Plex Mono',monospace;letter-spacing:.1em;color:var(--text);transform:translate(14px,-4px);opacity:0}
+html.cd-intro-run header.nav,html.cd-intro-run .hero-grid{transition:opacity 1s ease}
+html.cd-intro-run:not(.cd-in) header.nav,html.cd-intro-run:not(.cd-in) .hero-grid{opacity:0}
+
+/* hero ASCII field */
+.hero .cd-bg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;display:block}
+.hero .hero-grid{position:relative;z-index:1}
+
+/* ASCII radar: rings + crosshair stay as SVG, sweep + blips are drawn in ASCII */
+.radar .cd-rc{position:absolute;inset:0;width:100%;height:100%;display:block}
+.radar.cd-radar .radar-sweep,.radar.cd-radar .radar-blip{display:none}
+
+/* footer wordmark */
+.cd-foot{position:relative;height:260px;margin-top:44px}
+.cd-foot canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+@media (max-width:820px){.cd-foot{height:150px}}
