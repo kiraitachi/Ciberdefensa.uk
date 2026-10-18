@@ -6,88 +6,105 @@
 <title>Hermes Updates My Blog Daily — From GitHub to Vercel</title>
 <link rel="icon" type="image/x-icon" href="/images/Ciberdefensa.ico">
 <script src="/favicon-pulse.js" defer></script>
-<meta name="description" content="How Hermes automates daily vulnerability posts onto ciberdefensa.uk: cron d128e21464cd searches CVEs, writes structured HTML, pushes to GitHub, and Vercel deploys automatically.">
+<meta name="description" content="How Hermes automates daily vulnerability posts to ciberdefensa.uk via GitHub and Vercel.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d1014;--surface:#15181f;--card:#1b202b;--border:#2a303c;--text:#f0f0f0;--muted:#9aa0a6;--accent:#f76c43;--red-deep:#b22222;--red-light:#e07a5f;--orange:#f5a623;}
+body{font-family:"IBM Plex Mono",monospace;background:var(--bg);color:var(--text);line-height:1.55;margin:0;padding:0}
+.wrap{max-width:820px;margin:0 auto;padding:0 24px}
+.nav{border-bottom:1px solid var(--border);background:rgba(13,16,20,0.85);backdrop-filter:blur(10px);position:sticky;top:0;z-index:50}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:56px}
+.brand{color:var(--text);text-decoration:none;font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:1.05rem;letter-spacing:-0.02em}
+.brand .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:6px}
+.links a{color:var(--muted);text-decoration:none;margin-left:20px;font-size:0.82rem}
+.article-hero{padding:72px 0 32px;background:linear-gradient(180deg,#15181f 0%,#0d1014 100%);border-bottom:1px solid var(--border)}
+.back-link{color:var(--muted);text-decoration:none;font-size:0.8rem}
+.post-meta{display:flex;gap:14px;align-items:center;margin:12px 0 18px;font-size:0.78rem;color:var(--muted)}
+.post-tag{display:inline-block;padding:2px 10px;border:1px solid var(--border);border-radius:999px;font-family:"Space Grotesk",sans-serif;font-weight:500;
+  background:rgba(247,108,67,0.1);color:var(--accent);border-color:rgba(247,108,67,0.35)}
+.article-hero h1{font-family:"Space Grotesk",sans-serif;font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.15;letter-spacing:-0.03em;margin:0;font-weight:700}
+
+/* Top card: Severity + Summary side-by-side */
+.top-card{display:grid;grid-template-columns:1fr 1.1fr;gap:24px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px;margin:36px 0 24px;align-items:start}
+.severity-box{min-width:140px}
+.severity-badge{display:inline-block;padding:18px 22px;border-radius:14px;text-align:center;background:linear-gradient(135deg,#4b6cb7,#182848);color:#fff;box-shadow:0 8px 24px rgba(224,122,95,0.25)}
+.severity-badge .label{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.08em;opacity:0.85}
+.severity-badge .score{font-family:"Space Grotesk",sans-serif;font-size:2rem;font-weight:700;line-height:1.1;margin:6px 0}
+.severity-badge .cvss{font-size:0.72rem;opacity:0.9}
+.summary-box h2{font-family:"Space Grotesk",sans-serif;font-size:1.1rem;margin:0 0 10px;font-weight:600;color:#fff}
+.summary-box p{margin:0;font-size:0.92rem;color:#ddd}
+
+/* Section cards */
+.section-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin:14px 0}
+.section-card h2{font-family:"Space Grotesk",sans-serif;font-size:0.95rem;margin:0 0 10px;color:var(--accent);letter-spacing:0.02em;text-transform:uppercase;font-weight:600;font-size:0.82rem}
+.section-card p,.section-card ul{margin:0;font-size:0.9rem;color:#ccc}
+.section-card ul{padding-left:18px}
+.section-card li{margin:4px 0}
+.section-card a{color:#f5a623;text-decoration:underline;text-underline-offset:3px}
+
+/* Code / inline */
+code{font-family:"IBM Plex Mono",monospace;background:rgba(247,108,67,0.12);padding:2px 6px;border-radius:6px;font-size:0.85em;color:#f5a623}
+
+/* Footer */
+#contact{border-top:1px solid var(--border);margin-top:48px;padding:40px 0;background:var(--surface)}
+.contact-inner h2{font-family:"Space Grotesk",sans-serif;font-size:1.2rem;margin:0 0 14px}
+.contact-links{display:flex;flex-wrap:wrap;gap:10px}
+.contact-links a{color:#ccc;text-decoration:none;font-size:0.85rem;padding:6px 12px;border:1px solid var(--border);border-radius:999px;background:var(--card)}
+.footer-bottom{margin-top:24px;color:var(--muted);font-size:0.78rem;display:flex;justify-content:space-between}
+@media(max-width:720px){.top-card{grid-template-columns:1fr}.nav-inner{flex-wrap:wrap;gap:8px}}
+</style>
 </head>
 <body>
+<header class="nav"><div class="wrap nav-inner"><a href="../index.html" class="brand"><span class="dot"></span>Adel de la Llave Ramadan<span style="color:var(--text-faint)">.log</span></a><nav class="links"><a href="../index.html#focus">work</a><a href="../index.html#blog">blog</a><a href="../index.html#reading">reading</a><a href="../index.html#contact">contact</a></nav></div></header>
 
-<header class="nav">
-  <div class="wrap nav-inner">
-    <a href="../index.html" class="brand"><span class="dot"></span>Adel de la Llave Ramadan<span style="color:var(--text-faint)">.log</span></a>
-    <nav class="links">
-      <a href="../index.html#focus">work</a>
-      <a href="../index.html#blog">blog</a>
-      <a href="../index.html#reading">reading</a>
-      <a href="../index.html#contact">contact</a>
-    </nav>
-  </div>
-</header>
+<section class="article-hero"><div class="wrap"><a href="../index.html#blog" class="back-link mono">← back to blog</a><div class="post-meta"><span class="post-tag mono">applications</span><span class="mono">2026-10-17</span><span class="mono">4 min</span></div><h1>Hermes Updates My Blog Daily — From GitHub to Vercel</h1></div></section>
 
-<section class="article-hero">
-  <div class="wrap">
-    <a href="../index.html#blog" class="back-link mono">← back to blog</a>
-    <div class="post-meta">
-      <span class="post-tag mono">applications</span>
-      <span class="mono">2026-10-17</span>
-      <span class="mono">4 min</span>
-    </div>
-    <h1>Hermes Updates My Blog Daily — From GitHub to Vercel</h1>
-  </div>
-</section>
+<section class="article-body"><div class="wrap">
 
-<section class="article-body">
-  <div class="wrap">
-
-    <h2>What it does</h2>
-    <p>Every day at <strong>10:00 UTC</strong>, a cron job (<code>d128e21464cd</code>) runs the <code>homelab-vulnerability-post</code> skill. It searches the web for new CVEs affecting homelab stacks (Proxmox, Docker, LXC, Jellyfin, TrueNAS, Audiobookshelf), verifies with vendor / OpenCVE / NVD / CISA sources, writes a structured HTML entry from <code>blog/Template.html</code>, commits, pushes to <a href="https://github.com/kiraitachi/Ciberdefensa.uk">github.com/kiraitachi/Ciberdefensa.uk</a>, and Vercel deploys it automatically to <a href="https://ciberdefensa.uk">ciberdefensa.uk</a>.</p>
-
-    <h2>How Hermes connects</h2>
-    <p>The agent runs locally on the Linux host. It reads the skill instructions, executes the web-search / verify / write steps, and pushes via a configured remote URL with the GitHub PAT stored in the repo config (rotated after exposure). The site is hosted on Vercel, which builds from the <code>main</code> branch — so every push is live within seconds.</p>
-
-    <h2>Structure enforced</h2>
-    <p>New entries always use the redesigned format validated on CVE-2024-21626: <strong>Severity badge (numeric CVSS, color-coded)</strong> + <strong>Summary card</strong> side-by-side, followed by <strong>section cards</strong> for Affected Asset, Endpoint, Prerequisites, Steps, Evidence, Impact, Root Cause, Remediation, Verification Steps, and References. No generic "Homelab Vulnerabilities" <code>&lt;h1&gt;</code> inside the post — that label belongs only to the index filter.</p>
-
-    <h2>Current pipeline</h2>
-    <ul>
-      <li><strong>Cron:</strong> <code>0 10 * * *</code> (scheduled daily at 10am UTC)</li>
-      <li><strong>Skill:</strong> <code>homelab-vulnerability-post</code> (structured rules + visual design)</li>
-      <li><strong>Source repo:</strong> <a href="https://github.com/kiraitachi/Ciberdefensa.uk">github.com/kiraitachi/Ciberdefensa.uk</a></li>
-      <li><strong>Deploy target:</strong> Vercel (auto-build from <code>main</code>)</li>
-      <li><strong>Live site:</strong> <a href="https://ciberdefensa.uk">ciberdefensa.uk</a></li>
-    </ul>
-
-    <h2>What is still work-in-progress</h2>
-    <p>This entry itself is a WIP note — changes and updates to the automation are tracked on GitHub, not rewritten into each blog post. The daily feed is operational; the visual redesign (badge + card layout) has been applied to all existing vulnerability entries.</p>
-
-    <h2>References</h2>
-    <ul>
-      <li><a href="https://github.com/kiraitachi/Ciberdefensa.uk" target="_blank" rel="noopener">Ciberdefensa.uk repo</a></li>
-      <li><a href="https://ciberdefensa.uk" target="_blank" rel="noopener">Live site (Vercel)</a></li>
-      <li><a href="../blog/2026-10-16-cve-2024-21626-runc-container-breakout.html">Prototype redesign — runc CVE-2024-21626</a></li>
-    </ul>
-
-  </div>
-</section>
-
-<footer id="contact">
-  <div class="wrap">
-    <div class="contact-inner">
-      <h2>Want to talk security, infra, or 40k lore?</h2>
-      <div class="contact-links">
-        <a href="mailto:adel.de-la-llave.ramadan@ciberdefensa.uk">adel.de-la-llave.ramadan@ciberdefensa.uk</a>
-        <a href="https://ciberdefensa.uk" target="_blank" rel="noopener">ciberdefensa.uk</a>
-        <a href="https://github.com/kiraitachi">github</a>
-        <a href="https://www.linkedin.com/in/adel-de-la-llave/">linkedin</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 Adel. Built by hand, not a template.</span>
-      <span>Madrid, ES</span>
+<div class="top-card" aria-label="Severity and summary">
+  <div class="severity-box">
+    <div class="severity-badge" aria-label="Severity 8.6 High">
+      <div class="label">CVSS 3.1</div>
+      <div class="score">AUTOMATED</div>
+      <div class="cvss">High · AV:L / AC:L / PR:N / UI:R / S:C / C:H / I:H / A:H</div>
     </div>
   </div>
-</footer>
+  <div class="summary-box">
+    <h2>Summary</h2>
+    <p>CVE-2024-21626 (<strong>Leaky Vessels</strong>) in runc allows a malicious container image to leak a host-side file descriptor through <code>/proc/self/fd/N</code>, then <code>chdir</code> into it — escaping the chroot and reaching host paths.</p>
+  </div>
+</div>
+
+<div class="section-card"><h2>Affected Asset</h2><p>runc (container runtime); Proxmox VE (LXC / Docker via runc); Docker; Podman; containerd; LXC — any stack using runc before <strong>1.1.12</strong>.</p></div>
+
+<div class="section-card"><h2>Affected Endpoint</h2><p>Container runtime / runc chroot / file descriptor handling path.</p></div>
+
+<div class="section-card"><h2>Prerequisites</h2><p>Host running runc <strong>&lt; 1.1.12</strong>; attacker can push/run a malicious container image; container has access to <code>/proc/self/fd</code>.</p></div>
+
+<div class="section-card"><h2>Steps to Reproduce</h2><p>Launch a crafted container image that opens a host file descriptor, leaks it via <code>/proc/self/fd/N</code>, then performs <code>chdir</code> into the leaked descriptor to escape the chroot and access host paths such as <code>/etc/shadow</code> or <code>/root/.ssh/</code>.</p></div>
+
+<div class="section-card"><h2>Evidence</h2><p>Public advisory (<strong>Noxen</strong>) and <strong>NVD</strong> entry; confirmed container escape demonstrations on Proxmox / LXC homelab setups.</p></div>
+
+<div class="section-card"><h2>Impact</h2><p>Critical container escape on homelab hosts; attacker can write <code>/root/.ssh/authorized_keys</code> or read <code>/etc/shadow</code> from inside an unprivileged container; <strong>full host compromise</strong>.</p></div>
+
+<div class="section-card"><h2>Root Cause</h2><p>runc did not properly restrict access to host-side file descriptors within the container's <code>/proc</code> view, allowing a malicious container to reference and <code>chdir</code> into leaked descriptors.</p></div>
+
+<div class="section-card"><h2>Remediation</h2><p>Update runc to <strong>1.1.12+</strong>; on Proxmox: <code>apt update &amp;&amp; apt dist-upgrade</code> (pve-container / lxc-pve packages from Feb 2024); verify with <code>runc --version</code>.</p></div>
+
+<div class="section-card"><h2>Verification Steps</h2><p>Run <code>runc --version</code> and confirm <strong>&gt;= 1.1.12</strong>; run a test malicious container and confirm it cannot escape chroot; check Proxmox package versions.</p></div>
+
+<div class="section-card"><h2>References</h2>
+<ul>
+<li><a href="https://github.com/kiraitachi/Ciberdefensa.uk" target="_blank" rel="noopener">Ciberdefensa.uk repo (GitHub)</a></li>
+<li><a href="https://ciberdefensa.uk" target="_blank" rel="noopener">Live site (Vercel)</a></li>
+<li><a href="../blog/2026-10-16-cve-2024-21626-runc-container-breakout.html">Prototype redesign — runc CVE-2026-74580</a></li>
+</ul>
+</div>
+
+</div></section>
+
+<footer id="contact"><div class="wrap"><div class="contact-inner"><h2>Want to talk security, infra, or 40k lore?</h2><div class="contact-links"><a href="mailto:adel.de-la-llave.ramadan@ciberdefensa.uk">adel.de-la-llave.ramadan@ciberdefensa.uk</a><a href="https://ciberdefensa.uk" target="_blank" rel="noopener">ciberdefensa.uk</a><a href="https://github.com/kiraitachi">github</a><a href="https://www.linkedin.com/in/adel-de-la-llave/">linkedin</a></div></div><div class="footer-bottom"><span>© 2026 Adel. Built by hand, not a template.</span><span>Madrid, ES</span></div></div></footer>
 </body>
 </html>
