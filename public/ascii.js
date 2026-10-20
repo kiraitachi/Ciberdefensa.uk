@@ -1,3 +1,5 @@
+function debounce(fn, delay=250){let t;return function(...a){clearTimeout(t);t=setTimeout(()=>fn.apply(this,a),delay);};}
+if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { document.querySelector('.ascii-container').style.display='none'; return; }
 /* ascii.js — ASCII intro, hero field, ASCII radar, footer wordmark.
    Works on top of the existing index.html: it only ADDS elements and never touches #post-grid,
    the blog search, the filter pills, the cookie banner or the favicon pulse.
@@ -154,7 +156,7 @@
     }
     if (footWrap && contact) { const w = document.createElement("div"); w.className = "cd-foot"; w.setAttribute("aria-hidden", "true"); fcC = document.createElement("canvas"); w.appendChild(fcC); contact.after(w); watch(fcC); }
     if (!seen) startIntro();
-    size(); addEventListener("resize", size); if (document.fonts) document.fonts.ready.then(size);
+    size(); addEventListener("resize", debounce(size, 200)); if (document.fonts) document.fonts.ready.then(size);
     (function loop(n) {
       FG = css("--text", FG); ACC = css("--accent", ACC);
       if (stage !== "done") introFrame(n);

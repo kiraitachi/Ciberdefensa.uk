@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Ciberdefensa</title>
+  <link href="https://ciberdefensa.uk/feed.xml"/>
+  <id>https://ciberdefensa.uk/</id>
+  <updated>2026-10-20T00:00:00Z</updated>
+  <entry>
+    <title>CVE-2026-51083 — Proxmox PVE Hash Exposure (Info Disclosure)</title>
+    <link href="https://ciberdefensa.uk/blog/2026-10-20-cve-2026-51083-proxmox-auth-bypass.html"/>
+    <id>https://ciberdefensa.uk/blog/2026-10-20-cve-2026-51083-proxmox-auth-bypass.html</id>
+    <updated>2026-10-20T00:00:00Z</updated>
+    <published>2026-10-20T00:00:00Z</published>
+    <category term="homelab-vulnerabilities</span>"/>
+    <summary type="text">CVE-2026-51083 — Proxmox PVE Hash Exposure (Info Disclosure)</summary>
+  </entry>
+  <entry>
+    <title>CVE-2026-16658 — Proxmox Container-to-Host RCE via Unquoted pct_exec</title>
+    <link href="https://ciberdefensa.uk/blog/2026-10-19-cve-2026-16658-proxmox-container-host-rce.html"/>
+    <id>https://ciberdefensa.uk/blog/2026-10-19-cve-2026-16658-proxmox-container-host-rce.html</id>
+    <updated>2026-10-19T00:00:00Z</updated>
+    <published>2026-10-19T00:00:00Z</published>
+    <category term="homelab-vulnerabilities</span>"/>
+    <summary type="text">CVE-2026-16658 — Proxmox Container-to-Host RCE via Unquoted pct_exec</summary>
+  </entry>
+  <entry>
+    <title>CVE-2026-32289 — Go html/template XSS (Tailscale/Chainguard)</title>
+    <link href="https://ciberdefensa.uk/blog/2026-10-18-cve-2026-32289-tailscale-xss.html"/>
+    <id>https://ciberdefensa.uk/blog/2026-10-18-cve-2026-32289-tailscale-xss.html</id>
+    <updated>2026-10-18T00:00:00Z</updated>
+    <published>2026-10-18T00:00:00Z</published>
+    <category term="homelab-vulnerabilities</span>"/>
+    <summary type="text">CVE-2026-32289 — Go html/template XSS (Tailscale/Chainguard)</summary>
+  </entry>
+  <entry>
+    <title>Proxmox PVE Race Condition Allows VNC Session Hijacking (CVE-2026-51082)</title>
+    <link href="https://ciberdefensa.uk/blog/2026-10-17-proxmox-vnc-hijack-cve-2026-51082.html"/>
+    <id>https://ciberdefensa.uk/blog/2026-10-17-proxmox-vnc-hijack-cve-2026-51082.html</id>
+    <updated>2026-10-17T00:00:00Z</updated>
+    <published>2026-10-17T00:00:00Z</published>
+    <category term="homelab-vulnerabilities</span>"/>
+    <summary type="text">Proxmox PVE Race Condition Allows VNC Session Hijacking (CVE-2026-51082)</summary>
+  </entry>
+  <entry>
+    <title>Hermes Updates My Blog Daily — From GitHub to Vercel</title>
+    <link href="https://ciberdefensa.uk/blog/2026-10-17-hermes-automation-ciberdefensa.html"/>
+    <id>https://ciberdefensa.uk/blog/2026-10-17-hermes-automation-ciberdefensa.html</id>
+    <updated>2026-10-17T00:00:00Z</updated>
+    <published>2026-10-17T00:00:00Z</published>
+    <category term="applications</span>
+      "/>
+    <summary type="text">Hermes Updates My Blog Daily — From GitHub to Vercel</summary>
+  </entry>
+  <entry>
+    <title>Proxmox / LXC Container Breakout — CVE-2024-21626 (runc)</title>
+    <link href="https://ciberdefensa.uk/blog/2026-10-16-cve-2024-21626-runc-container-breakout.html"/>
+    <id>https://ciberdefensa.uk/blog/2026-10-16-cve-2024-21626-runc-container-breakout.html</id>
+    <updated>2026-10-16T00:00:00Z</updated>
+    <published>2026-10-16T00:00:00Z</published>
+    <category term="homelab-vulnerabilities</span>"/>
+    <summary type="text">Proxmox / LXC Container Breakout — CVE-2024-21626 (runc)</summary>
+  </entry>
+  <entry>
+    <title>Video2Player for Android — Open Web Videos in VLC from Firefox</title>
+    <link href="https://ciberdefensa.uk/blog/2026-10-15-video2player-firefox.html"/>
+    <id>https://ciberdefensa.uk/blog/2026-10-15-video2player-firefox.html</id>
+    <updated>2026-10-15T00:00:00Z</updated>
+    <published>2026-10-15T00:00:00Z</published>
+    <category term="applications</span>
+      "/>
+    <summary type="text">Video2Player for Android — Open Web Videos in VLC from Firefox</summary>
+  </entry>
+  <entry>
+    <title>Termix SSH — CVE-2026-79766</title>
+    <link href="https://ciberdefensa.uk/blog/2026-10-15-cve-2026-79766-termix-ssh.html"/>
+    <id>https://ciberdefensa.uk/blog/2026-10-15-cve-2026-79766-termix-ssh.html</id>
+    <updated>2026-10-15T00:00:00Z</updated>
+    <published>2026-10-15T00:00:00Z</published>
+    <category term="homelab-vulnerabilities</span>"/>
+    <summary type="text">Termix SSH — CVE-2026-79766</summary>
+  </entry>
+  <entry>
+    <title>Docker Desktop ECI Bypass (CVE-2026-6406)</title>
+    <link href="https://ciberdefensa.uk/blog/2026-10-15-cve-2026-6406-docker.html"/>
+    <id>https://ciberdefensa.uk/blog/2026-10-15-cve-2026-6406-docker.html</id>
+    <updated>2026-10-15T00:00:00Z</updated>
+    <published>2026-10-15T00:00:00Z</published>
+    <category term="homelab-vulnerabilities</span>"/>
+    <summary type="text">Docker Desktop ECI Bypass (CVE-2026-6406)</summary>
+  </entry>
+  <entry>
+    <title>CVE-2026-71209 — Audiobookshelf Path Traversal & Auth Bypass</title>
+    <link href="https://ciberdefensa.uk/blog/2026-10-15-cve-2026-71209-audiobookshelf.html"/>
+    <id>https://ciberdefensa.uk/blog/2026-10-15-cve-2026-71209-audiobookshelf.html</id>
+    <updated>2026-10-15T00:00:00Z</updated>
+    <published>2026-10-15T00:00:00Z</published>
+    <category term="homelab-vulnerabilities</span>"/>
+    <summary type="text">CVE-2026-71209 — Audiobookshelf Path Traversal & Auth Bypass</summary>
+  </entry>
+  <entry>
+    <title>CVE-2026-35031: Jellyfin subtitle upload path traversal to RCE</title>
+    <link href="https://ciberdefensa.uk/blog/2026-10-15-cve-2026-35031-jellyfin.html"/>
+    <id>https://ciberdefensa.uk/blog/2026-10-15-cve-2026-35031-jellyfin.html</id>
+    <updated>2026-10-15T00:00:00Z</updated>
+    <published>2026-10-15T00:00:00Z</published>
+    <category term="homelab-vulnerabilities</span>"/>
+    <summary type="text">CVE-2026-35031: Jellyfin subtitle upload path traversal to RCE</summary>
+  </entry>
+  <entry>
+    <title>Proxmox V-GHOST (CVE-2026-74580) — Critical KVM Escape</title>
+    <link href="https://ciberdefensa.uk/blog/2026-10-05-vghost-cve-2026-74580.html"/>
+    <id>https://ciberdefensa.uk/blog/2026-10-05-vghost-cve-2026-74580.html</id>
+    <updated>2026-10-05T00:00:00Z</updated>
+    <published>2026-10-05T00:00:00Z</published>
+    <category term="homelab-vulnerabilities</span>"/>
+    <summary type="text">Proxmox V-GHOST (CVE-2026-74580) — Critical KVM Escape</summary>
+  </entry>
+</feed>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /blog/2026-10-19-cve-2026-16658-
+Sitemap: https://ciberdefensa.uk/sitemap.xml
