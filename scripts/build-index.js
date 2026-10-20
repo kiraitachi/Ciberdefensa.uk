@@ -31,8 +31,9 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const BLOG_DIR = path.join(ROOT, 'blog');
-const INDEX_PATH = path.join(ROOT, 'index.html');
+const PUBLIC_DIR = path.join(ROOT, 'public');
+const BLOG_DIR = path.join(PUBLIC_DIR, 'blog');
+const INDEX_PATH = path.join(PUBLIC_DIR, 'index.html');
 
 function readFile(p) {
   return fs.readFileSync(p, 'utf8');
@@ -138,7 +139,7 @@ function findPostGridBounds(indexHtml) {
 
 function main() {
   if (!fs.existsSync(BLOG_DIR)) {
-    console.error(`No /blog directory found at ${BLOG_DIR}`);
+    console.error(`No /public/blog directory found at ${BLOG_DIR}`);
     process.exit(1);
   }
 

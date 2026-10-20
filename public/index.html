@@ -145,16 +145,62 @@ This site uses cookies for <strong>analytics</strong> (Google Analytics, Microso
 <button class="filter-pill" data-filter="homelab-vulnerabilities">Homelab Vulnerabilities</button>
 </div>
 <p class="post-empty mono" id="post-empty" hidden>No posts match your search.</p>
-<div class="post-grid" id="post-grid"><a class="post-card" href="blog/2026-10-17-hermes-automation-ciberdefensa.html" data-category="applications">
+<div class="post-grid" id="post-grid">
+<a class="post-card" href="blog/2026-10-20-cve-2026-51083-proxmox-auth-bypass.html" data-category="homelab-vulnerabilities">
+<div class="post-meta">
+<span class="post-tag mono">homelab-vulnerabilities</span>
+<span class="mono">2026-10-20</span>
+<span class="mono">6 min</span>
+</div>
+<h3>Proxmox VE Auth Bypass (CVE-2026-51083) — Low-Privilege Users Can Access Hashed Passwords</h3>
+<p>CVE-2026-51083: Proxmox VE Auth Bypass Vulnerability. Low-privilege users can access hashed passwords through the cloudinit/dump API. Affects PVE 8.x before 8.4.8 and 9.x before 9.1.8. Severity: 6.5 Medium. Patch and rotate credentials.</p>
+<span class="readmore mono">read entry →</span>
+</a>
+
+<a class="post-card" href="blog/2026-10-19-cve-2026-16658-proxmox-container-host-rce.html" data-category="homelab-vulnerabilities">
+<div class="post-meta">
+<span class="post-tag mono">homelab-vulnerabilities</span>
+<span class="mono">2026-10-19</span>
+<span class="mono">4 min</span>
+</div>
+<h3>CVE-2026-16658 — Proxmox Container-to-Host RCE via Unquoted pct_exec</h3>
+<p>CVE-2026-16658: unquoted pct_exec in community.proxmox Ansible collection allows container-to-host RCE. Patch collection.</p>
+<span class="readmore mono">read entry →</span>
+</a>
+
+<a class="post-card" href="blog/2026-10-18-cve-2026-32229-tailscale-xss.html" data-category="homelab-vulnerabilities">
+<div class="post-meta">
+<span class="post-tag mono">homelab-vulnerabilities</span>
+<span class="mono">2026-10-18</span>
+<span class="mono">5 min</span>
+</div>
+<h3>CVE-2026-32289 — Tailscale XSS in Template Escaping</h3>
+<p>CVE-2026-32289: improper escaping of content in JS template literals in Tailscale allows XSS when template branches are used.</p>
+<span class="readmore mono">read entry →</span>
+</a>
+
+<a class="post-card" href="blog/2026-10-15-cve-2026-71209-audiobookshelf.html" data-category="homelab-vulnerabilities">
+<div class="post-meta">
+<span class="post-tag mono">homelab-vulnerabilities</span>
+<span class="mono">2026-10-17</span>
+<span class="mono">4 min</span>
+</div>
+<h3>CVE-2026-71209 — Audiobookshelf Path Traversal & Auth Bypass</h3>
+<p>CVE-2026-71209 allows unauthenticated attackers to bypass authentication and read arbitrary files on Audiobookshelf via URL-encoded path traversal. Patch to latest version.</p>
+<span class="readmore mono">read entry →</span>
+</a>
+
+<a class="post-card" href="blog/2026-10-17-hermes-automation-ciberdefensa.html" data-category="applications">
 <div class="post-meta">
 <span class="post-tag mono">applications</span>
 <span class="mono">2026-10-17</span>
 <span class="mono">4 min</span>
 </div>
 <h3>Hermes Updates My Blog Daily — From GitHub to Vercel</h3>
-<p>How the homelab-vulnerability-post cron, GitHub pushes, and Vercel deploy keep ciberdefensa.uk current every day.</p>
+<p>How Hermes automates daily vulnerability posts onto ciberdefensa.uk: cron d128e21464cd searches CVEs, writes structured HTML, pushes to GitHub, and Vercel deploys automatically.</p>
 <span class="readmore mono">read entry →</span>
 </a>
+
 <a class="post-card" href="blog/2026-10-17-proxmox-vnc-hijack-cve-2026-51082.html" data-category="homelab-vulnerabilities">
 <div class="post-meta">
 <span class="post-tag mono">homelab-vulnerabilities</span>
@@ -162,7 +208,29 @@ This site uses cookies for <strong>analytics</strong> (Google Analytics, Microso
 <span class="mono">6 min</span>
 </div>
 <h3>Proxmox PVE Race Condition Allows VNC Session Hijacking (CVE-2026-51082)</h3>
-<p>CVE-2026-51082: Race condition between vncproxy and vncwebsocket allows VNC session hijacking across VMs. Patch to pve-manager 9.1.9/8.4.19.</p>
+<p>Proxmox PVE Race Condition Allows VNC Session Hijacking (CVE-2026-51082). Severity: High (7.2). Patch accordingly.</p>
+<span class="readmore mono">read entry →</span>
+</a>
+
+<a class="post-card" href="blog/2026-10-16-cve-2024-21626-runc-container-breakout.html" data-category="homelab-vulnerabilities">
+<div class="post-meta">
+<span class="post-tag mono">homelab-vulnerabilities</span>
+<span class="mono">2026-10-16</span>
+<span class="mono">5 min</span>
+</div>
+<h3>Proxmox / LXC Container Breakout — CVE-2024-21626 (runc)</h3>
+<p>CVE-2024-21626 (Leaky Vessels / runc) allows container escape via leaked host file descriptor through /proc/self/fd. Patch runc to 1.1.12+.</p>
+<span class="readmore mono">read entry →</span>
+</a>
+
+<a class="post-card" href="blog/2026-10-15-cve-2026-35031-jellyfin.html" data-category="homelab-vulnerabilities">
+<div class="post-meta">
+<span class="post-tag mono">homelab-vulnerabilities</span>
+<span class="mono">2026-10-15</span>
+<span class="mono">3 min</span>
+</div>
+<h3>CVE-2026-35031: Jellyfin subtitle upload path traversal to RCE</h3>
+<p>CVE-2026-35031 is a vulnerability chain in Jellyfin subtitle upload allowing path traversal to RCE. Patch to 10.11.7.</p>
 <span class="readmore mono">read entry →</span>
 </a>
 
@@ -172,21 +240,41 @@ This site uses cookies for <strong>analytics</strong> (Google Analytics, Microso
 <span class="mono">2026-10-15</span>
 <span class="mono">3 min</span>
 </div>
-<h3>Docker Desktop ECI Bypass — CVE-2026-6406</h3>
-<p>CVE-2026-6406: Docker CLI --use-api-socket bypasses Enhanced Container Isolation. Patch to 4.59.0+.</p>
+<h3>Docker Desktop ECI Bypass (CVE-2026-6406)</h3>
+<p>Docker Desktop ECI Bypass (CVE-2026-6406). Severity: High (8.8). Patch accordingly.</p>
 <span class="readmore mono">read entry →</span>
 </a>
 
+<a class="post-card" href="blog/2026-10-15-cve-2026-79766-termix-ssh.html" data-category="homelab-vulnerabilities">
+<div class="post-meta">
+<span class="post-tag mono">homelab-vulnerabilities</span>
+<span class="mono">2026-10-15</span>
+<span class="mono">3 min</span>
+</div>
+<h3>Termix SSH — CVE-2026-79766</h3>
+<p>CVE-2026-79766 (Termix SSH) — CVSS 9.1 Critical OS command injection via ACME/SSL admin input. Patch to 2.5.1.</p>
+<span class="readmore mono">read entry →</span>
+</a>
 
+<a class="post-card" href="blog/2026-10-15-video2player-firefox.html" data-category="applications">
+<div class="post-meta">
+<span class="post-tag mono">applications</span>
+<span class="mono">2026-10-15</span>
+<span class="mono">6 min</span>
+</div>
+<h3>Video2Player for Android — Open Web Videos in VLC from Firefox</h3>
+<p>A Firefox extension for Android that opens web videos in VLC. Detects videos, recovers real URLs from blob/MSE sources, and sends them to your default video player.</p>
+<span class="readmore mono">read entry →</span>
+</a>
 
 <a class="post-card" href="blog/2026-10-05-vghost-cve-2026-74580.html" data-category="homelab-vulnerabilities">
 <div class="post-meta">
 <span class="post-tag mono">homelab-vulnerabilities</span>
 <span class="mono">2026-10-05</span>
-<span class="mono">4 min</span>
+<span class="mono">5 min</span>
 </div>
 <h3>Proxmox V-GHOST (CVE-2026-74580) — Critical KVM Escape</h3>
-<p>CVE-2026-74580 (V-GHOST) allows VM escape in Proxmox VE via stale vhost IOTLB metadata. Patch to kernel 7.0.14-14+.</p>
+<p>Proxmox V-GHOST (CVE-2026-74580) — Critical KVM Escape. Severity: Critical (9.9). Patch accordingly.</p>
 <span class="readmore mono">read entry →</span>
 </a>
 
@@ -196,23 +284,41 @@ This site uses cookies for <strong>analytics</strong> (Google Analytics, Microso
 <span class="mono">2026-08-29</span>
 <span class="mono">7 min</span>
 </div>
-<h3>Scrutiny SMART Monitoring on Proxmox LXC</h3>
-<p>How to configure Scrutiny to monitor your Proxmox SSD/HDD within LXC</p>
+<h3>Scrutiny: SMART Drive Monitoring on Proxmox with a Hub-Spoke LXC</h3>
+<p>Setting up Scrutiny for SMART drive monitoring on Proxmox: an unprivileged LXC hub running the dashboard and InfluxDB, a collector on the host itself, and Telegram alerts before a disk actually dies.</p>
 <span class="readmore mono">read entry →</span>
 </a>
 
-
-
-
-
-<a class="post-card" href="blog/Pulse-Infraestructure-Monitoring.html" data-category="security">
+<a class="post-card" href="blog/OCI-FreeTier-Backup.html" data-category="others">
 <div class="post-meta">
-<span class="post-tag mono">security</span>
-<span class="mono">2026-07-09</span>
+<span class="post-tag mono">others</span>
+<span class="mono">2026-04-09</span>
 <span class="mono">4 min</span>
 </div>
-<h3>PULSE - Monitor your Docker, Proxmox, ESXI environments &amp; take actions with AI</h3>
-<p>Pulse is a self-hosted, real-time monitoring dashboard for Proxmox, Docker, and Kubernetes. It combines unified metrics, smart alerts, and AI-powered insights in one privacy-focused interface. No telemetry — all data stays on your own server.</p>
+<h3>Automated backups in Oracle Free Tier</h3>
+<p>How to backup your Oracle Cloud Always Free boot volumes with a simple zsh script that rotates a single full backup.</p>
+<span class="readmore mono">read entry →</span>
+</a>
+
+<a class="post-card" href="blog/Pulse-Infraestructure-Monitoring.html" data-category="infra">
+<div class="post-meta">
+<span class="post-tag mono">infra</span>
+<span class="mono">2026-04-09</span>
+<span class="mono">4 min</span>
+</div>
+<h3>Monitoring my Proxmox environment and automated actions with AI</h3>
+<p>Deploying rcourtman/Pulse on Docker in my Oracle OCI Alpine box, wiring it up to Proxmox with a scoped API token, and turning on Patrol with OpenRouter as the brain.</p>
+<span class="readmore mono">read entry →</span>
+</a>
+
+<a class="post-card" href="blog/Template.html" data-category="others">
+<div class="post-meta">
+<span class="post-tag mono">others</span>
+<span class="mono">2026-04-09</span>
+<span class="mono">4 min</span>
+</div>
+<h3>Monitoring my Proxmox environment and automated actions with AI</h3>
+<p>A small Python pipeline that turns a PDF bank statement into categorized, readable spending summaries, without a third-party finance app.</p>
 <span class="readmore mono">read entry →</span>
 </a>
 
@@ -233,11 +339,10 @@ This site uses cookies for <strong>analytics</strong> (Google Analytics, Microso
 <span class="mono">2026-02-11</span>
 <span class="mono">6 min</span>
 </div>
-<h3>Proxmox ZFS on consumer SSDs: why it can be a disaster and how to protect your drives.</h3>
-<p>My experiences on running consumer SSD on my Proxmox server with ZFS, what went wrong, how to save money and your SSD's</p>
+<h3>¿ZFS on consumer SSDs? Why you should avoid it and how to save your hardware</h3>
+<p>Proxmox ZFS on consumer SSDs: why it can be a disaster and how to protect your drives.</p>
 <span class="readmore mono">read entry →</span>
 </a>
-
 </div>
 </div>
 </section>
