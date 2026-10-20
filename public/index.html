@@ -46,6 +46,7 @@ This site uses cookies for <strong>analytics</strong> (Google Analytics, Microso
 <a href="#blog">Blog</a>
 <a href="#CurrentWork">Currently Working on</a>
 <a href="#contact">Contact</a>
+<button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle navigation">☰</button>
 <div class="nav-search" id="nav-search">
 <button type="button" class="nav-search-toggle" id="nav-search-toggle" aria-label="Search blog posts" aria-expanded="false" aria-controls="nav-search-input">
 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -64,6 +65,7 @@ This site uses cookies for <strong>analytics</strong> (Google Analytics, Microso
 </header>
 
 <section class="hero">
+  <button onclick="document.querySelector('.ascii-container').style.display='none'" style="position:absolute;top:10px;right:10px;background:#ff9d3d;color:#0a121c;border:none;padding:6px 10px;border-radius:2px;cursor:pointer;font-family:IBM Plex Mono,monospace;font-size:12px;">Skip intro</button>
 <div class="wrap hero-grid">
 <div>
 <div class="eyebrow">$ whoami</div>
@@ -152,7 +154,7 @@ This site uses cookies for <strong>analytics</strong> (Google Analytics, Microso
 <span class="mono">2026-10-20</span>
 <span class="mono">6 min</span>
 </div>
-<h3>Proxmox VE Auth Bypass (CVE-2026-51083) — Low-Privilege Users Can Access Hashed Passwords</h3>
+<h3>CVE-2026-51083 — Proxmox PVE Hash Exposure (Info Disclosure)</h3>
 <p>CVE-2026-51083: Proxmox VE Auth Bypass Vulnerability. Low-privilege users can access hashed passwords through the cloudinit/dump API. Affects PVE 8.x before 8.4.8 and 9.x before 9.1.8. Severity: 6.5 Medium. Patch and rotate credentials.</p>
 <span class="readmore mono">read entry →</span>
 </a>
@@ -168,13 +170,13 @@ This site uses cookies for <strong>analytics</strong> (Google Analytics, Microso
 <span class="readmore mono">read entry →</span>
 </a>
 
-<a class="post-card" href="blog/2026-10-18-cve-2026-32229-tailscale-xss.html" data-category="homelab-vulnerabilities">
+<a class="post-card" href="blog/2026-10-18-cve-2026-32289-tailscale-xss.html" data-category="homelab-vulnerabilities">
 <div class="post-meta">
 <span class="post-tag mono">homelab-vulnerabilities</span>
 <span class="mono">2026-10-18</span>
 <span class="mono">5 min</span>
 </div>
-<h3>CVE-2026-32289 — Tailscale XSS in Template Escaping</h3>
+<h3>CVE-2026-32289 — Go html/template XSS (Tailscale/Chainguard)</h3>
 <p>CVE-2026-32289: improper escaping of content in JS template literals in Tailscale allows XSS when template branches are used.</p>
 <span class="readmore mono">read entry →</span>
 </a>
