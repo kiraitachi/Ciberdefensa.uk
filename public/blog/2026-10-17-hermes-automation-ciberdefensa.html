@@ -6,7 +6,7 @@
 <title>Hermes Updates My Blog Daily — From GitHub to Vercel</title>
 <link rel="icon" type="image/x-icon" href="/images/Ciberdefensa.ico">
 <script src="/favicon-pulse.js" defer></script>
-<meta name="description" content="How Hermes automates daily vulnerability posts onto ciberdefensa.uk: cron d128e21464cd searches CVEs, writes structured HTML, pushes to GitHub, and Vercel deploys automatically.">
+<meta name="description" content="How Hermes automates daily vulnerability posts onto ciberdefensa.uk: cron 0 10 * * * searches CVEs, writes structured HTML, pushes to GitHub, and Vercel deploys automatically.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -42,13 +42,23 @@
   <div class="wrap">
 
     <h2>What it does</h2>
-    <p>Every day at <strong>10:00 UTC</strong>, a cron job (<code>d128e21464cd</code>) runs the <code>homelab-vulnerability-post</code> skill. It searches the web for new CVEs affecting homelab stacks (Proxmox, Docker, LXC, Jellyfin, TrueNAS, Audiobookshelf), verifies with vendor / OpenCVE / NVD / CISA sources, writes a structured HTML entry from <code>blog/Template.html</code>, commits, pushes to <a href="https://github.com/kiraitachi/Ciberdefensa.uk">github.com/kiraitachi/Ciberdefensa.uk</a>, and Vercel deploys it automatically to <a href="https://ciberdefensa.uk">ciberdefensa.uk</a>.</p>
+    <p>Every day at <strong>10:00 UTC</strong>, a cron job (<code>0 10 * * *</code>) runs the <code>homelab-vulnerability-post</code> skill. It searches the web for new CVEs affecting homelab stacks (Proxmox, Docker, LXC, Jellyfin, TrueNAS, Audiobookshelf), verifies with vendor / OpenCVE / NVD / CISA sources, writes a structured HTML entry using the documented 12-section template, commits, pushes to <a href="https://github.com/kiraitachi/Ciberdefensa.uk">github.com/kiraitachi/Ciberdefensa.uk</a>, and Vercel deploys it automatically to <a href="https://ciberdefensa.uk">ciberdefensa.uk</a>.</p>
 
     <h2>How Hermes connects</h2>
-    <p>The agent runs locally on the Linux host. It reads the skill instructions, executes the web-search / verify / write steps, and pushes via a configured remote URL with the GitHub PAT stored in the repo config (rotated after exposure). The site is hosted on Vercel, which builds from the <code>main</code> branch — so every push is live within seconds.</p>
+    <p>The agent runs locally on the Linux host. It reads the skill instructions, executes the web-search / verify / write steps, and pushes via a configured remote URL with the GitHub PAT stored as an environment variable (fine-grained GitHub token limited to this repository). The site is hosted on Vercel, which builds from the <code>main</code> branch — so every push is live within seconds.</p>
+
+    <figure class="post-image" style="margin:20px 0; text-align:center;">
+      <img src="/images/hermes-pipeline.svg" alt="Hermes automation pipeline: cron triggers Hermes, which verifies CVEs, generates posts, and pushes to GitHub/Vercel for automatic deployment" loading="lazy" width="720" height="260">
+      <figcaption>Daily automation pipeline: cron triggers Hermes, which verifies CVEs, generates posts, and pushes to GitHub/Vercel for automatic deployment.</figcaption>
+    </figure>
 
     <h2>Structure enforced</h2>
     <p>New entries always use the redesigned format validated on CVE-2024-21626: <strong>Severity badge (numeric CVSS, color-coded)</strong> + <strong>Summary card</strong> side-by-side, followed by <strong>section cards</strong> for Affected Asset, Endpoint, Prerequisites, Steps, Evidence, Impact, Root Cause, Remediation, Verification Steps, and References. No generic "Homelab Vulnerabilities" <code>&lt;h1&gt;</code> inside the post — that label belongs only to the index filter.</p>
+
+    <figure class="post-image" style="margin:20px 0; text-align:center;">
+      <img src="/images/hermes-post-structure.svg" alt="Post structure diagram: severity badge and summary card in top-card, followed by 12 structured section cards in a card layout" loading="lazy" width="720" height="320">
+      <figcaption>Post design structure: Severity + Summary in top-card; 12 structured sections (Affected Asset, Endpoint, Pre, Reproduce, Evidence, Impact, Root Cause, Remediation, Verification, References) in cards.</figcaption>
+    </figure>
 
     <h2>Current pipeline</h2>
     <ul>

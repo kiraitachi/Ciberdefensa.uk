@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" aria-label="Homelab vulnerability post structure" role="img">
+  <rect width="720" height="320" fill="#0a121c" rx="8"/>
+  <!-- Title line -->
+  <text x="30" y="35" font-family="IBM Plex Mono,monospace,sans-serif" font-size="13" fill="#ff9d3d" font-weight="600">Structure: Severity / Summary / Affected / Endpoint / Pre / Reproduce / Evidence / Impact / Root / Remediation / Verify / References</text>
+  <text x="30" y="55" font-family="IBM Plex Mono,monospace,sans-serif" font-size="10" fill="#94a7bb">12 sections. No body 'Title' section. Hero &lt;h1&gt; only. Badge (numeric + color) beside Summary in top-card.</text>
+
+  <!-- Top card -->
+  <rect x="30" y="85" width="660" height="90" rx="3" fill="#101c29" stroke="#ff9d3d" stroke-width="1.5"/>
+  <!-- Badge -->
+  <rect x="45" y="100" width="110" height="36" rx="2" fill="#ff9d3d"/>
+  <text x="100" y="123" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#0a121c" font-weight="700">CVSS 9.1</text>
+  <text x="100" y="136" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="9" fill="#0a121c">Critical</text>
+  <!-- Summary -->
+  <rect x="170" y="100" width="500" height="60" rx="2" fill="#0f1824"/>
+  <text x="185" y="125" font-family="IBM Plex Sans,sans-serif" font-size="13" fill="#e9eef5">Severity / Summary — side-by-side in the top card.</text>
+  <text x="185" y="145" font-family="IBM Plex Mono,monospace" font-size="10" fill="#ff9d3d">No generic “Homelab Vulnerabilities” h1 inside body.</text>
+
+  <!-- Section cards row -->
+  <g font-family="IBM Plex Mono,monospace" font-size="10" fill="#e9eef5">
+    <rect x="30" y="195" width="105" height="60" rx="2" fill="#101c29" stroke="#223247"/>
+    <text x="82" y="215" text-anchor="middle">Affected Asset</text>
+    <text x="82" y="230" text-anchor="middle" fill="#94a7bb">Endpoint</text>
+    <text x="82" y="245" text-anchor="middle" fill="#94a7bb">Prerequisites</text>
+
+    <rect x="145" y="195" width="105" height="60" rx="2" fill="#101c29" stroke="#223247"/>
+    <text x="197" y="215" text-anchor="middle">Steps to</text>
+    <text x="197" y="230" text-anchor="middle" fill="#94a7bb">Reproduce</text>
+    <text x="197" y="245" text-anchor="middle" fill="#94a7bb">Evidence</text>
+
+    <rect x="260" y="195" width="105" height="60" rx="2" fill="#101c29" stroke="#223247"/>
+    <text x="312" y="215" text-anchor="middle">Impact</text>
+    <text x="312" y="230" text-anchor="middle" fill="#94a7bb">Root Cause</text>
+    <text x="312" y="245" text-anchor="middle" fill="#94a7bb">Remediation</text>
+
+    <rect x="375" y="195" width="105" height="60" rx="2" fill="#101c29" stroke="#223247"/>
+    <text x="427" y="215" text-anchor="middle">Verification</text>
+    <text x="427" y="230" text-anchor="middle" fill="#94a7bb">Steps</text>
+    <text x="427" y="245" text-anchor="middle" fill="#94a7bb">References</text>
+
+    <rect x="490" y="195" width="105" height="60" rx="2" fill="#101c29" stroke="#223247"/>
+    <text x="542" y="215" text-anchor="middle">Tag</text>
+    <text x="542" y="230" text-anchor="middle" fill="#94a7bb">homelab-</text>
+    <text x="542" y="245" text-anchor="middle" fill="#94a7bb">vulnerabilities</text>
+  </g>
+  <text x="30" y="280" font-family="IBM Plex Mono,monospace" font-size="9" fill="#5f7690">All sections must describe that CVE only. Verification Steps use product-specific checks (dpkg / Settings / version).</text>
+</svg>

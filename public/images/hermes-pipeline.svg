@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" aria-label="Hermes daily pipeline" role="img">
+  <rect width="720" height="260" fill="#0a121c" rx="8"/>
+  <g font-family="IBM Plex Mono,monospace,sans-serif" font-size="11" fill="#e9eef5">
+    <text x="20" y="30" font-weight="600" fill="#ff9d3d">Hermes Automation Pipeline</text>
+    <text x="20" y="48" fill="#94a7bb" font-size="10">Cron 10:00 UTC → CVE verify → HTML → Git → Vercel → Live</text>
+  </g>
+  <!-- Nodes -->
+  <rect x="30" y="75" width="100" height="44" rx="3" fill="#101c29" stroke="#ff9d3d" stroke-width="2"/>
+  <text x="80" y="99" text-anchor="middle" fill="#e9eef5" font-size="11" font-family="IBM Plex Mono,monospace">Cron</text>
+  <text x="80" y="112" text-anchor="middle" fill="#ff9d3d" font-size="9">0 10 * * *</text>
+
+  <rect x="170" y="75" width="100" height="44" rx="3" fill="#101c29" stroke="#ff9d3d" stroke-width="2"/>
+  <text x="220" y="99" text-anchor="middle" fill="#e9eef5" font-size="11" font-family="IBM Plex Mono,monospace">Hermes</text>
+  <text x="220" y="112" text-anchor="middle" fill="#94a7bb" font-size="9">Search / Verify</text>
+
+  <rect x="310" y="75" width="100" height="44" rx="3" fill="#101c29" stroke="#ff9d3d" stroke-width="2"/>
+  <text x="360" y="99" text-anchor="middle" fill="#e9eef5" font-size="11" font-family="IBM Plex Mono,monospace">Template</text>
+  <text x="360" y="112" text-anchor="middle" fill="#94a7bb" font-size="9">12-section HTML</text>
+
+  <rect x="450" y="75" width="100" height="44" rx="3" fill="#101c29" stroke="#ff9d3d" stroke-width="2"/>
+  <text x="500" y="99" text-anchor="middle" fill="#e9eef5" font-size="11" font-family="IBM Plex Mono,monospace">GitHub</text>
+  <text x="500" y="112" text-anchor="middle" fill="#94a7bb" font-size="9">Commit / Push</text>
+
+  <rect x="590" y="75" width="100" height="44" rx="3" fill="#101c29" stroke="#ff9d3d" stroke-width="2"/>
+  <text x="640" y="99" text-anchor="middle" fill="#e9eef5" font-size="11" font-family="IBM Plex Mono,monospace">Vercel</text>
+  <text x="640" y="112" text-anchor="middle" fill="#94a7bb" font-size="9">Auto-deploy</text>
+
+  <!-- Arrows -->
+  <polygon points="130,97 160,97 160,93 170,97 160,101 160,97" fill="#ff9d3d"/>
+  <polygon points="270,97 300,97 300,93 310,97 300,101 300,97" fill="#ff9d3d"/>
+  <polygon points="410,97 440,97 440,93 450,97 440,101 440,97" fill="#ff9d3d"/>
+  <polygon points="550,97 580,97 580,93 590,97 580,101 580,97" fill="#ff9d3d"/>
+
+  <!-- Bottom bar -->
+  <rect x="30" y="140" width="660" height="36" rx="3" fill="#101c29"/>
+  <text x="60" y="162" fill="#e9eef5" font-size="11" font-family="IBM Plex Mono,monospace">Daily vulnerability posts — verified CVE sources (NVD / vendor)</text>
+  <text x="60" y="178" fill="#94a7bb" font-size="10">No invented facts. Unverifiable CVEs set to draft + noindex.</text>
+</svg>
