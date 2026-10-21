@@ -81,6 +81,11 @@
     </ul>
 
     <p>Hub-Spoke sidesteps all of it:</p>
+    <figure class="post-image" style="margin:20px 0; text-align:center;">
+      <img src="/images/scrutiny-hub-spoke.svg" alt="Scrutiny hub-spoke architecture: unprivileged LXC hub (web UI + InfluxDB) and Proxmox host collector (SMART data access)" loading="lazy" width="720" height="240">
+      <figcaption>Hub-Spoke layout: unprivileged LXC (Web + DB) and Proxmox host (collector with native disk access). No passthrough needed.</figcaption>
+    </figure>
+
 
     <ul>
       <li><strong>Hub</strong> — Scrutiny's web UI + InfluxDB, inside an unprivileged LXC running Docker. No disk passthrough needed at all.</li>
@@ -324,6 +329,11 @@ docker compose up -d</code></pre>
     <h2>Wrapping Up</h2>
 
     <p>End state: an unprivileged LXC running the dashboard and InfluxDB, a native collector on the Proxmox host with proper access to the drives, historical trend data. The CPU overhead is negligible, so there's not much reason not to run this once it's set up.</p>
+    <figure class="post-image" style="margin:20px 0; text-align:center;">
+      <img src="/images/scrutiny-dashboard.svg" alt="Scrutiny dashboard mock: SMART health indicators, temperature and trend cards for each monitored drive" loading="lazy" width="720" height="200">
+      <figcaption>Dashboard mock: SMART health (PASS), temperature, and trend indicators per drive. Reallocated sectors tracked over time.</figcaption>
+    </figure>
+
 
   </div>
 </section>

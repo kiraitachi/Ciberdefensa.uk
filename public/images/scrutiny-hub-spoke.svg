@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" aria-label="Scrutiny hub-spoke architecture on Proxmox" role="img">
+  <rect width="720" height="240" fill="#0a121c" rx="8"/>
+  <text x="30" y="30" font-family="IBM Plex Mono,monospace,sans-serif" font-size="13" font-weight="600" fill="#ff9d3d">Scrutiny: Hub-Spoke Architecture</text>
+  <text x="30" y="50" font-family="IBM Plex Mono,monospace,sans-serif" font-size="10" fill="#94a7bb">Proxmox host (Spoke/Collector) → Unprivileged LXC Hub (Web + InfluxDB)</text>
+
+  <!-- Proxmox Host -->
+  <rect x="30" y="85" width="240" height="80" rx="4" fill="#101c29" stroke="#223247" stroke-width="1.5"/>
+  <text x="150" y="115" text-anchor="middle" fill="#e9eef5" font-family="Space Grotesk,sans-serif" font-size="13" font-weight="600">Proxmox Host</text>
+  <text x="150" y="135" text-anchor="middle" fill="#94a7bb" font-family="IBM Plex Mono,monospace" font-size="10">Collector binary (/dev/sda, nvme)</text>
+  <text x="150" y="150" text-anchor="middle" fill="#ff9d3d" font-family="IBM Plex Mono,monospace" font-size="9">Spoke — native SMART access</text>
+
+  <!-- Arrow -->
+  <polygon points="270,115 310,115 310,110 320,120 310,130 310,125 270,125" fill="#ff9d3d"/>
+
+  <!-- LXC Hub -->
+  <rect x="340" y="85" width="240" height="80" rx="4" fill="#101c29" stroke="#ff9d3d" stroke-width="1.5"/>
+  <text x="460" y="115" text-anchor="middle" fill="#e9eef5" font-family="Space Grotesk,sans-serif" font-size="13" font-weight="600">Unprivileged LXC</text>
+  <text x="460" y="135" text-anchor="middle" fill="#94a7bb" font-family="IBM Plex Mono,monospace" font-size="10">Scrutiny Web + InfluxDB (Docker)</text>
+  <text x="460" y="150" text-anchor="middle" fill="#ff9d3d" font-family="IBM Plex Mono,monospace" font-size="9">Hub — no passthrough needed</text>
+
+  <!-- Legend / bottom -->
+  <rect x="30" y="190" width="540" height="34" rx="3" fill="#101c29"/>
+  <text x="45" y="212" fill="#e9eef5" font-family="IBM Plex Mono,monospace" font-size="10">Collector posts SMART data over HTTP to the Hub. Web UI + DB live safely inside unprivileged container.</text>
+</svg>
