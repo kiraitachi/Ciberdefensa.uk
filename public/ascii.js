@@ -1,5 +1,4 @@
 function debounce(fn, delay=250){let t;return function(...a){clearTimeout(t);t=setTimeout(()=>fn.apply(this,a),delay);};}
-if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { document.querySelector('.ascii-container').style.display='none'; return; }
 /* ascii.js — ASCII intro, hero field, ASCII radar, footer wordmark.
    Works on top of the existing index.html: it only ADDS elements and never touches #post-grid,
    the blog search, the filter pills, the cookie banner or the favicon pulse.
