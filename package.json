@@ -1,1 +1,1 @@
-{"name":"ciberdefensa","version":"0.0.0","private":true,"scripts":{"build":"node scripts/build-index.js"}}
+{"name":"ciberdefensa","version":"0.0.0","private":true,"scripts":{"build":"node scripts/build-index.js && node scripts/generate-sitemap.js"}}
