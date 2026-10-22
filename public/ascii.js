@@ -61,6 +61,9 @@ function debounce(fn, delay=250){let t;return function(...a){clearTimeout(t);t=s
     de.classList.remove("cd-intro", "cd-intro-run", "cd-in", "cd-lock");
     try { sessionStorage.setItem("cd-intro", "1"); } catch (e) {}
   }
+  /* exposed so the "Skip intro" button can end the overlay cleanly (removes canvas,
+     cursor, scroll lock and marks it as seen for the session) */
+  window.cdEndIntro = () => { if (intro && intro.isConnected) endIntro(); };
   function startIntro() {
     intro = document.createElement("div"); intro.id = "cd-intro";
     ic = document.createElement("canvas"); intro.appendChild(ic);
