@@ -30,6 +30,20 @@ function debounce(fn, delay=250){let t;return function(...a){clearTimeout(t);t=s
     for (let i = 0; i < m.length; i++) m[i] = d[i * 4 + 3];
     return m;
   }
+  /* Bull logo silhouette (traced from the Ciberdefensa logo, viewBox ~610x458). Replaces the "ciberdefensa" wordmark in the intro. */
+  const BULL = { d: "M52 420C51 419 51 417 51 411C52 403 51 401 46 400C40 398 40 397 46 385C52 372 57 358 60 342C62 336 63 330 64 328C64 327 67 322 72 318C84 304 85 303 85 288C87 257 89 244 95 233C100 224 99 224 86 225C65 226 52 226 46 223C16 209 20 169 54 147C62 142 62 142 62 136C62 121 72 113 94 111C116 109 123 104 126 88C129 78 136 96 135 109C134 119 129 125 120 130C115 132 116 134 121 134C126 134 126 135 119 142C109 151 108 151 92 151C66 151 51 159 41 179C28 205 45 218 84 211C92 209 102 208 106 208C114 208 114 208 120 203C132 192 138 190 163 185C197 180 232 160 265 129C306 91 334 79 363 87C370 90 370 90 369 98C366 115 373 128 391 137C401 142 401 143 390 147C380 150 380 151 385 155C390 158 396 159 405 159C421 157 420 156 419 165C419 178 427 166 428 153C428 145 428 145 433 143C441 138 440 137 430 138C376 141 363 91 409 61C429 47 435 47 422 61C399 87 402 106 431 110C439 112 439 112 442 109C445 105 465 105 497 111C505 112 513 124 517 140C518 145 521 151 522 154C526 161 526 164 523 170C519 179 526 206 536 218C541 224 541 225 535 236C528 248 528 248 521 247C516 246 515 246 508 248C494 253 487 251 474 238C464 228 461 227 446 226C422 225 409 215 406 196C405 183 401 191 402 207C404 237 404 236 402 245C399 258 388 276 383 276C383 276 382 271 382 265C382 244 376 226 364 210C359 202 358 203 362 213C374 238 372 273 358 286C355 289 355 289 345 285C332 279 331 279 339 287C368 320 370 344 345 357C340 360 336 363 328 372C317 384 317 384 300 380C295 378 287 377 283 376C269 374 267 371 275 361C284 352 296 348 303 352C312 357 329 346 329 335C329 329 328 328 314 318C279 296 273 288 276 270C279 248 279 236 277 243C276 244 274 250 272 256C262 281 262 285 269 299C274 309 274 309 261 310C244 311 229 307 206 297C187 289 181 287 172 287C162 287 162 287 166 277C171 260 174 234 171 228C170 225 170 226 168 238C163 270 140 304 105 329C99 334 93 338 91 339C88 342 82 356 77 372C71 390 71 389 75 394C82 401 90 419 87 419C83 421 54 421 52 420ZM221 420C210 420 210 420 209 412C208 406 206 405 202 406C197 407 195 405 185 391C176 379 165 364 156 354C151 349 151 344 156 333C158 328 160 324 160 320C161 304 168 322 168 342C168 351 170 355 180 367C190 378 194 380 201 376C205 374 205 374 210 378C212 381 217 385 220 387C231 394 248 414 247 419C246 421 241 421 221 420ZM484 419C484 418 483 414 483 410C482 401 481 399 474 398C468 396 468 396 468 390C467 384 466 380 453 361C443 345 445 346 432 335C414 321 415 321 405 322C391 323 388 321 397 316C411 308 417 302 424 287C429 276 431 273 439 265C444 259 445 259 444 270C443 283 444 288 460 312C464 318 466 324 468 330C472 346 494 380 507 393C508 393 511 396 514 398C519 403 525 413 525 417C525 420 487 422 484 419ZM505 228C507 226 509 225 511 225C514 225 514 224 511 221C506 216 496 223 499 229C499 232 501 231 505 228ZM480 173C475 165 471 160 466 158C457 153 450 156 454 161C455 162 456 165 457 167C459 170 464 172 469 172C472 171 473 171 476 175C481 180 483 179 480 173ZM527 144C525 142 517 124 517 122C517 121 519 121 524 121C550 121 562 109 562 83C562 74 564 74 568 81C580 103 574 130 554 141C545 145 529 147 527 144Z", x: 26, y: 50, w: 547, h: 370 };
+  const bullPath = new Path2D(BULL.d);
+  function maskBull(g, k) {   // k = 1 -> bull fills ~62% of the canvas height (or 80% of its width, whichever is smaller)
+    mo.width = g.cols; mo.height = g.rows;
+    const c = mo.getContext("2d", { willReadFrequently: true });
+    c.setTransform(1 / g.cw, 0, 0, 1 / g.lh, 0, 0); c.clearRect(0, 0, g.W, g.H);
+    const sc = Math.min(g.H * .62 / BULL.h, g.W * .8 / BULL.w) * k;
+    c.translate(g.W / 2, g.H / 2); c.scale(sc, sc); c.translate(-(BULL.x + BULL.w / 2), -(BULL.y + BULL.h / 2));
+    c.fillStyle = "#fff"; c.fill(bullPath, "evenodd");
+    const d = c.getImageData(0, 0, g.cols, g.rows).data, m = new Uint8Array(g.cols * g.rows);
+    for (let i = 0; i < m.length; i++) m[i] = d[i * 4 + 3];
+    return m;
+  }
   function fitHs(g, text, hf, frac) {   // horizontal scale so the measured word is `frac` of the canvas width (max 1.6)
     const c = mo.getContext("2d", { willReadFrequently: true }); c.setTransform(1, 0, 0, 1, 0, 0);
     c.font = "700 " + g.H * hf + "px 'Space Grotesk',Arial,sans-serif";
@@ -82,7 +96,7 @@ function debounce(fn, delay=250){let t;return function(...a){clearTimeout(t);t=s
     if (stage === "idle") { layer(ig, .85, beads((now - T0) / 1000)); return; }
     const ts = (now - clickT) / 1000, bf = beads(tF);
     if (ts < 2.6) {
-      const wp = cl((ts - .9) / 1.5), m = mask(ig, "ciberdefensa", .5 + .1 * wp, hs0), sc = cl(ts / .4);
+      const wp = cl((ts - .9) / 1.5), m = maskBull(ig, .85 + .15 * wp), sc = cl(ts / .4);
       layer(ig, .85, (x, y) => {
         if (ts < .7 && Hh(x, y) > ts / .6) { const c = bf(x, y); if (c !== " ") return c; }
         const ex = (x - cx) / (ig.cols * .3), ey = (y - cy) / (ig.rows * .32), r = ex * ex + ey * ey;
@@ -91,7 +105,7 @@ function debounce(fn, delay=250){let t;return function(...a){clearTimeout(t);t=s
       });
       if (wp > 0) layer(ig, .3 + .5 * (1 - wp), (x, y) => m[y * ig.cols + x] > 128 && Hh(x + 7, y + 3) < wp * 1.1 ? (wp < .6 ? rc() : S[5 + (Hh(x, y) * 8 | 0)]) : " ", ACC);
     } else if (ts < 3.6) {
-      const z = ts - 2.6, m = mask(ig, "ciberdefensa", .6 * Math.pow(9, z * 1.1), hs0);
+      const z = ts - 2.6, m = maskBull(ig, Math.pow(9, z * 1.1));
       layer(ig, .7 * (1 - z), (x, y) => m[y * ig.cols + x] > 128 ? S[5 + (Hh(x, y) * 8 | 0)] : " ", ACC);
     }
     if (ts >= 3 && !ent) { ent = 1; intro.classList.add("clear"); de.classList.add("cd-in"); }
