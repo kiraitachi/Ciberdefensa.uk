@@ -820,3 +820,30 @@ figcaption{
   font-family:'IBM Plex Mono',monospace,sans-serif;font-size:12px;color:#5f7690;
   margin-top:0.5em;line-height:1.4;
 }
+
+
+/* ---------- LOGO (header + footer) ---------- */
+.brand-logo{
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+}
+.brand-logo img{
+  display: block;
+  height: 44px;
+  width: auto;
+}
+.footer-brand{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.footer-brand img{
+  display: block;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+@media (max-width: 820px){
+  .brand-logo img{ height: 36px; }
+}
