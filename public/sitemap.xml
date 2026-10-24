@@ -3,7 +3,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.ciberdefensa.uk/</loc>
-    <lastmod>2026-10-24T06:36:11+00:00</lastmod>
+    <lastmod>2026-10-24T16:32:38+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-10-24-cve-2026-16658-proxmox-ansible-plugin-host-escape.html</loc>
+    <lastmod>2026-10-24T10:01:33+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/ZFS-on-consumer-ssds.html</loc>
+    <lastmod>2026-10-24T06:56:43+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
@@ -45,12 +57,6 @@
   </url>
   <url>
     <loc>https://www.ciberdefensa.uk/blog/Scrutiny-Smart-Monitoring.html</loc>
-    <lastmod>2026-10-23T22:16:14+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8000</priority>
-  </url>
-  <url>
-    <loc>https://www.ciberdefensa.uk/blog/ZFS-on-consumer-ssds.html</loc>
     <lastmod>2026-10-23T22:16:14+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
