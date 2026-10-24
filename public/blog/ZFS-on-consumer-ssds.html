@@ -64,15 +64,18 @@
 
     <p>Edit the configuration file:</p>
 
-    <p><strong><em>nano /etc/systemd/journald.conf</em></strong></p>
+    <pre><code>nano /etc/systemd/journald.conf</code></pre>
 
     <p>Adjust the following parameters:</p>
 
-    <p><strong><em>MaxLevelStore=warning<br />MaxLevelSyslog=warning<br />Storage=volatile<br />ForwardToSyslog=no</em></strong></p>
+    <pre><code>MaxLevelStore=warning
+MaxLevelSyslog=warning
+Storage=volatile
+ForwardToSyslog=no</code></pre>
 
     <p>Save and restart the service:</p>
 
-    <p><strong><em>systemctl restart systemd-journald.service.</em></strong></p>
+    <pre><code>systemctl restart systemd-journald.service</code></pre>
 
     <p>2. Set up log2ram</p>
 
@@ -80,23 +83,32 @@
 
     <p>Install it like this:</p>
 
-    <p><strong><em>echo "deb [signed-by=/usr/share/keyrings/azlux-archive-keyring.gpg] </em></strong><a href="http://packages.azlux.fr/debian/" target="_blank"><strong><em>http://packages.azlux.fr/debian/</em></strong></a><strong><em> bookworm main" | tee /etc/apt/sources.list.d/azlux.list<br />wget -O /usr/share/keyrings/azlux-archive-keyring.gpg </em></strong><a href="https://azlux.fr/repo.gpg" target="_blank"><strong><em>https://azlux.fr/repo.gpg</em></strong></a><strong><em><br />apt update &amp;&amp; apt install log2ram -y<br />reboot</em></strong></p>
+    <pre><code>echo "deb [signed-by=/usr/share/keyrings/azlux-archive-keyring.gpg] http://packages.azlux.fr/debian/ bookworm main" | tee /etc/apt/sources.list.d/azlux.list
+wget -O /usr/share/keyrings/azlux-archive-keyring.gpg https://azlux.fr/repo.gpg
+apt update && apt install log2ram -y
+reboot</code></pre>
 
     <p>Check its status with:</p>
 
-    <p><strong><em>systemctl status log2ram.</em></strong></p>
+    <pre><code>systemctl status log2ram</code></pre>
 
     <p>3. Disable unnecessary services (HA)</p>
 
     <p>If you're not running a high-availability cluster, the HA (High Availability) monitoring services write to disk constantly. Disable them:</p>
 
-    <p><strong><em>systemctl stop pve-ha-lrm.service<br />systemctl disable pve-ha-lrm.service<br />systemctl stop pve-ha-crm.service<br />systemctl disable pve-ha-crm.service</em></strong></p>
+    <pre><code>systemctl stop pve-ha-lrm.service
+systemctl disable pve-ha-lrm.service
+systemctl stop pve-ha-crm.service
+systemctl disable pve-ha-crm.service</code></pre>
 
     <h3>Monitor your drives' wear level</h3>
 
     <p>Don't wait for the disk to fail. Use smartmontools to check how much life your SSD has left before it's too late:</p>
 
-    <p><strong><em>apt-get install smartmontools<br />lsblk<br /># Replace /dev/nvme0n1 with your drive<br />smartctl -a /dev/nvme0n1</em></strong></p>
+    <pre><code>apt-get install smartmontools
+lsblk
+# Replace /dev/nvme0n1 with your drive
+smartctl -a /dev/nvme0n1</code></pre>
 
     <p><em>Look for the "Percentage Used" or "Media and Data Integrity Errors" value in the command output.</em></p>
 
