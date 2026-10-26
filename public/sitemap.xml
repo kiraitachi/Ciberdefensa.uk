@@ -3,19 +3,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.ciberdefensa.uk/</loc>
-    <lastmod>2026-10-25T10:04:38+00:00</lastmod>
+    <lastmod>2026-10-26T10:05:51+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-10-26-cve-2026-77179-docker-sandboxes-macos-host-escape.html</loc>
+    <lastmod>2026-10-26T10:04:18+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://www.ciberdefensa.uk/blog/2026-10-25-cve-2026-34040-docker-authz-bypass.html</loc>
     <lastmod>2026-10-25T10:04:19+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8000</priority>
-  </url>
-  <url>
-    <loc>https://www.ciberdefensa.uk/blog/2026-10-24-cve-2026-16658-proxmox-ansible-plugin-host-escape.html</loc>
-    <lastmod>2026-10-24T10:01:33+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
