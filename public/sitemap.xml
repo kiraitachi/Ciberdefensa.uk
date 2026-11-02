@@ -3,7 +3,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.ciberdefensa.uk/</loc>
-    <lastmod>2026-11-01T10:03:31+00:00</lastmod>
+    <lastmod>2026-11-02T10:05:42+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-11-02-cve-2026-114409-docker-desktop-credential-exposure.html</loc>
+    <lastmod>2026-11-02T10:05:23+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
