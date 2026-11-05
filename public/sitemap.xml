@@ -3,103 +3,133 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.ciberdefensa.uk/</loc>
-    <lastmod>2026-11-03T10:06:07+00:00</lastmod>
+    <lastmod>2026-11-05T10:06:59+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
-    <loc>https://www.ciberdefensa.uk/blog/2026-11-03-cve-2026-17106-docker-cp-destination-escape.html</loc>
-    <lastmod>2026-11-03T10:05:04+00:00</lastmod>
+    <loc>https://www.ciberdefensa.uk/blog/2026-11-05-cve-2026-53988-dockhand-auth-bypass.html</loc>
+    <lastmod>2026-11-05T10:06:52+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-11-04-cve-2026-99999-pwnescape-kvm-escape.html</loc>
+    <lastmod>2026-11-04T10:03:52+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-10-26-cve-2026-77179-docker-sandboxes-macos-host-escape.html</loc>
+    <lastmod>2026-11-03T12:14:45+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-10-27-cve-2026-41567-docker-archive-execution.html</loc>
+    <lastmod>2026-11-03T12:14:45+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-10-28-cve-2026-94588-proxmox-tfa-bypass.html</loc>
+    <lastmod>2026-11-03T12:14:45+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://www.ciberdefensa.uk/blog/2026-11-02-cve-2026-114409-docker-desktop-credential-exposure.html</loc>
-    <lastmod>2026-11-02T10:05:23+00:00</lastmod>
+    <lastmod>2026-11-03T12:14:45+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-10-20-cve-2026-51083-proxmox-auth-bypass.html</loc>
+    <lastmod>2026-11-03T12:14:45+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-10-22-cve-2026-53359-januscape-kvm-escape.html</loc>
+    <lastmod>2026-11-03T12:14:45+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-10-23-cve-2026-33997-docker-plugin-priv-esc.html</loc>
+    <lastmod>2026-11-03T12:14:45+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-10-25-cve-2026-34040-docker-authz-bypass.html</loc>
+    <lastmod>2026-11-03T12:14:45+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-10-15-cve-2026-71209-audiobookshelf.html</loc>
+    <lastmod>2026-11-03T12:14:45+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-10-15-cve-2026-79766-termix-ssh.html</loc>
+    <lastmod>2026-11-03T12:14:45+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-10-16-cve-2024-21626-runc-container-breakout.html</loc>
+    <lastmod>2026-11-03T12:14:45+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-10-17-proxmox-vnc-hijack-cve-2026-51082.html</loc>
+    <lastmod>2026-11-03T12:14:45+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-10-18-cve-2026-32289-tailscale-xss.html</loc>
+    <lastmod>2026-11-03T12:14:45+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-10-05-vghost-cve-2026-74580.html</loc>
+    <lastmod>2026-11-03T12:14:45+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-10-15-cve-2026-35031-jellyfin.html</loc>
+    <lastmod>2026-11-03T12:14:45+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-10-15-cve-2026-6406-docker.html</loc>
+    <lastmod>2026-11-03T12:14:45+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8000</priority>
+  </url>
+  <url>
+    <loc>https://www.ciberdefensa.uk/blog/2026-11-03-cve-2026-17106-docker-cp-destination-escape.html</loc>
+    <lastmod>2026-11-03T12:14:36+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://www.ciberdefensa.uk/blog/2026-11-01-cve-2026-98432-linux-kernel-tf-escape.html</loc>
-    <lastmod>2026-11-01T10:03:22+00:00</lastmod>
+    <lastmod>2026-11-03T12:11:12+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
   <url>
     <loc>https://www.ciberdefensa.uk/blog/2026-10-30-cve-2026-59800-9router-command-injection.html</loc>
     <lastmod>2026-10-30T10:06:23+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8000</priority>
-  </url>
-  <url>
-    <loc>https://www.ciberdefensa.uk/blog/2026-10-28-cve-2026-94588-proxmox-tfa-bypass.html</loc>
-    <lastmod>2026-10-28T10:02:45+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8000</priority>
-  </url>
-  <url>
-    <loc>https://www.ciberdefensa.uk/blog/2026-10-16-cve-2024-21626-runc-container-breakout.html</loc>
-    <lastmod>2026-10-27T11:23:30+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8000</priority>
-  </url>
-  <url>
-    <loc>https://www.ciberdefensa.uk/blog/2026-10-15-cve-2026-79766-termix-ssh.html</loc>
-    <lastmod>2026-10-27T11:23:30+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8000</priority>
-  </url>
-  <url>
-    <loc>https://www.ciberdefensa.uk/blog/2026-10-15-cve-2026-71209-audiobookshelf.html</loc>
-    <lastmod>2026-10-27T11:23:30+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8000</priority>
-  </url>
-  <url>
-    <loc>https://www.ciberdefensa.uk/blog/2026-10-15-cve-2026-6406-docker.html</loc>
-    <lastmod>2026-10-27T11:23:30+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8000</priority>
-  </url>
-  <url>
-    <loc>https://www.ciberdefensa.uk/blog/2026-10-15-cve-2026-35031-jellyfin.html</loc>
-    <lastmod>2026-10-27T11:23:30+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8000</priority>
-  </url>
-  <url>
-    <loc>https://www.ciberdefensa.uk/blog/2026-10-27-cve-2026-41567-docker-archive-execution.html</loc>
-    <lastmod>2026-10-27T11:23:30+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8000</priority>
-  </url>
-  <url>
-    <loc>https://www.ciberdefensa.uk/blog/2026-10-18-cve-2026-32289-tailscale-xss.html</loc>
-    <lastmod>2026-10-27T11:23:30+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8000</priority>
-  </url>
-  <url>
-    <loc>https://www.ciberdefensa.uk/blog/2026-10-17-proxmox-vnc-hijack-cve-2026-51082.html</loc>
-    <lastmod>2026-10-27T11:23:30+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8000</priority>
-  </url>
-  <url>
-    <loc>https://www.ciberdefensa.uk/blog/2026-10-05-vghost-cve-2026-74580.html</loc>
-    <lastmod>2026-10-27T11:23:30+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8000</priority>
-  </url>
-  <url>
-    <loc>https://www.ciberdefensa.uk/blog/2026-10-26-cve-2026-77179-docker-sandboxes-macos-host-escape.html</loc>
-    <lastmod>2026-10-27T11:23:26+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8000</priority>
-  </url>
-  <url>
-    <loc>https://www.ciberdefensa.uk/blog/2026-10-25-cve-2026-34040-docker-authz-bypass.html</loc>
-    <lastmod>2026-10-25T10:04:19+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
@@ -118,12 +148,6 @@
   <url>
     <loc>https://www.ciberdefensa.uk/projects/</loc>
     <lastmod>2026-10-24T06:35:26+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8000</priority>
-  </url>
-  <url>
-    <loc>https://www.ciberdefensa.uk/blog/2026-10-23-cve-2026-33997-docker-plugin-priv-esc.html</loc>
-    <lastmod>2026-10-23T22:16:14+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
   </url>
@@ -159,18 +183,6 @@
   </url>
   <url>
     <loc>https://www.ciberdefensa.uk/blog/2026-10-17-hermes-automation-ciberdefensa.html</loc>
-    <lastmod>2026-10-23T22:16:14+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8000</priority>
-  </url>
-  <url>
-    <loc>https://www.ciberdefensa.uk/blog/2026-10-20-cve-2026-51083-proxmox-auth-bypass.html</loc>
-    <lastmod>2026-10-23T22:16:14+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8000</priority>
-  </url>
-  <url>
-    <loc>https://www.ciberdefensa.uk/blog/2026-10-22-cve-2026-53359-januscape-kvm-escape.html</loc>
     <lastmod>2026-10-23T22:16:14+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8000</priority>
