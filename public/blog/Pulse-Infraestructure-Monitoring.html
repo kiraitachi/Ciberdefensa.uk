@@ -1,92 +1,77 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Pulse - Monitoring my Proxmox environment and automated actions with AI</title>
-<link rel="icon" type="image/x-icon" href="/images/Ciberdefensa.ico">
-<script src="/favicon-pulse.js" defer></script>
-<meta name="description" content="Deploying rcourtman/Pulse on Docker in my Oracle OCI Alpine box, wiring it up to Proxmox with a scoped API token, and turning on Patrol with OpenRouter as the brain.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css">
-</head>
+<link href="/images/Ciberdefensa.ico" rel="icon" type="image/x-icon"/>
+<script defer="" src="/favicon-pulse.js"></script>
+<meta content="Deploying rcourtman/Pulse on Docker in my Oracle OCI Alpine box, wiring it up to Proxmox with a scoped API token, and turning on Patrol with OpenRouter as the brain." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="../style.css" rel="stylesheet"/>
+<link href="https://www.ciberdefensa.uk/blog/Pulse-Infraestructure-Monitoring.html" rel="canonical"/><meta content="article" property="og:type"/><meta content="Pulse - Monitoring my Proxmox environment and automated actions with AI" property="og:title"/><meta content="https://www.ciberdefensa.uk/blog/Pulse-Infraestructure-Monitoring.html" property="og:url"/><meta content="Deploying rcourtman/Pulse on Docker in my Oracle OCI Alpine box, wiring it up to Proxmox with a scoped API token, and turning on Patrol with OpenRouter as the brain." property="og:description"/><style data-a11y="blog">a:focus-visible,button:focus-visible{outline:3px solid #ff9d3d;outline-offset:3px}.article-body pre{overflow-x:auto;max-width:100%}.article-body img{max-width:100%;height:auto}.cvss{overflow-wrap:anywhere}.top-card{display:flex!important;flex-direction:column!important;gap:18px!important}.top-card>.severity-box,.top-card>.summary-box{width:100%!important}</style></head>
 <body>
-
-<header class="nav">
-  <div class="wrap nav-inner">
-    <a href="../index.html" class="brand"><img src="/images/ciberdefensa-logo-horizontal.svg" alt="Ciberdefensa" height="40" style="display:block;height:40px;width:auto"></a>
-    <nav class="links"><a href="../index.html#contact">contact</a></nav>
-  </div>
-</header>
-
+<header class="nav"><div class="wrap nav-inner"><a aria-label="Ciberdefensa home" class="brand brand-logo" href="../index.html"><img alt="Ciberdefensa" height="40" src="/images/ciberdefensa-logo-horizontal.svg" style="display:block;height:40px;width:auto"/></a><nav class="links"><a href="../index.html#contact">contact</a></nav></div></header>
 <!--
   Analytics (Google Analytics via gtag.js, Microsoft Clarity) are NOT
   loaded here anymore. They only load after the visitor accepts cookies
   via the banner — see cookie-consent.js and #cookie-banner below.
 -->
-<script src="/cookie-consent.js" defer></script>
+<script defer="" src="/cookie-consent.js"></script>
 <!--
   Cookie consent banner. This is hidden by default and only shown if the visitor
   hasn't accepted or declined cookies yet. The banner is also accessible via the
   "Cookie settings" button in the footer.
 -->
-<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
-  <div class="cookie-banner-inner">
-    <p class="cookie-text">
+<div aria-label="Cookie consent" aria-live="polite" class="cookie-banner" id="cookie-banner" role="dialog">
+<div class="cookie-banner-inner">
+<p class="cookie-text">
       This site uses cookies for <strong>analytics</strong> (Google Analytics, Microsoft Clarity) to understand how visitors use it. Nothing is set until you choose, and you can change your mind any time via "Cookie settings" in the footer.
     </p>
-    <div class="cookie-actions">
-      <button id="cookie-decline" class="cookie-btn">Decline</button>
-      <button id="cookie-accept" class="cookie-btn">Accept</button>
-    </div>
-  </div>
+<div class="cookie-actions">
+<button class="cookie-btn" id="cookie-decline">Decline</button>
+<button class="cookie-btn" id="cookie-accept">Accept</button>
 </div>
-
+</div>
+</div>
 <section class="article-hero">
-  <div class="wrap">
-    <a href="../index.html#blog" class="back-link mono">← back to blog</a>
-    <div class="post-meta">
-      <span class="post-tag mono">infra</span>
-      <span class="mono">2026-04-09</span>
-      <span class="mono">4 min</span>
-    </div>
-    <h1>Monitoring my Proxmox environment and automated actions with AI</h1>
-  </div>
+<div class="wrap">
+<a class="back-link mono" href="../index.html#blog">← back to blog</a>
+<div class="post-meta">
+<span class="post-tag mono">infra</span>
+<span class="mono">2026-04-09</span>
+<span class="mono">4 min</span>
+</div>
+<h1>Monitoring my Proxmox environment and automated actions with AI</h1>
+</div>
 </section>
-
 <section class="article-body">
-  <div class="wrap">
-
-    <p>
+<div class="wrap">
+<p>
       I've been running my homelab on uptime kuma, a dashboard I refresh manually like some kind of caveman.
-      That stops now. I deployed <strong><a href="https://github.com/rcourtman/pulse" target="_blank" rel="noopener">Pulse</a></strong>,
+      That stops now. I deployed <strong><a href="https://github.com/rcourtman/pulse" rel="noreferrer noopener" target="_blank">Pulse</a></strong>,
       an open-source, self-hosted monitoring workspace for Proxmox (plus Docker, Kubernetes, TrueNAS and vSphere if
       you're into that), on the little Alpine box I run in Oracle Cloud's free-tier Ampere A1 instance. It sits
       there, watches my Proxmox cluster, and now — because I'm apparently incapable of leaving well enough alone —
       it also runs an AI "Patrol" that pokes around my infrastructure on a schedule and tells me when something's
       quietly on fire.
     </p>
-
-    <p>
+<p>
       This post is half tutorial, half "future me, this is how you set it up again after you inevitably nuke the
       container." Three parts: deploying Pulse on Docker, pointing it at Proxmox with a properly scoped API token,
       and switching on Patrol using OpenRouter so I'm not locked into a single model provider.
     </p>
-
-    <img src="/images/Pulse-Dashboard.png" alt="Pulse dashboard showing Proxmox nodes, VMs, and containers" class="article-image">
-
-    <h2>1. Deploying Pulse on Docker (Alpine + dockhand)</h2>
-
-    <p>
+<img alt="Pulse dashboard showing Proxmox nodes, VMs, and containers" class="article-image" src="/images/Pulse-Dashboard.png"/>
+<h2>1. Deploying Pulse on Docker (Alpine + dockhand)</h2>
+<p>
       My OCI box is Alpine Linux, managed through <strong>dockhand</strong> for container lifecycle, so this is
       just a normal <code>docker run</code> — nothing Alpine-specific to worry about, Pulse ships as a regular
       multi-arch image and my instance is aarch64/ARM, which it happily supports.
     </p>
-
-    <p>The official one-liner looks like this:</p>
-
+<p>The official one-liner looks like this:</p>
 <pre><code>docker run -d \
   --name pulse \
   -p 7655:7655 \
@@ -94,162 +79,137 @@
   -e PULSE_DEPLOYMENT_METHOD=docker_run \
   --restart unless-stopped \
   rcourtman/pulse:latest</code></pre>
-
-    <p>
+<p>
       A couple of notes from actually doing this rather than just copy-pasting it blindly:
     </p>
-
-    <ul>
-      <li>
+<ul>
+<li>
         Pin an actual version tag (<code>rcourtman/pulse:vX.Y.Z</code>) instead of <code>:latest</code> once you're
         happy with a release. Makes rollbacks and "what changed" debugging way less annoying.
       </li>
-      <li>
+<li>
         The <code>pulse_data</code> volume is where your config, tokens and history live. Don't skip it, don't
         point it at <code>/tmp</code>, you will regret it.
       </li>
-      <li>
+<li>
         The Pulse <em>server</em> container does not need Docker socket access. If you also want it monitoring
         your Docker host itself, that's a separate lightweight "unified agent" you install on the host — the
         server container stays untouched and doesn't need <code>/var/run/docker.sock</code> mounted in.
       </li>
-      <li>
+<li>
         In dockhand I just added it as a standard compose-style service pointing at the same image/ports/volume —
         no surprises, it behaves like any other container.
       </li>
-    </ul>
-
-    <p>Pulse is secure by default, so on first boot it doesn't just hand you an open dashboard. You grab a bootstrap token from inside the container:</p>
-
+</ul>
+<p>Pulse is secure by default, so on first boot it doesn't just hand you an open dashboard. You grab a bootstrap token from inside the container:</p>
 <pre><code>docker exec pulse cat /data/.bootstrap_token</code></pre>
-
-    <p>
+<p>
       Then open <code>http://&lt;your-oci-instance-ip&gt;:7655</code>, paste the token in, and run through the
       Quick Security Setup wizard — set an admin username/password (or let it generate one), and it'll spit out an
       API token for automation. Copy that somewhere safe before you close the tab, because it won't show it to you
       again.
     </p>
-
-    <blockquote>
+<blockquote>
       If your OCI security list / iptables situation is anything like mine was, remember to actually open
       <code>7655/tcp</code> on the instance's ingress rules <em>and</em> whatever local firewall Alpine is running,
       or you'll be staring at a spinner wondering why the "quick" setup isn't quick at all. Another approach is to setup a cloudflare tunnel or similar to avoid exposing the port to the public internet, which is what I ended up doing.
     </blockquote>
-
-    <h2>2. Connecting Pulse to Proxmox via API Token</h2>
-
-    <p>
+<h2>2. Connecting Pulse to Proxmox via API Token</h2>
+<p>
       Pulse can auto-discover nodes on your network, but I prefer to do this by hand so I know exactly what
       permissions I'm handing out. The golden rule here: <strong>don't just slap the built-in PVEAuditor role on
       a token and call it a day</strong> — it can't be modified, and Pulse actually wants a couple of extra
       privileges depending on your Proxmox version. So we build a dedicated role.
     </p>
-
-    <p>On the Proxmox host, create a custom role — call it something obvious like <code>PulseMonitor</code>:</p>
-
-    <ol>
-      <li>Datacenter → Permissions → Roles → Create.</li>
-      <li>
+<p>On the Proxmox host, create a custom role — call it something obvious like <code>PulseMonitor</code>:</p>
+<ol>
+<li>Datacenter → Permissions → Roles → Create.</li>
+<li>
         Name it <code>PulseMonitor</code> and add the privileges Pulse needs for read-only monitoring:
         the standard audit set, plus <code>VM.GuestAgent.Audit</code> if you're on PVE 9, or the legacy
         <code>VM.Monitor</code> if you're still on PVE 8. If PVE offers <code>Sys.Audit</code> separately, add
         that too.
       </li>
-    </ol>
-
-    <p>Now create a user and token dedicated to Pulse, rather than reusing your root account like an animal:</p>
-
+</ol>
+<p>Now create a user and token dedicated to Pulse, rather than reusing your root account like an animal:</p>
 <pre><code>pveum user add pulse-monitor@pve
 pveum aclmod / -user pulse-monitor@pve -role PulseMonitor
 pveum user token add pulse-monitor@pve pulse-token --privsep 0</code></pre>
-
-    <p>
+<p>
       That last command hands you a Token ID (something like <code>pulse-monitor@pve!pulse-token</code>) and a
       Token Secret. That secret is shown exactly once — copy it now.
     </p>
-
-    <p>Back in the Pulse UI:</p>
-
-    <ol>
-      <li>Settings → Nodes (or Infrastructure) → Add Node.</li>
-      <li>Pick Proxmox VE, drop in your node's URL (e.g. <code>https://your-pve-host:8006</code>).</li>
-      <li>Choose API Token auth, paste in the Token ID and Token Secret.</li>
-      <li>Test the connection, save.</li>
-    </ol>
-
-    <p>
+<p>Back in the Pulse UI:</p>
+<ol>
+<li>Settings → Nodes (or Infrastructure) → Add Node.</li>
+<li>Pick Proxmox VE, drop in your node's URL (e.g. <code>https://your-pve-host:8006</code>).</li>
+<li>Choose API Token auth, paste in the Token ID and Token Secret.</li>
+<li>Test the connection, save.</li>
+</ol>
+<p>
       Give it a minute and your nodes, VMs, containers and storage should start populating. If VM disk usage shows
       as zero, that's not Pulse being broken — the Proxmox API only reports it if the QEMU Guest Agent is installed
       and running inside the VM (<code>apt install qemu-guest-agent</code> on Linux guests, enable it under
       VM Options too).
     </p>
-
-    <blockquote>
+<blockquote>
       If you're also monitoring Proxmox Backup Server, same idea applies there: a dedicated token with the
       <code>DatastoreAudit</code> permission on <code>/datastore</code>, not a shared credential.
     </blockquote>
-
-    <h2>3. Turning on Patrol with an OpenRouter API key</h2>
-
-    <p>
+<h2>3. Turning on Patrol with an OpenRouter API key</h2>
+<p>
       This is the fun part. <strong>Pulse Patrol</strong> is a background loop that periodically looks across your
       whole infrastructure — current state and recent history — and flags the stuff a dashboard won't shout about:
       a backup job that's been quietly failing for a week, a pool creeping toward full, a container stuck in a
       restart loop nobody noticed. On the free Community tier this is "bring your own key" — Pulse doesn't ship
       its own model, you plug in a provider.
     </p>
-
-    <p>
+<p>
       I went with <strong>OpenRouter</strong> instead of committing to a single vendor, since it lets me swap
       models without touching the Pulse config every time someone ships something new and shiny.
     </p>
-    <blockquote>
+<blockquote>
       Openrouter allows you to use <code>free</code> and <code>paid</code> models from multiple providers (Anthropic, OpenAI, Gemini, etc.) through a single API key. Im using free models and they rotate them every few hours, so I don't have to worry about running out of credits.
     </blockquote>
-    <ol>
-      <li>Grab an API key from <a href="https://openrouter.ai" target="_blank" rel="noopener">openrouter.ai</a> (Keys section, top up some credits).</li>
-      <li>In Pulse, go to Settings → Pulse Assistant (this is where all the AI/provider config lives, Patrol included).</li>
-      <li>Add a provider, set the type to the OpenAI-compatible option, and set the custom base URL to <code>https://openrouter.ai/api/v1</code>.</li>
-      <li>Paste in your OpenRouter API key.</li>
-      <li>Hit Test — you want a green "connection successful" before moving on.</li>
-      <li>Pick your model using OpenRouter's model naming (e.g. an Anthropic, OpenAI, or Gemini model routed through OpenRouter). Pulse lets you set a cheaper model for Patrol's routine sweeps and a beefier one for interactive chat, which is a nice touch for the wallet.</li>
-    </ol>
-
-    <p>
+<ol>
+<li>Grab an API key from <a href="https://openrouter.ai" rel="noreferrer noopener" target="_blank">openrouter.ai</a> (Keys section, top up some credits).</li>
+<li>In Pulse, go to Settings → Pulse Assistant (this is where all the AI/provider config lives, Patrol included).</li>
+<li>Add a provider, set the type to the OpenAI-compatible option, and set the custom base URL to <code>https://openrouter.ai/api/v1</code>.</li>
+<li>Paste in your OpenRouter API key.</li>
+<li>Hit Test — you want a green "connection successful" before moving on.</li>
+<li>Pick your model using OpenRouter's model naming (e.g. an Anthropic, OpenAI, or Gemini model routed through OpenRouter). Pulse lets you set a cheaper model for Patrol's routine sweeps and a beefier one for interactive chat, which is a nice touch for the wallet.</li>
+</ol>
+<p>
       Once a provider's configured and tested, head to the Patrol page to actually switch it on: set the interval
       (anywhere from every 10 minutes to once a week — I run mine every 6 hours, no need to burn tokens checking
       a homelab that isn't exactly Black Friday traffic), and pick an autonomy level. Community/BYOK Patrol is
       watch-only: it investigates and reports, it doesn't touch anything. Higher autonomy levels with governed,
       approved fixes are a Pulse Pro thing — worth knowing so you're not confused when a setting is greyed out.
     </p>
-
-    <p>
+<p>
       That's the whole setup: Docker container on Alpine via dockhand, Proxmox wired in through a least-privilege
       API token, Patrol running on a schedule with OpenRouter as the brain behind it.
       Not bad for something that now tells me when my backups quietly stop working instead of me finding out three
       weeks later.
     </p>
-
-  </div>
+</div>
 </section>
-
 <footer id="contact">
-  <div class="wrap">
-    <div class="contact-inner">
-      <h2>Want to talk about security, infra, or 40k lore?</h2>
-      <div class="contact-links">
-        <a href="mailto:adel.de-la-llave.ramadan@ciberdefensa.uk">adel.de-la-llave.ramadan@ciberdefensa.uk</a>
-        <a href="https://ciberdefensa.uk" target="_blank" rel="noopener">ciberdefensa.uk</a>
-        <a href="https://github.com/kiraitachi">github</a>
-        <a href="https://www.linkedin.com/in/adel-de-la-llave/">linkedin</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span style="display:inline-flex;align-items:center;gap:10px"><img src="/images/ciberdefensa-icon.svg" alt="" width="28" height="28" aria-hidden="true" style="display:block;flex-shrink:0"> © 2026 Adel. Built by hand, not a template.</span>
-      <span>Madrid, ES</span>
-    </div>
-  </div>
+<div class="wrap">
+<div class="contact-inner">
+<h2>Want to talk about security, infra, or 40k lore?</h2>
+<div class="contact-links">
+<a href="mailto:adel.de-la-llave.ramadan@ciberdefensa.uk">adel.de-la-llave.ramadan@ciberdefensa.uk</a>
+<a href="https://ciberdefensa.uk" rel="noreferrer noopener" target="_blank">ciberdefensa.uk</a>
+<a href="https://github.com/kiraitachi">github</a>
+<a href="https://www.linkedin.com/in/adel-de-la-llave/">linkedin</a>
+</div>
+</div>
+<div class="footer-bottom">
+<span style="display:inline-flex;align-items:center;gap:10px"><img alt="" aria-hidden="true" height="28" src="/images/ciberdefensa-icon.svg" style="display:block;flex-shrink:0" width="28"/> © 2026 Adel. Built by hand, not a template.</span>
+<span>Madrid, ES</span>
+</div>
+</div>
 </footer>
-
 </body>
 </html>

@@ -1,149 +1,107 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>¿ZFS on consumer SSDs? Why you should avoid it and how to save your hardware</title>
-<link rel="icon" type="image/x-icon" href="/images/Ciberdefensa.ico">
-<script src="/favicon-pulse.js" defer></script>
-<meta name="description" content="Proxmox ZFS on consumer SSDs: why it can be a disaster and how to protect your drives.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css">
-   <script src="../cookie-consent.js" defer></script>
-</head>
+<link href="/images/Ciberdefensa.ico" rel="icon" type="image/x-icon"/>
+<script defer="" src="/favicon-pulse.js"></script>
+<meta content="Proxmox ZFS on consumer SSDs: why it can be a disaster and how to protect your drives." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="../style.css" rel="stylesheet"/>
+<script defer="" src="../cookie-consent.js"></script>
+<link href="https://www.ciberdefensa.uk/blog/ZFS-on-consumer-ssds.html" rel="canonical"/><meta content="article" property="og:type"/><meta content="¿ZFS on consumer SSDs? Why you should avoid it and how to save your hardware" property="og:title"/><meta content="https://www.ciberdefensa.uk/blog/ZFS-on-consumer-ssds.html" property="og:url"/><meta content="Proxmox ZFS on consumer SSDs: why it can be a disaster and how to protect your drives." property="og:description"/><style data-a11y="blog">a:focus-visible,button:focus-visible{outline:3px solid #ff9d3d;outline-offset:3px}.article-body pre{overflow-x:auto;max-width:100%}.article-body img{max-width:100%;height:auto}.cvss{overflow-wrap:anywhere}.top-card{display:flex!important;flex-direction:column!important;gap:18px!important}.top-card>.severity-box,.top-card>.summary-box{width:100%!important}</style></head>
 <body>
-
-<header class="nav">
-  <div class="wrap nav-inner">
-    <a href="../index.html" class="brand"><img src="/images/ciberdefensa-logo-horizontal.svg" alt="Ciberdefensa" height="40" style="display:block;height:40px;width:auto"></a>
-    <nav class="links"><a href="../index.html#contact">contact</a></nav>
-  </div>
-</header>
-
+<header class="nav"><div class="wrap nav-inner"><a aria-label="Ciberdefensa home" class="brand brand-logo" href="../index.html"><img alt="Ciberdefensa" height="40" src="/images/ciberdefensa-logo-horizontal.svg" style="display:block;height:40px;width:auto"/></a><nav class="links"><a href="../index.html#contact">contact</a></nav></div></header>
 <section class="article-hero">
-  <div class="wrap">
-    <a href="../index.html#blog" class="back-link mono">← back to blog</a>
-    <div class="post-meta">
-      <span class="post-tag mono">infra</span>
-      <span class="mono">2026-02-11</span>
-      <span class="mono">6 min</span>
-    </div>
-    <h1>¿ZFS on consumer SSDs? Why you should avoid it and how to save your hardware</h1>
-  </div>
+<div class="wrap">
+<a class="back-link mono" href="../index.html#blog">← back to blog</a>
+<div class="post-meta">
+<span class="post-tag mono">infra</span>
+<span class="mono">2026-02-11</span>
+<span class="mono">6 min</span>
+</div>
+<h1>¿ZFS on consumer SSDs? Why you should avoid it and how to save your hardware</h1>
+</div>
 </section>
-
 <section class="article-body">
-  <div class="wrap">
-    <p>If you're passionate about Proxmox and virtualization, you've probably been tempted to build a ZFS <em>pool</em> using consumer-grade ("non-enterprise") SSDs. The logic seems airtight: ZFS offers data integrity, snapshots, and compression. The reality, however, tends to be a hard hit: <strong>in under a year, your SSDs can be gone for good.</strong></p>
-
-    <p>I lived through this myself: I set up a ZFS <em>pool</em> with two 1TB Patriot SSDs for my virtual machines in Proxmox, and almost exactly one year later, one of them died irreversibly. Why does this happen?</p>
-
-    <h3>The technical problem: constant writes and "Write Amplification"</h3>
-
-    <p>The problem isn't that ZFS is "bad" &mdash; it's that it was designed for servers. ZFS is a copy-on-write filesystem (<strong>Copy-on-Write or CoW</strong>). This means that, instead of overwriting data blocks, it writes new blocks and then updates the pointers.</p>
-
-    <p>On top of that, three critical factors come into play when using consumer-grade SSDs:</p>
-
-    <ol>
-    <li><p><strong>Write Amplification:</strong> Because of how SSDs work internally, writing is a complex process. ZFS performs many small, frequent write operations (logs, metadata, VM state updates). This forces the SSD controller into constant erase-and-write cycles, wearing down the flash memory cells at a punishing rate.</p></li>
-
-    <li><p><strong>Synchronization (ZFS Intent Log &ndash; ZIL):</strong> ZFS is extremely strict about data integrity, which forces constant synchronous writes. Enterprise SSDs have capacitors (PLP &ndash; <em>Power Loss Protection</em>) that handle this comfortably. Consumer SSDs don't, which pushes the wear level far beyond what the manufacturer ever predicted for home use.</p></li>
-
-    <li><p><strong>Proxmox logs and telemetry:</strong> By default, Proxmox constantly writes logs to disk. On a ZFS system, these small state changes multiply, turning your SSD into a relentless writing machine.</p></li>
-    </ol>
-
-    <h3>How to protect your SSDs in Proxmox?</h3>
-
-    <p>If you're already using consumer SSDs, or don't have the budget for enterprise drives (like Intel DC or Samsung's PM/SM series), the goal is to <strong>drastically reduce unnecessary writes</strong>.</p>
-
-    <p>1. Reduce system logs</p>
-
-    <p>Proxmox writes a lot of information to the system journal. You can configure journald so logs live only in RAM instead of constantly hitting the SSD:</p>
-
-    <p>Edit the configuration file:</p>
-
-    <pre><code>nano /etc/systemd/journald.conf</code></pre>
-
-    <p>Adjust the following parameters:</p>
-
-    <pre><code>MaxLevelStore=warning
+<div class="wrap">
+<p>If you're passionate about Proxmox and virtualization, you've probably been tempted to build a ZFS <em>pool</em> using consumer-grade ("non-enterprise") SSDs. The logic seems airtight: ZFS offers data integrity, snapshots, and compression. The reality, however, tends to be a hard hit: <strong>in under a year, your SSDs can be gone for good.</strong></p>
+<p>I lived through this myself: I set up a ZFS <em>pool</em> with two 1TB Patriot SSDs for my virtual machines in Proxmox, and almost exactly one year later, one of them died irreversibly. Why does this happen?</p>
+<h3>The technical problem: constant writes and "Write Amplification"</h3>
+<p>The problem isn't that ZFS is "bad" — it's that it was designed for servers. ZFS is a copy-on-write filesystem (<strong>Copy-on-Write or CoW</strong>). This means that, instead of overwriting data blocks, it writes new blocks and then updates the pointers.</p>
+<p>On top of that, three critical factors come into play when using consumer-grade SSDs:</p>
+<ol>
+<li><p><strong>Write Amplification:</strong> Because of how SSDs work internally, writing is a complex process. ZFS performs many small, frequent write operations (logs, metadata, VM state updates). This forces the SSD controller into constant erase-and-write cycles, wearing down the flash memory cells at a punishing rate.</p></li>
+<li><p><strong>Synchronization (ZFS Intent Log – ZIL):</strong> ZFS is extremely strict about data integrity, which forces constant synchronous writes. Enterprise SSDs have capacitors (PLP – <em>Power Loss Protection</em>) that handle this comfortably. Consumer SSDs don't, which pushes the wear level far beyond what the manufacturer ever predicted for home use.</p></li>
+<li><p><strong>Proxmox logs and telemetry:</strong> By default, Proxmox constantly writes logs to disk. On a ZFS system, these small state changes multiply, turning your SSD into a relentless writing machine.</p></li>
+</ol>
+<h3>How to protect your SSDs in Proxmox?</h3>
+<p>If you're already using consumer SSDs, or don't have the budget for enterprise drives (like Intel DC or Samsung's PM/SM series), the goal is to <strong>drastically reduce unnecessary writes</strong>.</p>
+<p>1. Reduce system logs</p>
+<p>Proxmox writes a lot of information to the system journal. You can configure journald so logs live only in RAM instead of constantly hitting the SSD:</p>
+<p>Edit the configuration file:</p>
+<pre><code>nano /etc/systemd/journald.conf</code></pre>
+<p>Adjust the following parameters:</p>
+<pre><code>MaxLevelStore=warning
 MaxLevelSyslog=warning
 Storage=volatile
 ForwardToSyslog=no</code></pre>
-
-    <p>Save and restart the service:</p>
-
-    <pre><code>systemctl restart systemd-journald.service</code></pre>
-
-    <p>2. Set up log2ram</p>
-
-    <p>The best way to avoid disk writes is to use <code>Log2Ram</code>. This creates a mount point in RAM memory where logs are written, syncing them to disk only periodically.</p>
-
-    <p>Install it like this:</p>
-
-    <pre><code>echo "deb [signed-by=/usr/share/keyrings/azlux-archive-keyring.gpg] http://packages.azlux.fr/debian/ bookworm main" | tee /etc/apt/sources.list.d/azlux.list
+<p>Save and restart the service:</p>
+<pre><code>systemctl restart systemd-journald.service</code></pre>
+<p>2. Set up log2ram</p>
+<p>The best way to avoid disk writes is to use <code>Log2Ram</code>. This creates a mount point in RAM memory where logs are written, syncing them to disk only periodically.</p>
+<p>Install it like this:</p>
+<pre><code>echo "deb [signed-by=/usr/share/keyrings/azlux-archive-keyring.gpg] http://packages.azlux.fr/debian/ bookworm main" | tee /etc/apt/sources.list.d/azlux.list
 wget -O /usr/share/keyrings/azlux-archive-keyring.gpg https://azlux.fr/repo.gpg
-apt update && apt install log2ram -y
+apt update &amp;&amp; apt install log2ram -y
 reboot</code></pre>
-
-    <p>Check its status with:</p>
-
-    <pre><code>systemctl status log2ram</code></pre>
-
-    <p>3. Disable unnecessary services (HA)</p>
-
-    <p>If you're not running a high-availability cluster, the HA (High Availability) monitoring services write to disk constantly. Disable them:</p>
-
-    <pre><code>systemctl stop pve-ha-lrm.service
+<p>Check its status with:</p>
+<pre><code>systemctl status log2ram</code></pre>
+<p>3. Disable unnecessary services (HA)</p>
+<p>If you're not running a high-availability cluster, the HA (High Availability) monitoring services write to disk constantly. Disable them:</p>
+<pre><code>systemctl stop pve-ha-lrm.service
 systemctl disable pve-ha-lrm.service
 systemctl stop pve-ha-crm.service
 systemctl disable pve-ha-crm.service</code></pre>
-
-    <h3>Monitor your drives' wear level</h3>
-
-    <p>Don't wait for the disk to fail. Use smartmontools to check how much life your SSD has left before it's too late:</p>
-
-    <pre><code>apt-get install smartmontools
+<h3>Monitor your drives' wear level</h3>
+<p>Don't wait for the disk to fail. Use smartmontools to check how much life your SSD has left before it's too late:</p>
+<pre><code>apt-get install smartmontools
 lsblk
 # Replace /dev/nvme0n1 with your drive
 smartctl -a /dev/nvme0n1</code></pre>
-
-    <p><em>Look for the "Percentage Used" or "Media and Data Integrity Errors" value in the command output.</em></p>
-
-    <h3>Conclusion</h3>
-
-    <p>ZFS is a wonderful technology, but if you're using consumer hardware, <strong>prevention is mandatory</strong>. Reducing log activity through RAM and disabling unnecessary services won't make your &euro;50 SSD behave like a &euro;500 one, but it can be the difference between a disk lasting 1 year or 3.</p>
-    </div>
+<p><em>Look for the "Percentage Used" or "Media and Data Integrity Errors" value in the command output.</em></p>
+<h3>Conclusion</h3>
+<p>ZFS is a wonderful technology, but if you're using consumer hardware, <strong>prevention is mandatory</strong>. Reducing log activity through RAM and disabling unnecessary services won't make your €50 SSD behave like a €500 one, but it can be the difference between a disk lasting 1 year or 3.</p>
+</div>
 </section>
-
 <section class="article-footer">
-  <div class="wrap">
-    <div class="article-nav">
-      <a href="alpine-openrc-notes.html">← Alpine, OpenRC, and the services nobody warns you about</a>
-      <a href="oci-boot-volume-recovery.html">Recovering an OCI boot volume after an accidental termination →</a>
-    </div>
-  </div>
+<div class="wrap">
+<div class="article-nav">
+<a href="alpine-openrc-notes.html">← Alpine, OpenRC, and the services nobody warns you about</a>
+Recovering an OCI boot volume after an accidental termination →
+</div>
+</div>
 </section>
-
 <footer id="contact">
-  <div class="wrap">
-    <div class="contact-inner">
-      <h2>Want to talk security, infra, or 40k lore?</h2>
-      <div class="contact-links">
-        <a href="mailto:adel.de-la-llave.ramadan@ciberdefensa.uk">adel.de-la-llave.ramadan@ciberdefensa.uk</a>
-        <a href="https://ciberdefensa.uk" target="_blank" rel="noopener">ciberdefensa.uk</a>
-        <a href="https://github.com/kiraitachi">github</a>
-        <a href="https://www.linkedin.com/in/adel-de-la-llave/">linkedin</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span style="display:inline-flex;align-items:center;gap:10px"><img src="/images/ciberdefensa-icon.svg" alt="" width="28" height="28" aria-hidden="true" style="display:block;flex-shrink:0"> © 2026 Adel. Built by hand, not a template.</span>
-      <span>Madrid, ES</span>
-    </div>
-  </div>
+<div class="wrap">
+<div class="contact-inner">
+<h2>Want to talk security, infra, or 40k lore?</h2>
+<div class="contact-links">
+<a href="mailto:adel.de-la-llave.ramadan@ciberdefensa.uk">adel.de-la-llave.ramadan@ciberdefensa.uk</a>
+<a href="https://ciberdefensa.uk" rel="noreferrer noopener" target="_blank">ciberdefensa.uk</a>
+<a href="https://github.com/kiraitachi">github</a>
+<a href="https://www.linkedin.com/in/adel-de-la-llave/">linkedin</a>
+</div>
+</div>
+<div class="footer-bottom">
+<span style="display:inline-flex;align-items:center;gap:10px"><img alt="" aria-hidden="true" height="28" src="/images/ciberdefensa-icon.svg" style="display:block;flex-shrink:0" width="28"/> © 2026 Adel. Built by hand, not a template.</span>
+<span>Madrid, ES</span>
+</div>
+</div>
 </footer>
-
 </body>
 </html>

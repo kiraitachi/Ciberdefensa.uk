@@ -1,98 +1,81 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Hermes Updates My Blog Daily — From GitHub to Vercel</title>
-<link rel="icon" type="image/x-icon" href="/images/Ciberdefensa.ico">
-<script src="/favicon-pulse.js" defer></script>
-<meta name="description" content="How Hermes automates daily vulnerability posts onto ciberdefensa.uk: cron 0 10 * * * searches CVEs, writes structured HTML, pushes to GitHub, and Vercel deploys automatically.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css">
-</head>
+<link href="/images/Ciberdefensa.ico" rel="icon" type="image/x-icon"/>
+<script defer="" src="/favicon-pulse.js"></script>
+<meta content="How Hermes automates daily vulnerability posts onto ciberdefensa.uk: cron 0 10 * * * searches CVEs, writes structured HTML, pushes to GitHub, and Vercel deploys automatically." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="../style.css" rel="stylesheet"/>
+<link href="https://www.ciberdefensa.uk/blog/2026-10-17-hermes-automation-ciberdefensa.html" rel="canonical"/><meta content="article" property="og:type"/><meta content="Hermes Updates My Blog Daily — From GitHub to Vercel" property="og:title"/><meta content="https://www.ciberdefensa.uk/blog/2026-10-17-hermes-automation-ciberdefensa.html" property="og:url"/><meta content="How Hermes automates daily vulnerability posts onto ciberdefensa.uk: cron 0 10 * * * searches CVEs, writes structured HTML, pushes to GitHub, and Vercel deploys automatically." property="og:description"/><style data-a11y="blog">a:focus-visible,button:focus-visible{outline:3px solid #ff9d3d;outline-offset:3px}.article-body pre{overflow-x:auto;max-width:100%}.article-body img{max-width:100%;height:auto}.cvss{overflow-wrap:anywhere}.top-card{display:flex!important;flex-direction:column!important;gap:18px!important}.top-card>.severity-box,.top-card>.summary-box{width:100%!important}</style></head>
 <body>
-
-<header class="nav">
-  <div class="wrap nav-inner">
-    <a href="../index.html" class="brand"><img src="/images/ciberdefensa-logo-horizontal.svg" alt="Ciberdefensa" height="40" style="display:block;height:40px;width:auto"></a>
-    <nav class="links"><a href="../index.html#contact">contact</a></nav>
-  </div>
-</header>
-
+<header class="nav"><div class="wrap nav-inner"><a aria-label="Ciberdefensa home" class="brand brand-logo" href="../index.html"><img alt="Ciberdefensa" height="40" src="/images/ciberdefensa-logo-horizontal.svg" style="display:block;height:40px;width:auto"/></a><nav class="links"><a href="../index.html#contact">contact</a></nav></div></header>
 <section class="article-hero">
-  <div class="wrap">
-    <a href="../index.html#blog" class="back-link mono">← back to blog</a>
-    <div class="post-meta">
-      <span class="post-tag mono">applications</span>
-      <span class="mono">2026-10-17</span>
-      <span class="mono">4 min</span>
-    </div>
-    <h1>Hermes Updates My Blog Daily — From GitHub to Vercel</h1>
-  </div>
+<div class="wrap">
+<a class="back-link mono" href="../index.html#blog">← back to blog</a>
+<div class="post-meta">
+<span class="post-tag mono">applications</span>
+<span class="mono">2026-10-17</span>
+<span class="mono">4 min</span>
+</div>
+<h1>Hermes Updates My Blog Daily — From GitHub to Vercel</h1>
+</div>
 </section>
-
 <section class="article-body">
-  <div class="wrap">
-
-    <h2>What it does</h2>
-    <p>Every day at <strong>10:00 UTC</strong>, a cron job (<code>0 10 * * *</code>) runs the <code>homelab-vulnerability-post</code> skill. It searches the web for new CVEs affecting homelab stacks (Proxmox, Docker, LXC, Jellyfin, TrueNAS, Audiobookshelf), verifies with vendor / OpenCVE / NVD / CISA sources, writes a structured HTML entry using the documented 12-section template, commits, pushes to <a href="https://github.com/kiraitachi/Ciberdefensa.uk">github.com/kiraitachi/Ciberdefensa.uk</a>, and Vercel deploys it automatically to <a href="https://ciberdefensa.uk">ciberdefensa.uk</a>.</p>
-
-    <h2>How Hermes connects</h2>
-    <p>The agent runs locally on the Linux host. It reads the skill instructions, executes the web-search / verify / write steps, and pushes via a configured remote URL with the GitHub PAT stored as an environment variable (fine-grained GitHub token limited to this repository). The site is hosted on Vercel, which builds from the <code>main</code> branch — so every push is live within seconds.</p>
-
-    <figure class="post-image" style="margin:20px 0; text-align:center;">
-      <img src="/images/hermes-pipeline.svg" alt="Hermes automation pipeline: cron triggers Hermes, which verifies CVEs, generates posts, and pushes to GitHub/Vercel for automatic deployment" loading="lazy" width="720" height="260">
-      <figcaption>Daily automation pipeline: cron triggers Hermes, which verifies CVEs, generates posts, and pushes to GitHub/Vercel for automatic deployment.</figcaption>
-    </figure>
-
-    <h2>Structure enforced</h2>
-    <p>New entries always use the redesigned format validated on CVE-2024-21626: <strong>Severity badge (numeric CVSS, color-coded)</strong> + <strong>Summary card</strong> side-by-side, followed by <strong>section cards</strong> for Affected Asset, Endpoint, Prerequisites, Steps, Evidence, Impact, Root Cause, Remediation, Verification Steps, and References. No generic "Homelab Vulnerabilities" <code>&lt;h1&gt;</code> inside the post — that label belongs only to the index filter.</p>
-
-    <figure class="post-image" style="margin:20px 0; text-align:center;">
-      <img src="/images/hermes-post-structure.svg" alt="Post structure diagram: severity badge and summary card in top-card, followed by 12 structured section cards in a card layout" loading="lazy" width="720" height="320">
-      <figcaption>Post design structure: Severity + Summary in top-card; 12 structured sections (Affected Asset, Endpoint, Pre, Reproduce, Evidence, Impact, Root Cause, Remediation, Verification, References) in cards.</figcaption>
-    </figure>
-
-    <h2>Current pipeline</h2>
-    <ul>
-      <li><strong>Cron:</strong> <code>0 10 * * *</code> (scheduled daily at 10am UTC)</li>
-      <li><strong>Skill:</strong> <code>homelab-vulnerability-post</code> (structured rules + visual design)</li>
-      <li><strong>Source repo:</strong> <a href="https://github.com/kiraitachi/Ciberdefensa.uk">github.com/kiraitachi/Ciberdefensa.uk</a></li>
-      <li><strong>Deploy target:</strong> Vercel (auto-build from <code>main</code>)</li>
-      <li><strong>Live site:</strong> <a href="https://ciberdefensa.uk">ciberdefensa.uk</a></li>
-    </ul>
-
-    <h2>What is still work-in-progress</h2>
-    <p>This entry itself is a WIP note — changes and updates to the automation are tracked on GitHub, not rewritten into each blog post. The daily feed is operational; the visual redesign (badge + card layout) has been applied to all existing vulnerability entries.</p>
-
-    <h2>References</h2>
-    <ul>
-      <li><a href="https://github.com/kiraitachi/Ciberdefensa.uk" target="_blank" rel="noopener">Ciberdefensa.uk repo</a></li>
-      <li><a href="https://ciberdefensa.uk" target="_blank" rel="noopener">Live site (Vercel)</a></li>
-      <li><a href="../blog/2026-10-16-cve-2024-21626-runc-container-breakout.html">Prototype redesign — runc CVE-2024-21626</a></li>
-    </ul>
-
-  </div>
+<div class="wrap">
+<h2>What it does</h2>
+<p>Every day at <strong>10:00 UTC</strong>, a cron job (<code>0 10 * * *</code>) runs the <code>homelab-vulnerability-post</code> skill. It searches the web for new CVEs affecting homelab stacks (Proxmox, Docker, LXC, Jellyfin, TrueNAS, Audiobookshelf), verifies with vendor / OpenCVE / NVD / CISA sources, writes a structured HTML entry using the documented 12-section template, commits, pushes to <a href="https://github.com/kiraitachi/Ciberdefensa.uk">github.com/kiraitachi/Ciberdefensa.uk</a>, and Vercel deploys it automatically to <a href="https://ciberdefensa.uk">ciberdefensa.uk</a>.</p>
+<h2>How Hermes connects</h2>
+<p>The agent runs locally on the Linux host. It reads the skill instructions, executes the web-search / verify / write steps, and pushes via a configured remote URL with the GitHub PAT stored as an environment variable (fine-grained GitHub token limited to this repository). The site is hosted on Vercel, which builds from the <code>main</code> branch — so every push is live within seconds.</p>
+<figure class="post-image" style="margin:20px 0; text-align:center;">
+<img alt="Hermes automation pipeline: cron triggers Hermes, which verifies CVEs, generates posts, and pushes to GitHub/Vercel for automatic deployment" height="260" loading="lazy" src="/images/hermes-pipeline.svg" width="720"/>
+<figcaption>Daily automation pipeline: cron triggers Hermes, which verifies CVEs, generates posts, and pushes to GitHub/Vercel for automatic deployment.</figcaption>
+</figure>
+<h2>Structure enforced</h2>
+<p>New entries always use the redesigned format validated on CVE-2024-21626: <strong>Severity badge (numeric CVSS, color-coded)</strong> + <strong>Summary card</strong> side-by-side, followed by <strong>section cards</strong> for Affected Asset, Endpoint, Prerequisites, Steps, Evidence, Impact, Root Cause, Remediation, Verification Steps, and References. No generic "Homelab Vulnerabilities" <code>&lt;h1&gt;</code> inside the post — that label belongs only to the index filter.</p>
+<figure class="post-image" style="margin:20px 0; text-align:center;">
+<img alt="Post structure diagram: severity badge and summary card in top-card, followed by 12 structured section cards in a card layout" height="320" loading="lazy" src="/images/hermes-post-structure.svg" width="720"/>
+<figcaption>Post design structure: Severity + Summary in top-card; 12 structured sections (Affected Asset, Endpoint, Pre, Reproduce, Evidence, Impact, Root Cause, Remediation, Verification, References) in cards.</figcaption>
+</figure>
+<h2>Current pipeline</h2>
+<ul>
+<li><strong>Cron:</strong> <code>0 10 * * *</code> (scheduled daily at 10am UTC)</li>
+<li><strong>Skill:</strong> <code>homelab-vulnerability-post</code> (structured rules + visual design)</li>
+<li><strong>Source repo:</strong> <a href="https://github.com/kiraitachi/Ciberdefensa.uk">github.com/kiraitachi/Ciberdefensa.uk</a></li>
+<li><strong>Deploy target:</strong> Vercel (auto-build from <code>main</code>)</li>
+<li><strong>Live site:</strong> <a href="https://ciberdefensa.uk">ciberdefensa.uk</a></li>
+</ul>
+<h2>What is still work-in-progress</h2>
+<p>This entry itself is a WIP note — changes and updates to the automation are tracked on GitHub, not rewritten into each blog post. The daily feed is operational; the visual redesign (badge + card layout) has been applied to all existing vulnerability entries.</p>
+<h2>References</h2>
+<ul>
+<li><a href="https://github.com/kiraitachi/Ciberdefensa.uk" rel="noreferrer noopener" target="_blank">Ciberdefensa.uk repo</a></li>
+<li><a href="https://ciberdefensa.uk" rel="noreferrer noopener" target="_blank">Live site (Vercel)</a></li>
+<li><a href="../blog/2026-10-16-cve-2024-21626-runc-container-breakout.html">Prototype redesign — runc CVE-2024-21626</a></li>
+</ul>
+</div>
 </section>
-
 <footer id="contact">
-  <div class="wrap">
-    <div class="contact-inner">
-      <h2>Want to talk security, infra, or 40k lore?</h2>
-      <div class="contact-links">
-        <a href="mailto:adel.de-la-llave.ramadan@ciberdefensa.uk">adel.de-la-llave.ramadan@ciberdefensa.uk</a>
-        <a href="https://ciberdefensa.uk" target="_blank" rel="noopener">ciberdefensa.uk</a>
-        <a href="https://github.com/kiraitachi">github</a>
-        <a href="https://www.linkedin.com/in/adel-de-la-llave/">linkedin</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span style="display:inline-flex;align-items:center;gap:10px"><img src="/images/ciberdefensa-icon.svg" alt="" width="28" height="28" aria-hidden="true" style="display:block;flex-shrink:0"> © 2026 Adel. Built by hand, not a template.</span>
-      <span>Madrid, ES</span>
-    </div>
-  </div>
+<div class="wrap">
+<div class="contact-inner">
+<h2>Want to talk security, infra, or 40k lore?</h2>
+<div class="contact-links">
+<a href="mailto:adel.de-la-llave.ramadan@ciberdefensa.uk">adel.de-la-llave.ramadan@ciberdefensa.uk</a>
+<a href="https://ciberdefensa.uk" rel="noreferrer noopener" target="_blank">ciberdefensa.uk</a>
+<a href="https://github.com/kiraitachi">github</a>
+<a href="https://www.linkedin.com/in/adel-de-la-llave/">linkedin</a>
+</div>
+</div>
+<div class="footer-bottom">
+<span style="display:inline-flex;align-items:center;gap:10px"><img alt="" aria-hidden="true" height="28" src="/images/ciberdefensa-icon.svg" style="display:block;flex-shrink:0" width="28"/> © 2026 Adel. Built by hand, not a template.</span>
+<span>Madrid, ES</span>
+</div>
+</div>
 </footer>
 </body>
 </html>

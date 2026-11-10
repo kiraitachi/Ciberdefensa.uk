@@ -1,133 +1,100 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Scrutiny: SMART Drive Monitoring on Proxmox with a Hub-Spoke LXC</title>
-<link rel="icon" type="image/x-icon" href="/images/Ciberdefensa.ico">
-<script src="/favicon-pulse.js" defer></script>
-<meta name="description" content="Setting up Scrutiny for SMART drive monitoring on Proxmox: an unprivileged LXC hub running the dashboard and InfluxDB, a collector on the host itself, and Telegram alerts before a disk actually dies.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css">
-</head>
+<link href="/images/Ciberdefensa.ico" rel="icon" type="image/x-icon"/>
+<script defer="" src="/favicon-pulse.js"></script>
+<meta content="Setting up Scrutiny for SMART drive monitoring on Proxmox: an unprivileged LXC hub running the dashboard and InfluxDB, a collector on the host itself, and Telegram alerts before a disk actually dies." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="../style.css" rel="stylesheet"/>
+<link href="https://www.ciberdefensa.uk/blog/Scrutiny-Smart-Monitoring.html" rel="canonical"/><meta content="article" property="og:type"/><meta content="Scrutiny: SMART Drive Monitoring on Proxmox with a Hub-Spoke LXC" property="og:title"/><meta content="https://www.ciberdefensa.uk/blog/Scrutiny-Smart-Monitoring.html" property="og:url"/><meta content="Setting up Scrutiny for SMART drive monitoring on Proxmox: an unprivileged LXC hub running the dashboard and InfluxDB, a collector on the host itself, and Telegram alerts before a disk actually dies." property="og:description"/><style data-a11y="blog">a:focus-visible,button:focus-visible{outline:3px solid #ff9d3d;outline-offset:3px}.article-body pre{overflow-x:auto;max-width:100%}.article-body img{max-width:100%;height:auto}.cvss{overflow-wrap:anywhere}.top-card{display:flex!important;flex-direction:column!important;gap:18px!important}.top-card>.severity-box,.top-card>.summary-box{width:100%!important}</style></head>
 <body>
-
-<header class="nav">
-  <div class="wrap nav-inner">
-    <a href="../index.html" class="brand"><img src="/images/ciberdefensa-logo-horizontal.svg" alt="Ciberdefensa" height="40" style="display:block;height:40px;width:auto"></a>
-    <nav class="links"><a href="../index.html#contact">contact</a></nav>
-  </div>
-</header>
-
+<header class="nav"><div class="wrap nav-inner"><a aria-label="Ciberdefensa home" class="brand brand-logo" href="../index.html"><img alt="Ciberdefensa" height="40" src="/images/ciberdefensa-logo-horizontal.svg" style="display:block;height:40px;width:auto"/></a><nav class="links"><a href="../index.html#contact">contact</a></nav></div></header>
 <!--
   Analytics (Google Analytics via gtag.js, Microsoft Clarity) are NOT
   loaded here anymore. They only load after the visitor accepts cookies
   via the banner — see cookie-consent.js and #cookie-banner below.
 -->
-<script src="/cookie-consent.js" defer></script>
+<script defer="" src="/cookie-consent.js"></script>
 <!--
   Cookie consent banner. This is hidden by default and only shown if the visitor
   hasn't accepted or declined cookies yet. The banner is also accessible via the
   "Cookie settings" button in the footer.
 -->
-<div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
-  <div class="cookie-banner-inner">
-    <p class="cookie-text">
+<div aria-label="Cookie consent" aria-live="polite" class="cookie-banner" id="cookie-banner" role="dialog">
+<div class="cookie-banner-inner">
+<p class="cookie-text">
       This site uses cookies for <strong>analytics</strong> (Google Analytics, Microsoft Clarity) to understand how visitors use it. Nothing is set until you choose, and you can change your mind any time via "Cookie settings" in the footer.
     </p>
-    <div class="cookie-actions">
-      <button id="cookie-decline" class="cookie-btn">Decline</button>
-      <button id="cookie-accept" class="cookie-btn">Accept</button>
-    </div>
-  </div>
+<div class="cookie-actions">
+<button class="cookie-btn" id="cookie-decline">Decline</button>
+<button class="cookie-btn" id="cookie-accept">Accept</button>
 </div>
-
+</div>
+</div>
 <section class="article-hero">
-  <div class="wrap">
-    <a href="../index.html#blog" class="back-link mono">← back to blog</a>
-    <div class="post-meta">
-      <span class="post-tag mono">infra</span>
-      <span class="mono">2026-08-29</span>
-      <span class="mono">7 min</span>
-    </div>
-    <h1>Scrutiny: SMART Drive Monitoring on Proxmox with a Hub-Spoke LXC</h1>
-  </div>
+<div class="wrap">
+<a class="back-link mono" href="../index.html#blog">← back to blog</a>
+<div class="post-meta">
+<span class="post-tag mono">infra</span>
+<span class="mono">2026-08-29</span>
+<span class="mono">7 min</span>
+</div>
+<h1>Scrutiny: SMART Drive Monitoring on Proxmox with a Hub-Spoke LXC</h1>
+</div>
 </section>
-
 <section class="article-body">
-  <div class="wrap">
-
-    <p>If your homelab has more than a couple of drives, you already know the problem: <code>smartctl</code> works fine, but its output is a wall of raw numbers, <code>smartd</code> emails are cryptic, and nothing tracks how an attribute is <strong>trending</strong>. That last bit matters most — drives rarely die out of nowhere, they degrade first. This is the setup notes from getting <strong>Scrutiny</strong> running on Proxmox: a self-hosted dashboard with drive health, historical graphs, and alerts before something actually fails.</p>
-
-    <p>I'm using the official <strong>Hub-Spoke</strong> layout, which is the architecture the Scrutiny maintainers themselves recommend: the web UI and database live safely inside an unprivileged LXC, while a small collector binary runs directly on the Proxmox host — the only place with proper low-level access to the physical disks.</p>
-
-    <h2>Why Not Just Cram Everything Into One LXC</h2>
-
-    <p>The tempting shortcut is a single LXC with the disks passed through and everything running inside it. I'd avoid that, for a few reasons:</p>
-
-    <ul>
-      <li>An <strong>unprivileged LXC</strong> (the sane default) can't easily read SMART data off passed-through block devices — they show up owned by <code>nobody:nogroup</code> and <code>smartctl</code> just returns <code>Operation not permitted</code>. This is a long-standing complaint on the Proxmox forums.</li>
-      <li><strong>NVMe</strong> specifically wants the <code>SYS_ADMIN</code> capability, which isn't something worth handing to an unprivileged container.</li>
-      <li>A <strong>privileged LXC</strong> would technically work, but then you're running a web-facing service with near-root access to the host. No thanks.</li>
-    </ul>
-
-    <p>Hub-Spoke sidesteps all of it:</p>
-    <figure class="post-image" style="margin:20px 0; text-align:center;">
-      <img src="/images/scrutiny-hub-spoke.svg" alt="Scrutiny hub-spoke architecture: unprivileged LXC hub (web UI + InfluxDB) and Proxmox host collector (SMART data access)" loading="lazy" width="720" height="240">
-      <figcaption>Hub-Spoke layout: unprivileged LXC (Web + DB) and Proxmox host (collector with native disk access). No passthrough needed.</figcaption>
-    </figure>
-
-
-    <ul>
-      <li><strong>Hub</strong> — Scrutiny's web UI + InfluxDB, inside an unprivileged LXC running Docker. No disk passthrough needed at all.</li>
-      <li><strong>Spoke (collector)</strong> — a tiny binary on the Proxmox host itself, where <code>/dev/sda</code>, <code>/dev/nvme0</code>, etc. are natively accessible. It reads the SMART data and posts it to the Hub over HTTP.</li>
-    </ul>
-
-    <h2>What You Need</h2>
-
-    <ul>
-      <li>A Proxmox VE 8.x/9.x host with some drives attached — SATA or NVMe, doesn't matter.</li>
-      <li>Shell access to the host.</li>
-      <li>A network where the LXC and the host can reach each other, which is the default anyway.</li>
-      <li>About fifteen minutes.</li>
-    </ul>
-
-    <h2>Step 1 — Create the Docker LXC (the Hub)</h2>
-
-    <p>The Hub runs the web UI and InfluxDB. The quickest way to get a Debian LXC with Docker pre-installed is the Community Scripts helper. From the Proxmox host shell:</p>
-
-    <pre><code>bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/docker.sh)"</code></pre>
-
-    <blockquote>
-      <p><strong>Note:</strong> community scripts run as root on your host. It's worth a quick skim before running one, even a well-known one like this.</p>
-    </blockquote>
-
-    <p>During the prompts: pick Advanced mode if you want to tune things, give it 2 cores / 1–2GB RAM / 8–10GB disk (plenty for Scrutiny + InfluxDB), leave it unprivileged, and set a static IP if you can — the collector will need to point at it later.</p>
-
-    <p>Enter the container once it's up:</p>
-
-    <pre><code>pct enter &lt;CTID&gt;</code></pre>
-
-    <p>And sanity-check Docker:</p>
-
-    <pre><code>docker --version
+<div class="wrap">
+<p>If your homelab has more than a couple of drives, you already know the problem: <code>smartctl</code> works fine, but its output is a wall of raw numbers, <code>smartd</code> emails are cryptic, and nothing tracks how an attribute is <strong>trending</strong>. That last bit matters most — drives rarely die out of nowhere, they degrade first. This is the setup notes from getting <strong>Scrutiny</strong> running on Proxmox: a self-hosted dashboard with drive health, historical graphs, and alerts before something actually fails.</p>
+<p>I'm using the official <strong>Hub-Spoke</strong> layout, which is the architecture the Scrutiny maintainers themselves recommend: the web UI and database live safely inside an unprivileged LXC, while a small collector binary runs directly on the Proxmox host — the only place with proper low-level access to the physical disks.</p>
+<h2>Why Not Just Cram Everything Into One LXC</h2>
+<p>The tempting shortcut is a single LXC with the disks passed through and everything running inside it. I'd avoid that, for a few reasons:</p>
+<ul>
+<li>An <strong>unprivileged LXC</strong> (the sane default) can't easily read SMART data off passed-through block devices — they show up owned by <code>nobody:nogroup</code> and <code>smartctl</code> just returns <code>Operation not permitted</code>. This is a long-standing complaint on the Proxmox forums.</li>
+<li><strong>NVMe</strong> specifically wants the <code>SYS_ADMIN</code> capability, which isn't something worth handing to an unprivileged container.</li>
+<li>A <strong>privileged LXC</strong> would technically work, but then you're running a web-facing service with near-root access to the host. No thanks.</li>
+</ul>
+<p>Hub-Spoke sidesteps all of it:</p>
+<figure class="post-image" style="margin:20px 0; text-align:center;">
+<img alt="Scrutiny hub-spoke architecture: unprivileged LXC hub (web UI + InfluxDB) and Proxmox host collector (SMART data access)" height="240" loading="lazy" src="/images/scrutiny-hub-spoke.svg" width="720"/>
+<figcaption>Hub-Spoke layout: unprivileged LXC (Web + DB) and Proxmox host (collector with native disk access). No passthrough needed.</figcaption>
+</figure>
+<ul>
+<li><strong>Hub</strong> — Scrutiny's web UI + InfluxDB, inside an unprivileged LXC running Docker. No disk passthrough needed at all.</li>
+<li><strong>Spoke (collector)</strong> — a tiny binary on the Proxmox host itself, where <code>/dev/sda</code>, <code>/dev/nvme0</code>, etc. are natively accessible. It reads the SMART data and posts it to the Hub over HTTP.</li>
+</ul>
+<h2>What You Need</h2>
+<ul>
+<li>A Proxmox VE 8.x/9.x host with some drives attached — SATA or NVMe, doesn't matter.</li>
+<li>Shell access to the host.</li>
+<li>A network where the LXC and the host can reach each other, which is the default anyway.</li>
+<li>About fifteen minutes.</li>
+</ul>
+<h2>Step 1 — Create the Docker LXC (the Hub)</h2>
+<p>The Hub runs the web UI and InfluxDB. The quickest way to get a Debian LXC with Docker pre-installed is the Community Scripts helper. From the Proxmox host shell:</p>
+<pre><code>bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/docker.sh)"</code></pre>
+<blockquote>
+<p><strong>Note:</strong> community scripts run as root on your host. It's worth a quick skim before running one, even a well-known one like this.</p>
+</blockquote>
+<p>During the prompts: pick Advanced mode if you want to tune things, give it 2 cores / 1–2GB RAM / 8–10GB disk (plenty for Scrutiny + InfluxDB), leave it unprivileged, and set a static IP if you can — the collector will need to point at it later.</p>
+<p>Enter the container once it's up:</p>
+<pre><code>pct enter &lt;CTID&gt;</code></pre>
+<p>And sanity-check Docker:</p>
+<pre><code>docker --version
 docker compose version</code></pre>
+<h2>Step 2 — Deploy Scrutiny Web + InfluxDB via Docker Compose</h2>
+<p>Inside the LXC, set up the working directory:</p>
+<pre><code>mkdir -p /opt/scrutiny &amp;&amp; cd /opt/scrutiny</code></pre>
+<h3>2a. The config file has to exist first</h3>
+<p>This tripped me up initially — <code>scrutiny-web</code> needs a config file before its first launch, or it panics trying to build the InfluxDB connection string from nothing:</p>
+<pre><code>mkdir -p /opt/scrutiny/config
 
-    <h2>Step 2 — Deploy Scrutiny Web + InfluxDB via Docker Compose</h2>
-
-    <p>Inside the LXC, set up the working directory:</p>
-
-    <pre><code>mkdir -p /opt/scrutiny && cd /opt/scrutiny</code></pre>
-
-    <h3>2a. The config file has to exist first</h3>
-
-    <p>This tripped me up initially — <code>scrutiny-web</code> needs a config file before its first launch, or it panics trying to build the InfluxDB connection string from nothing:</p>
-
-    <pre><code>mkdir -p /opt/scrutiny/config
-
-cat > /opt/scrutiny/config/scrutiny.yaml << 'EOF'
+cat &gt; /opt/scrutiny/config/scrutiny.yaml &lt;&lt; 'EOF'
 version: 1
 
 web:
@@ -144,12 +111,9 @@ web:
     host: influxdb
     port: 8086
 EOF</code></pre>
-
-    <h3>2b. docker-compose.yml</h3>
-
-    <p>This mirrors the project's official hub-only compose example — just the web UI and InfluxDB. The collector doesn't belong in here at all, it lives on the host.</p>
-
-    <pre><code>cat > /opt/scrutiny/docker-compose.yml << 'EOF'
+<h3>2b. docker-compose.yml</h3>
+<p>This mirrors the project's official hub-only compose example — just the web UI and InfluxDB. The collector doesn't belong in here at all, it lives on the host.</p>
+<pre><code>cat &gt; /opt/scrutiny/docker-compose.yml &lt;&lt; 'EOF'
 services:
   influxdb:
     image: influxdb:2.8
@@ -185,99 +149,63 @@ networks:
   scrutiny-net:
     driver: bridge
 EOF</code></pre>
-
-    <p>A few details worth flagging, since none of them are obvious from the error messages alone:</p>
-
-    <ul>
-      <li><strong>Pin the version to v0.8.6.</strong> Don't use <code>master-web</code> or <code>latest</code> — the web image and the collector binary must match exactly. <code>v0.9.0-web</code> introduced a breaking change where <code>/api/devices/register</code> silently returns <code>{"success":false}</code>, so drives never show up.</li>
-      <li><strong>No environment variables for InfluxDB.</strong> Scrutiny reads that connection from <code>scrutiny.yaml</code> only — variables like <code>SCRUTINY_WEB_INFLUXDB_HOST</code> look right but are quietly ignored, and you get a startup panic instead.</li>
-      <li><strong>The healthcheck matters.</strong> Without <code>condition: service_healthy</code>, <code>scrutiny-web</code> starts before InfluxDB is actually ready and crashes.</li>
-    </ul>
-
-    <h3>2c. Start it</h3>
-
-    <pre><code>docker compose up -d</code></pre>
-
-    <p>Give InfluxDB about 20 seconds to pass its healthcheck, then check the logs:</p>
-
-    <pre><code>docker compose logs scrutiny-web</code></pre>
-
-    <p>You want to see <code>Successfully connected to scrutiny sqlite db</code> and <code>Database migration completed successfully</code>, with no panics. At that point <code>http://&lt;LXC_IP&gt;:8080</code> should load — empty, since no collector has reported in yet.</p>
-
-    <h2>Step 3 — Install the Collector on the Proxmox Host</h2>
-
-    <p>Back on the Proxmox host (not the LXC), install <code>smartmontools</code> if it isn't already there:</p>
-
-    <pre><code>apt install smartmontools -y</code></pre>
-
-    <p>Then pull the collector binary — again, <strong>v0.8.6</strong> specifically, to match the web image:</p>
-
-    <pre><code>mkdir -p /opt/scrutiny/bin /opt/scrutiny/config
+<p>A few details worth flagging, since none of them are obvious from the error messages alone:</p>
+<ul>
+<li><strong>Pin the version to v0.8.6.</strong> Don't use <code>master-web</code> or <code>latest</code> — the web image and the collector binary must match exactly. <code>v0.9.0-web</code> introduced a breaking change where <code>/api/devices/register</code> silently returns <code>{"success":false}</code>, so drives never show up.</li>
+<li><strong>No environment variables for InfluxDB.</strong> Scrutiny reads that connection from <code>scrutiny.yaml</code> only — variables like <code>SCRUTINY_WEB_INFLUXDB_HOST</code> look right but are quietly ignored, and you get a startup panic instead.</li>
+<li><strong>The healthcheck matters.</strong> Without <code>condition: service_healthy</code>, <code>scrutiny-web</code> starts before InfluxDB is actually ready and crashes.</li>
+</ul>
+<h3>2c. Start it</h3>
+<pre><code>docker compose up -d</code></pre>
+<p>Give InfluxDB about 20 seconds to pass its healthcheck, then check the logs:</p>
+<pre><code>docker compose logs scrutiny-web</code></pre>
+<p>You want to see <code>Successfully connected to scrutiny sqlite db</code> and <code>Database migration completed successfully</code>, with no panics. At that point <code>http://&lt;LXC_IP&gt;:8080</code> should load — empty, since no collector has reported in yet.</p>
+<h2>Step 3 — Install the Collector on the Proxmox Host</h2>
+<p>Back on the Proxmox host (not the LXC), install <code>smartmontools</code> if it isn't already there:</p>
+<pre><code>apt install smartmontools -y</code></pre>
+<p>Then pull the collector binary — again, <strong>v0.8.6</strong> specifically, to match the web image:</p>
+<pre><code>mkdir -p /opt/scrutiny/bin /opt/scrutiny/config
 
 wget -O /opt/scrutiny/bin/scrutiny-collector-metrics \
   https://github.com/AnalogJ/scrutiny/releases/download/v0.8.6/scrutiny-collector-metrics-linux-amd64
 
 chmod +x /opt/scrutiny/bin/scrutiny-collector-metrics</code></pre>
-
-    <blockquote>
-      <p><strong>Version pinning isn't optional here.</strong> Grabbing <code>releases/latest</code> will hand you v0.9.0, and the dashboard will silently stay empty even though the collector runs without errors.</p>
-    </blockquote>
-
-    <p>Confirm it:</p>
-
-    <pre><code>/opt/scrutiny/bin/scrutiny-collector-metrics --version</code></pre>
-
-    <p>Expected: <code>linux.amd64-0.8.6</code>.</p>
-
-    <h3>3a. collector.yaml — needed for cron to actually work</h3>
-
-    <p>This is the one that cost me the most time. When cron runs the collector, it uses a stripped-down <code>PATH</code> that doesn't include <code>/usr/sbin</code>, so it can't find <code>smartctl</code> and fails with <code>DependencyMissingError: "smartctl binary is missing"</code> — even though running it manually works perfectly. The fix is pointing at the full binary path explicitly:</p>
-
-    <pre><code>cat > /opt/scrutiny/config/collector.yaml << 'EOF'
+<blockquote>
+<p><strong>Version pinning isn't optional here.</strong> Grabbing <code>releases/latest</code> will hand you v0.9.0, and the dashboard will silently stay empty even though the collector runs without errors.</p>
+</blockquote>
+<p>Confirm it:</p>
+<pre><code>/opt/scrutiny/bin/scrutiny-collector-metrics --version</code></pre>
+<p>Expected: <code>linux.amd64-0.8.6</code>.</p>
+<h3>3a. collector.yaml — needed for cron to actually work</h3>
+<p>This is the one that cost me the most time. When cron runs the collector, it uses a stripped-down <code>PATH</code> that doesn't include <code>/usr/sbin</code>, so it can't find <code>smartctl</code> and fails with <code>DependencyMissingError: "smartctl binary is missing"</code> — even though running it manually works perfectly. The fix is pointing at the full binary path explicitly:</p>
+<pre><code>cat &gt; /opt/scrutiny/config/collector.yaml &lt;&lt; 'EOF'
 version: 1
 commands:
   metrics_smartctl_bin: /usr/sbin/smartctl
 host:
   id: "proxmox-main"
 EOF</code></pre>
-
-    <p><code>host.id</code> is just a label — useful once you're feeding more than one host into the same dashboard, which I do below.</p>
-
-    <h3>3b. Test run</h3>
-
-    <pre><code>/opt/scrutiny/bin/scrutiny-collector-metrics run \
+<p><code>host.id</code> is just a label — useful once you're feeding more than one host into the same dashboard, which I do below.</p>
+<h3>3b. Test run</h3>
+<pre><code>/opt/scrutiny/bin/scrutiny-collector-metrics run \
   --api-endpoint "http://&lt;LXC_IP&gt;:8080"</code></pre>
-
-    <p>You should see each drive get detected and posted one by one. Refresh the dashboard — the drives should now be listed.</p>
-
-    <h2>Step 4 — Schedule It with Cron</h2>
-
-    <blockquote>
-      <p><strong>Edit the root crontab.</strong> The collector needs root to read SMART data. On any host where you log in as a non-root user, use <code>sudo crontab -e</code> — adding the job to a regular user's crontab just fails silently on permissions.</p>
-    </blockquote>
-
-    <p>On the Proxmox host (already root):</p>
-
-    <pre><code>crontab -e</code></pre>
-
-    <p>Add a line for every 30 minutes:</p>
-
-    <pre><code>*/30 * * * * /opt/scrutiny/bin/scrutiny-collector-metrics run --api-endpoint "http://&lt;LXC_IP&gt;:8080" >/dev/null 2>&1</code></pre>
-
-    <p>On frequency: 30 minutes is a reasonable default — enough resolution for temperature trends without bloating InfluxDB. Go to 15 minutes if you want finer granularity, or hourly if you'd rather keep the database small.</p>
-
-    <p>Double-check it saved, and that cron itself is actually running:</p>
-
-    <pre><code>crontab -l
+<p>You should see each drive get detected and posted one by one. Refresh the dashboard — the drives should now be listed.</p>
+<h2>Step 4 — Schedule It with Cron</h2>
+<blockquote>
+<p><strong>Edit the root crontab.</strong> The collector needs root to read SMART data. On any host where you log in as a non-root user, use <code>sudo crontab -e</code> — adding the job to a regular user's crontab just fails silently on permissions.</p>
+</blockquote>
+<p>On the Proxmox host (already root):</p>
+<pre><code>crontab -e</code></pre>
+<p>Add a line for every 30 minutes:</p>
+<pre><code>*/30 * * * * /opt/scrutiny/bin/scrutiny-collector-metrics run --api-endpoint "http://&lt;LXC_IP&gt;:8080" &gt;/dev/null 2&gt;&amp;1</code></pre>
+<p>On frequency: 30 minutes is a reasonable default — enough resolution for temperature trends without bloating InfluxDB. Go to 15 minutes if you want finer granularity, or hourly if you'd rather keep the database small.</p>
+<p>Double-check it saved, and that cron itself is actually running:</p>
+<pre><code>crontab -l
 systemctl status cron</code></pre>
-
-    <h2>Troubleshooting Notes</h2>
-
-    <h3>A drive is missing or shows "Unknown"</h3>
-
-    <p>Usually the collector couldn't auto-detect the device type — common with USB enclosures or SAS/RAID controllers. Give it an explicit hint in <code>collector.yaml</code>:</p>
-
-    <pre><code>version: 1
+<h2>Troubleshooting Notes</h2>
+<h3>A drive is missing or shows "Unknown"</h3>
+<p>Usually the collector couldn't auto-detect the device type — common with USB enclosures or SAS/RAID controllers. Give it an explicit hint in <code>collector.yaml</code>:</p>
+<pre><code>version: 1
 host:
   id: "proxmox-main"
 devices:
@@ -287,67 +215,49 @@ devices:
     type: 'sat'
   - device: /dev/nvme0
     type: 'nvme'</code></pre>
-
-    <p>Then point the cron entry at that config with <code>--config /opt/scrutiny/config/collector.yaml</code>. Use <code>smartctl --scan</code> to list your actual devices.</p>
-
-    <h3>NVMe shows no temperature or wear data</h3>
-
-    <p>This comes down to the <code>smartmontools</code> version on the host — NVMe reports a different attribute schema than SATA, and anything older than 7.0 handles it poorly. Check with <code>smartctl --version</code>.</p>
-
-    <h3>"Connection refused" from the collector</h3>
-
-    <p>Almost always a firewall blocking port 8080 between the host and the LXC. Test from the host with <code>curl -v http://&lt;LXC_IP&gt;:8080</code> and check both the LXC and Proxmox firewall rules if it times out.</p>
-
-    <h3>Dashboard stays empty even though the collector runs fine</h3>
-
-    <p>Nine times out of ten this is a version mismatch between the web image and the collector binary. Check both:</p>
-
-    <pre><code># On the LXC
+<p>Then point the cron entry at that config with <code>--config /opt/scrutiny/config/collector.yaml</code>. Use <code>smartctl --scan</code> to list your actual devices.</p>
+<h3>NVMe shows no temperature or wear data</h3>
+<p>This comes down to the <code>smartmontools</code> version on the host — NVMe reports a different attribute schema than SATA, and anything older than 7.0 handles it poorly. Check with <code>smartctl --version</code>.</p>
+<h3>"Connection refused" from the collector</h3>
+<p>Almost always a firewall blocking port 8080 between the host and the LXC. Test from the host with <code>curl -v http://&lt;LXC_IP&gt;:8080</code> and check both the LXC and Proxmox firewall rules if it times out.</p>
+<h3>Dashboard stays empty even though the collector runs fine</h3>
+<p>Nine times out of ten this is a version mismatch between the web image and the collector binary. Check both:</p>
+<pre><code># On the LXC
 docker compose logs scrutiny-web | grep "linux\|dev-"
 
 # On the Proxmox host
 /opt/scrutiny/bin/scrutiny-collector-metrics --version</code></pre>
-
-    <p>If they don't match, re-pull the v0.8.6 collector and reset the web container:</p>
-
-    <pre><code>docker compose down
+<p>If they don't match, re-pull the v0.8.6 collector and reset the web container:</p>
+<pre><code>docker compose down
 sed -i 's|scrutiny:.*-web|scrutiny:v0.8.6-web|' docker-compose.yml
-rm -f ./config/scrutiny.db && rm -rf ./influxdb
+rm -f ./config/scrutiny.db &amp;&amp; rm -rf ./influxdb
 docker compose up -d</code></pre>
-
-    <h2>Feeding in Other Hosts</h2>
-
-    <p>The nice part of Hub-Spoke is that one Hub can take collectors from several machines, not just the Proxmox host it's paired with. Any other Debian-based box gets the same collector binary and steps. The one thing to remember: give each host a unique <code>host.id</code> in its own <code>collector.yaml</code>, or Scrutiny can't tell the drives apart on the dashboard.</p>
-
-    <h2>Wrapping Up</h2>
-
-    <p>End state: an unprivileged LXC running the dashboard and InfluxDB, a native collector on the Proxmox host with proper access to the drives, historical trend data. The CPU overhead is negligible, so there's not much reason not to run this once it's set up.</p>
-    <figure class="post-image" style="margin:20px 0; text-align:center;">
-      <img src="https://i.ibb.co/LGY9W26/Captura-de-pantalla-2026-10-21-170729.png" alt="Scrutiny web dashboard real screenshot: SMART health indicators, temperature and historical trend cards for monitored Proxmox drives" loading="lazy" width="720" height="200">
-      <figcaption>Dashboard mock: SMART health (PASS), temperature, and trend indicators per drive. Reallocated sectors tracked over time.</figcaption>
-    </figure>
-
-
-  </div>
+<h2>Feeding in Other Hosts</h2>
+<p>The nice part of Hub-Spoke is that one Hub can take collectors from several machines, not just the Proxmox host it's paired with. Any other Debian-based box gets the same collector binary and steps. The one thing to remember: give each host a unique <code>host.id</code> in its own <code>collector.yaml</code>, or Scrutiny can't tell the drives apart on the dashboard.</p>
+<h2>Wrapping Up</h2>
+<p>End state: an unprivileged LXC running the dashboard and InfluxDB, a native collector on the Proxmox host with proper access to the drives, historical trend data. The CPU overhead is negligible, so there's not much reason not to run this once it's set up.</p>
+<figure class="post-image" style="margin:20px 0; text-align:center;">
+<img alt="Scrutiny web dashboard real screenshot: SMART health indicators, temperature and historical trend cards for monitored Proxmox drives" height="200" loading="lazy" src="https://i.ibb.co/LGY9W26/Captura-de-pantalla-2026-10-21-170729.png" width="720"/>
+<figcaption>Dashboard mock: SMART health (PASS), temperature, and trend indicators per drive. Reallocated sectors tracked over time.</figcaption>
+</figure>
+</div>
 </section>
-
 <footer id="contact">
-  <div class="wrap">
-    <div class="contact-inner">
-      <h2>Want to talk about security, infra, or 40k lore?</h2>
-      <div class="contact-links">
-        <a href="mailto:adel.de-la-llave.ramadan@ciberdefensa.uk">adel.de-la-llave.ramadan@ciberdefensa.uk</a>
-        <a href="https://ciberdefensa.uk" target="_blank" rel="noopener">ciberdefensa.uk</a>
-        <a href="https://github.com/kiraitachi">github</a>
-        <a href="https://www.linkedin.com/in/adel-de-la-llave/">linkedin</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span style="display:inline-flex;align-items:center;gap:10px"><img src="/images/ciberdefensa-icon.svg" alt="" width="28" height="28" aria-hidden="true" style="display:block;flex-shrink:0"> © 2026 Adel. Built by hand, not a template.</span>
-      <span>Madrid, ES</span>
-    </div>
-  </div>
+<div class="wrap">
+<div class="contact-inner">
+<h2>Want to talk about security, infra, or 40k lore?</h2>
+<div class="contact-links">
+<a href="mailto:adel.de-la-llave.ramadan@ciberdefensa.uk">adel.de-la-llave.ramadan@ciberdefensa.uk</a>
+<a href="https://ciberdefensa.uk" rel="noreferrer noopener" target="_blank">ciberdefensa.uk</a>
+<a href="https://github.com/kiraitachi">github</a>
+<a href="https://www.linkedin.com/in/adel-de-la-llave/">linkedin</a>
+</div>
+</div>
+<div class="footer-bottom">
+<span style="display:inline-flex;align-items:center;gap:10px"><img alt="" aria-hidden="true" height="28" src="/images/ciberdefensa-icon.svg" style="display:block;flex-shrink:0" width="28"/> © 2026 Adel. Built by hand, not a template.</span>
+<span>Madrid, ES</span>
+</div>
+</div>
 </footer>
-
 </body>
 </html>
