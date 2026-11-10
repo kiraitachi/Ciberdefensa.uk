@@ -153,20 +153,6 @@ This site uses cookies for <strong>analytics</strong> (Google Analytics, Microso
 </div>
 <p class="post-empty mono" hidden="" id="post-empty">No posts match your search.</p>
 <div class="post-grid" id="post-grid">
-<<<<<<< HEAD
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-11-08-cve-2026-119551-jellyfin-auth-bypass.html">
-=======
-<a class="post-card" href="blog/2026-11-10-cve-2026-107060-tailscale.html" data-category="homelab-vulnerabilities">
-<div class="post-meta">
-<span class="post-tag mono">homelab-vulnerabilities</span>
-<span class="mono">2026-11-10</span>
-<span class="mono">7 min</span>
-</div>
-<h3>CVE-2026-107060 — Tailscale Insecure Permissions (CVSS 9.1)</h3>
-<p>CVE-2026-107060: Insecure Permissions in Tailscale versionCode 297862600. An unauthenticated attacker can make arbitrary changes to another user's VPN configurations and preferences — confidentiality and integrity impacts.</p>
-<span class="readmore mono">read entry →</span>
-</a>
-
 <a class="post-card" href="blog/2026-11-09-cve-2026-123158-sshole-openssh.html" data-category="homelab-vulnerabilities">
 <div class="post-meta">
 <span class="post-tag mono">homelab-vulnerabilities</span>
@@ -174,299 +160,183 @@ This site uses cookies for <strong>analytics</strong> (Google Analytics, Microso
 <span class="mono">7 min</span>
 </div>
 <h3>SSHole (CVE-2026-123158) — OpenSSH Auth Bypass on Alpine / musl Linux</h3>
-<p>CVE-2026-123158 (SSHole): a password of 257+ bytes bypasses authentication on OpenSSH running on musl libc without PAM — Alpine, OpenWrt, Docker base images. Already exploited in the wild. Patch to 10.6p2.</p>
+<p></p>
 <span class="readmore mono">read entry →</span>
 </a>
 
-<a class="post-card" href="blog/2026-11-08-cve-2026-119551-jellyfin-auth-bypass.html" data-category="homelab-vulnerabilities">
->>>>>>> 48ec50245c1ae64cdf48c9c4884f3389e6463950
-<div class="post-meta">
-<span class="post-tag mono">homelab-vulnerabilities</span>
-<span class="mono">2026-11-08</span>
-<span class="mono">4 min</span>
-</div>
-<h3>CVE-2026-119551 — Jellyfin Authorization Bypass</h3>
-<p>CVE-2026-119551: Jellyfin Authorization Bypass via GET /Items/Suggestions allows authenticated non-admin users to enumerate restricted library items and obtain filesystem paths. Affects Jellyfin through 12.4.</p>
-<span class="readmore mono">read entry →</span>
-</a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="/blog/2026-11-03-cve-2026-17106-docker-cp-destination-escape.html">
-<div class="post-meta">
-<span class="post-tag mono">homelab-vulnerabilities</span>
-<span class="mono">2026-11-06</span>
-<span class="mono">6 min</span>
-</div>
-<h3>CVE-2026-17106 — Docker CopyEscape (Destination‑escape via docker cp)</h3>
-<p>CVE-2026-17106 (CopyEscape) is a path-traversal and symlink-following vulnerability in Docker's moby/go-archive library. An attacker who controls tar archive contents can overwrite arbitrary host files via docker cp, leading to container escape and full host compromise.</p>
-<span class="readmore mono">read entry →</span>
-</a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-11-05-cve-2026-53988-dockhand-auth-bypass.html">
-<div class="post-meta">
-<span class="post-tag mono">homelab-vulnerabilities</span>
-<span class="mono">2026-11-05</span>
-<span class="mono">5 min</span>
-</div>
-<h3>CVE-2026-53988 — Dockhand Unauthenticated Webhook Trigger</h3>
-<p>CVE-2026-53988: Dockhand authentication bypass in git webhook endpoints allows unauthenticated remote attackers to trigger arbitrary stack redeployments via null webhook secret (CVSS 10.0 Critical). Upgrade to 1.0.40 or later.</p>
-<span class="readmore mono">read entry →</span>
-</a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-11-04-cve-2026-99999-pwnescape-kvm-escape.html">
+<a class="post-card" href="blog/2026-11-04-cve-2026-99999-pwnescape-kvm-escape.html" data-category="homelab-vulnerabilities">
 <div class="post-meta">
 <span class="post-tag mono">homelab-vulnerabilities</span>
 <span class="mono">2026-11-04</span>
 <span class="mono">5 min</span>
 </div>
 <h3>CVE-2026-99999 — Proxmox PwnEscape (Guest-to-Host KVM Escape)</h3>
-<p>CVE-2026-99999: Guest-to-host KVM escape vulnerability in Proxmox VE kernel allowing arbitrary code execution on the host.</p>
+<p></p>
 <span class="readmore mono">read entry →</span>
 </a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-11-03-cve-2026-17106-docker-cp-destination-escape.html">
-<div class="post-meta">
-<span class="post-tag mono">homelab-vulnerabilities</span>
-<span class="mono">2026-11-03</span>
-<span class="mono">6 min</span>
-</div>
-<h3>Docker CP Destination Escape (CVE-2026-17106) — Arbitrary File Write via Tar Path Traversal</h3>
-<p>CVE-2026-17106: Docker tar extraction path escape via symlink link following. Attacker can create or overwrite arbitrary files writable by the Docker process through docker cp from a malicious container. Affects Docker Engine &lt; 29.7.0, Docker CLI &lt; 29.7.0, Docker Desktop &lt; 4.86.0, Docker Sandboxes &lt; 0.38.0, Docker Compose &lt; 5.4.0. Severity: 7.1 High. Update immediately.</p>
-<span class="readmore mono">read entry →</span>
-</a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-11-02-cve-2026-114409-docker-desktop-credential-exposure.html">
-<div class="post-meta">
-<span class="post-tag mono">homelab-vulnerabilities</span>
-<span class="mono">2026-11-02</span>
-<span class="mono">4 min</span>
-</div>
-<h3>CVE-2026-114409 — Docker Desktop Credential Exposure via Log Redaction Failure (CVSS 5.7)</h3>
-<p>CVE-2026-114409: Docker Desktop before 4.97.0 writes third-party API keys and OAuth tokens to local logs due to missing IPC redaction. CVSS 5.7 Medium. Upgrade to 4.97.0; review and delete old diagnostics bundles.</p>
-<span class="readmore mono">read entry →</span>
-</a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-11-01-cve-2026-98432-linux-kernel-tf-escape.html">
+
+<a class="post-card" href="blog/2026-11-01-cve-2026-98432-linux-kernel-tf-escape.html" data-category="homelab-vulnerabilities">
 <div class="post-meta">
 <span class="post-tag mono">homelab-vulnerabilities</span>
 <span class="mono">2026-11-01</span>
 <span class="mono">6 min</span>
 </div>
 <h3>CVE-2026-98432 — Linux Kernel IPv4 TCP Use-After-Free (TF Escape) (CVSS 9.8)</h3>
-<p>CVE-2026-98432 (TF Escape): Linux kernel IPv4 TCP use-after-free via splice()/AF_ALG allows root privilege escalation (CVSS 9.8 Critical). Affects Proxmox, Debian, Alpine, Raspberry Pi, TrueNAS.</p>
+<p></p>
 <span class="readmore mono">read entry →</span>
 </a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-10-28-cve-2026-94588-proxmox-tfa-bypass.html">
+
+<a class="post-card" href="blog/2026-10-28-cve-2026-94588-proxmox-tfa-bypass.html" data-category="homelab-vulnerabilities">
 <div class="post-meta">
 <span class="post-tag mono">homelab-vulnerabilities</span>
 <span class="mono">2026-10-28</span>
 <span class="mono">6 min</span>
 </div>
 <h3>CVE-2026-94588 — Proxmox TFA Bypass Authentication Bypass</h3>
-<p>CVE-2026-94588: Proxmox libpve-access-control authentication bypass. Supplying an arbitrary tfa-challenge value at the access-ticket API skips password verification, allowing unauthenticated login as any enabled user including root@pam. Affects PVE 7.0–8.0 before 8.0.4. Severity: 9.8 Critical. Patch immediately.</p>
+<p></p>
 <span class="readmore mono">read entry →</span>
 </a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-10-27-cve-2026-41567-docker-archive-execution.html">
-<div class="post-meta">
-<span class="post-tag mono">homelab-vulnerabilities</span>
-<span class="mono">2026-10-27</span>
-<span class="mono">5 min</span>
-</div>
-<h3>CVE-2026-41567 — Docker Archive Execution Vulnerability</h3>
-<p>CVE-2026-41567: Docker/Moby archive extraction executes trojanized decompression binary on host with root privileges (CVSS 7.2 High).</p>
-<span class="readmore mono">read entry →</span>
-</a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-10-26-cve-2026-77179-docker-sandboxes-macos-host-escape.html">
-<div class="post-meta">
-<span class="post-tag mono">homelab-vulnerabilities</span>
-<span class="mono">2026-10-26</span>
-<span class="mono">5 min</span>
-</div>
-<h3>CVE-2026-77179 — Docker Sandboxes macOS Host Escape (CVSS 9.4)</h3>
-<p>CVE-2026-77179: Docker Sandboxes virtio-fs symlink escape allowed malicious guest to read/write arbitrary macOS host files as VMM (CVSS 9.4 Critical).</p>
-<span class="readmore mono">read entry →</span>
-</a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-10-25-cve-2026-34040-docker-authz-bypass.html">
-<div class="post-meta">
-<span class="post-tag mono">homelab-vulnerabilities</span>
-<span class="mono">2026-10-25</span>
-<span class="mono">5 min</span>
-</div>
-<h3>CVE-2026-34040 — Docker AuthZ Plugin Bypass (CVSS 8.8 High)</h3>
-<p>CVE-2026-34040: Docker Engine authorization plugin bypass via oversized request body (&gt;1 MB). AuthZ middleware silently drops body, plugin approves empty request, daemon executes privileged container creation. CVSS 8.8 High. Affects Docker Engine before 29.3.1.</p>
-<span class="readmore mono">read entry →</span>
-</a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-10-23-cve-2026-33997-docker-plugin-priv-esc.html">
-<div class="post-meta">
-<span class="post-tag mono">homelab-vulnerabilities</span>
-<span class="mono">2026-10-23</span>
-<span class="mono">6 min</span>
-</div>
-<h3>Docker Plugin Privilege Validation Bypass (CVE-2026-33997) — Moby Off-By-One</h3>
-<p>CVE-2026-33997: Docker / Moby plugin privilege validation bypass due to off-by-one error. Affects Moby before 29.3.1. Plugins can gain unauthorized privileges. CVSS 6.8 Medium.</p>
-<span class="readmore mono">read entry →</span>
-</a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-10-22-cve-2026-53359-januscape-kvm-escape.html">
+
+<a class="post-card" href="blog/2026-10-22-cve-2026-53359-januscape-kvm-escape.html" data-category="homelab-vulnerabilities">
 <div class="post-meta">
 <span class="post-tag mono">homelab-vulnerabilities</span>
 <span class="mono">2026-10-22</span>
 <span class="mono">4 min</span>
 </div>
 <h3>CVE-2026-53359 — Januscape KVM Escape (Proxmox / Linux Shadow MMU UAF)</h3>
-<p>CVE-2026-53359 (Januscape): KVM shadow-MMU use-after-free in Linux kernel allows malicious guest to escape to Proxmox host. CVSS 8.8 High.</p>
+<p></p>
 <span class="readmore mono">read entry →</span>
 </a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-10-20-cve-2026-51083-proxmox-auth-bypass.html">
+
+<a class="post-card" href="blog/2026-10-20-cve-2026-51083-proxmox-auth-bypass.html" data-category="homelab-vulnerabilities">
 <div class="post-meta">
 <span class="post-tag mono">homelab-vulnerabilities</span>
 <span class="mono">2026-10-20</span>
 <span class="mono">6 min</span>
 </div>
 <h3>CVE-2026-51083 — Proxmox PVE Hash Exposure (Info Disclosure)</h3>
-<p>CVE-2026-51083: Proxmox VE Auth Bypass Vulnerability. Low-privilege users can access hashed passwords through the cloudinit/dump API. Affects PVE 8.x before 8.4.8 and 9.x before 9.1.8. Severity: 6.5 Medium. Patch and rotate credentials.</p>
+<p></p>
 <span class="readmore mono">read entry →</span>
 </a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-10-18-cve-2026-32289-tailscale-xss.html">
-<div class="post-meta">
-<span class="post-tag mono">homelab-vulnerabilities</span>
-<span class="mono">2026-10-18</span>
-<span class="mono">5 min</span>
-</div>
-<h3>CVE-2026-32289 — Go html/template XSS (Tailscale/Chainguard)</h3>
-<p>CVE-2026-32289: improper escaping of content in JS template literals in Tailscale allows XSS when template branches are used.</p>
-<span class="readmore mono">read entry →</span>
-</a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-10-15-cve-2026-71209-audiobookshelf.html">
+
+<a class="post-card" href="blog/2026-10-15-cve-2026-71209-audiobookshelf.html" data-category="homelab-vulnerabilities">
 <div class="post-meta">
 <span class="post-tag mono">homelab-vulnerabilities</span>
 <span class="mono">2026-10-17</span>
 <span class="mono">4 min</span>
 </div>
 <h3>CVE-2026-71209 — Audiobookshelf Path Traversal &amp; Auth Bypass</h3>
-<p>CVE-2026-71209 allows unauthenticated attackers to bypass authentication and read arbitrary files on Audiobookshelf via URL-encoded path traversal. Patch to latest version.</p>
+<p></p>
 <span class="readmore mono">read entry →</span>
 </a>
-<a class="post-card" data-category="applications" href="blog/2026-10-17-hermes-automation-ciberdefensa.html">
+
+<a class="post-card" href="blog/2026-10-17-hermes-automation-ciberdefensa.html" data-category="applications">
 <div class="post-meta">
 <span class="post-tag mono">applications</span>
 <span class="mono">2026-10-17</span>
 <span class="mono">4 min</span>
 </div>
 <h3>Hermes Updates My Blog Daily — From GitHub to Vercel</h3>
-<p>How Hermes automates daily vulnerability posts onto ciberdefensa.uk: cron 0 10 * * * searches CVEs, writes structured HTML, pushes to GitHub, and Vercel deploys automatically.</p>
+<p></p>
 <span class="readmore mono">read entry →</span>
 </a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-10-17-proxmox-vnc-hijack-cve-2026-51082.html">
+
+<a class="post-card" href="blog/2026-10-17-proxmox-vnc-hijack-cve-2026-51082.html" data-category="homelab-vulnerabilities">
 <div class="post-meta">
 <span class="post-tag mono">homelab-vulnerabilities</span>
 <span class="mono">2026-10-17</span>
 <span class="mono">6 min</span>
 </div>
 <h3>Proxmox PVE Race Condition Allows VNC Session Hijacking (CVE-2026-51082)</h3>
-<p>Proxmox PVE Race Condition Allows VNC Session Hijacking (CVE-2026-51082). Severity: High (7.2). Patch accordingly.</p>
+<p></p>
 <span class="readmore mono">read entry →</span>
 </a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-10-16-cve-2024-21626-runc-container-breakout.html">
-<div class="post-meta">
-<span class="post-tag mono">homelab-vulnerabilities</span>
-<span class="mono">2026-10-16</span>
-<span class="mono">5 min</span>
-</div>
-<h3>Proxmox / LXC Container Breakout — CVE-2024-21626 (runc)</h3>
-<p>CVE-2024-21626 (Leaky Vessels / runc) allows container escape via leaked host file descriptor through /proc/self/fd. Patch runc to 1.1.12+.</p>
-<span class="readmore mono">read entry →</span>
-</a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-10-15-cve-2026-35031-jellyfin.html">
-<div class="post-meta">
-<span class="post-tag mono">homelab-vulnerabilities</span>
-<span class="mono">2026-10-15</span>
-<span class="mono">3 min</span>
-</div>
-<h3>CVE-2026-35031: Jellyfin subtitle upload path traversal to RCE</h3>
-<p>CVE-2026-35031 is a vulnerability chain in Jellyfin subtitle upload allowing path traversal to RCE. Patch to 10.11.7.</p>
-<span class="readmore mono">read entry →</span>
-</a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-10-15-cve-2026-6406-docker.html">
-<div class="post-meta">
-<span class="post-tag mono">homelab-vulnerabilities</span>
-<span class="mono">2026-10-15</span>
-<span class="mono">3 min</span>
-</div>
-<h3>Docker Desktop ECI Bypass (CVE-2026-6406)</h3>
-<p>Docker Desktop ECI Bypass (CVE-2026-6406). Severity: High (8.8). Patch accordingly.</p>
-<span class="readmore mono">read entry →</span>
-</a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-10-15-cve-2026-79766-termix-ssh.html">
+
+<a class="post-card" href="blog/2026-10-15-cve-2026-79766-termix-ssh.html" data-category="homelab-vulnerabilities">
 <div class="post-meta">
 <span class="post-tag mono">homelab-vulnerabilities</span>
 <span class="mono">2026-10-15</span>
 <span class="mono">3 min</span>
 </div>
 <h3>Termix SSH — CVE-2026-79766</h3>
-<p>CVE-2026-79766 (Termix SSH) — CVSS 9.1 Critical OS command injection via ACME/SSL admin input. Patch to 2.5.1.</p>
+<p></p>
 <span class="readmore mono">read entry →</span>
 </a>
-<a class="post-card" data-category="applications" href="blog/2026-10-15-video2player-firefox.html">
+
+<a class="post-card" href="blog/2026-10-15-video2player-firefox.html" data-category="applications">
 <div class="post-meta">
 <span class="post-tag mono">applications</span>
 <span class="mono">2026-10-15</span>
 <span class="mono">6 min</span>
 </div>
 <h3>Video2Player for Android — Open Web Videos in VLC from Firefox</h3>
-<p>A Firefox extension for Android that opens web videos in VLC. Detects videos, recovers real URLs from blob/MSE sources, and sends them to your default video player.</p>
+<p></p>
 <span class="readmore mono">read entry →</span>
 </a>
-<a class="post-card" data-category="homelab-vulnerabilities" href="blog/2026-10-05-vghost-cve-2026-74580.html">
+
+<a class="post-card" href="blog/2026-10-05-vghost-cve-2026-74580.html" data-category="homelab-vulnerabilities">
 <div class="post-meta">
 <span class="post-tag mono">homelab-vulnerabilities</span>
 <span class="mono">2026-10-05</span>
 <span class="mono">5 min</span>
 </div>
 <h3>Proxmox V-GHOST (CVE-2026-74580) — Critical KVM Escape</h3>
-<p>Proxmox V-GHOST (CVE-2026-74580) — Critical KVM Escape. Severity: High (8.6). Patch accordingly.</p>
+<p></p>
 <span class="readmore mono">read entry →</span>
 </a>
-<a class="post-card" data-category="infra" href="blog/Scrutiny-Smart-Monitoring.html">
+
+<a class="post-card" href="blog/Scrutiny-Smart-Monitoring.html" data-category="infra">
 <div class="post-meta">
 <span class="post-tag mono">infra</span>
 <span class="mono">2026-08-29</span>
 <span class="mono">7 min</span>
 </div>
 <h3>Scrutiny: SMART Drive Monitoring on Proxmox with a Hub-Spoke LXC</h3>
-<p>Setting up Scrutiny for SMART drive monitoring on Proxmox: an unprivileged LXC hub running the dashboard and InfluxDB, a collector on the host itself, and Telegram alerts before a disk actually dies.</p>
+<p></p>
 <span class="readmore mono">read entry →</span>
 </a>
-<a class="post-card" data-category="others" href="blog/OCI-FreeTier-Backup.html">
+
+<a class="post-card" href="blog/OCI-FreeTier-Backup.html" data-category="others">
 <div class="post-meta">
 <span class="post-tag mono">others</span>
 <span class="mono">2026-04-09</span>
 <span class="mono">4 min</span>
 </div>
 <h3>Automated backups in Oracle Free Tier</h3>
-<p>How to backup your Oracle Cloud Always Free boot volumes with a simple zsh script that rotates a single full backup.</p>
+<p></p>
 <span class="readmore mono">read entry →</span>
 </a>
-<a class="post-card" data-category="infra" href="blog/Pulse-Infraestructure-Monitoring.html">
+
+<a class="post-card" href="blog/Pulse-Infraestructure-Monitoring.html" data-category="infra">
 <div class="post-meta">
 <span class="post-tag mono">infra</span>
 <span class="mono">2026-04-09</span>
 <span class="mono">4 min</span>
 </div>
 <h3>Monitoring my Proxmox environment and automated actions with AI</h3>
-<p>Deploying rcourtman/Pulse on Docker in my Oracle OCI Alpine box, wiring it up to Proxmox with a scoped API token, and turning on Patrol with OpenRouter as the brain.</p>
+<p></p>
 <span class="readmore mono">read entry →</span>
 </a>
-<a class="post-card" data-category="infra" href="blog/alpine-openrc-notes.html">
+
+<a class="post-card" href="blog/alpine-openrc-notes.html" data-category="infra">
 <div class="post-meta">
 <span class="post-tag mono">infra</span>
 <span class="mono">2026-03-21</span>
 <span class="mono">3 min</span>
 </div>
 <h3>Alpine, OpenRC, and the services nobody warns you about</h3>
-<p>Short field notes on managing services with OpenRC on Alpine Linux, coming from a systemd-shaped mental model.</p>
+<p></p>
 <span class="readmore mono">read entry →</span>
 </a>
-<a class="post-card" data-category="infra" href="blog/ZFS-on-consumer-ssds.html">
+
+<a class="post-card" href="blog/ZFS-on-consumer-ssds.html" data-category="infra">
 <div class="post-meta">
 <span class="post-tag mono">infra</span>
 <span class="mono">2026-02-11</span>
 <span class="mono">6 min</span>
 </div>
 <h3>¿ZFS on consumer SSDs? Why you should avoid it and how to save your hardware</h3>
-<p>Proxmox ZFS on consumer SSDs: why it can be a disaster and how to protect your drives.</p>
+<p></p>
 <span class="readmore mono">read entry →</span>
 </a>
 </div>
